@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="The Glow Well Anti-Aging Playbook — natural-leaning routines, ingredient truth, and budget-smart skincare for women who want to glow without getting ripped off. $24.99.">
+<meta name="keywords" content="anti-aging skincare, natural skincare routine, budget skincare, ingredient guide, skincare for women">
+<meta property="og:title" content="The Glow Well Anti-Aging Playbook">
+<meta property="og:description" content="Look younger longer with a budget-smart routine that actually works. $24.99 instant download.">
+<meta property="og:image" content="og-image.jpg">
+<title>The Glow Well — Anti-Aging Playbook</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & ROOT ────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --cream:#F7F3EE;
+  --off-white:#F0EBE3;
+  --sage:#7A9474;
+  --sage-light:#A8BFA3;
+  --sage-dark:#4E6B49;
+  --terra:#C4845A;
+  --terra-dark:#A06840;
+  --charcoal:#252320;
+  --text:#3C3830;
+  --text-mid:#6B6458;
+  --text-light:#9A9088;
+  --border:#DDD6CC;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ── TYPOGRAPHY ──────────────────────────────── */
+.serif{font-family:'Cormorant Garamond',serif}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:1.1}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--sage-dark);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.eyebrow::before{content:'';display:block;width:28px;height:1.5px;background:var(--sage);flex-shrink:0}
+
+/* ── BUTTONS ─────────────────────────────────── */
+.btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;background:var(--charcoal);color:var(--cream);padding:18px 40px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;border:none;cursor:pointer;transition:background 0.25s,transform 0.2s;text-decoration:none}
+.btn-primary:hover{background:var(--sage-dark);transform:translateY(-1px)}
+.btn-terra{background:var(--terra)}
+.btn-terra:hover{background:var(--terra-dark)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:400;color:var(--text-mid);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;cursor:pointer}
+.btn-ghost:hover{color:var(--charcoal);border-color:var(--charcoal)}
+
+/* ── PRICING DISPLAY ─────────────────────────── */
+.price-block{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.price-orig{font-size:18px;font-weight:300;color:var(--text-light);text-decoration:line-through}
+.price-now{font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:300;color:var(--charcoal);line-height:1}
+.price-save{font-size:12px;font-weight:500;background:rgba(196,132,90,0.15);color:var(--terra-dark);padding:4px 10px;letter-spacing:0.5px}
+.price-note{font-size:12px;font-weight:300;color:var(--text-light);margin-top:6px}
+
+/* ── NAV ─────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,0.92);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color 0.3s}
+nav.scrolled{border-bottom-color:var(--border)}
+.nav-logo img{height:44px;width:auto}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:12px;font-weight:400;color:var(--text-mid);letter-spacing:0.3px;transition:color 0.2s}
+.nav-links a:hover{color:var(--charcoal)}
+.nav-cta{background:var(--charcoal)!important;color:var(--cream)!important;padding:10px 22px!important;font-weight:500!important;transition:background 0.2s!important}
+.nav-cta:hover{background:var(--sage-dark)!important}
+.nav-mobile-cta{display:none}
+.nav-menu-toggle{display:none}
+@media(max-width:768px){
+  nav{padding:14px 20px;display:grid;grid-template-columns:1fr auto 1fr;grid-template-rows:auto auto;align-items:center}
+  .nav-logo{grid-column:1}
+  .nav-menu-toggle{grid-column:2;display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;align-items:center;justify-content:center}
+  .nav-menu-toggle span{display:block;width:22px;height:2px;background:var(--charcoal);border-radius:2px;transition:transform 0.25s,opacity 0.25s}
+  .nav-menu-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-menu-toggle.open span:nth-child(2){opacity:0}
+  .nav-menu-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .nav-mobile-cta{grid-column:3;justify-self:end;display:block}
+  .nav-links{grid-column:1/-1;display:none;flex-direction:column;padding:8px 0 4px;margin-top:10px;border-top:1px solid var(--border);gap:0}
+  .nav-links.open{display:flex}
+  .nav-links li{list-style:none}
+  .nav-links a{display:block;padding:10px 2px;font-size:13px;color:var(--text-mid);border-bottom:1px solid var(--border)}
+  .nav-links li:last-child{display:none}
+}
+
+/* ── HERO ────────────────────────────────────── */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 80px 80px;gap:60px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 65% 40%,rgba(122,148,116,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 20% 80%,rgba(196,132,90,0.05) 0%,transparent 60%);pointer-events:none}
+.hero-left{position:relative;z-index:2}
+.hero-h1{font-size:clamp(40px,4.5vw,62px);color:var(--charcoal);margin-bottom:22px;letter-spacing:-0.5px}
+.hero-h1 em{font-style:italic;color:var(--sage-dark)}
+.hero-sub{font-size:16px;font-weight:300;color:var(--text-mid);line-height:1.75;max-width:480px;margin-bottom:36px}
+.hero-sub strong{color:var(--text);font-weight:500}
+.hero-cta-group{margin-bottom:20px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.hero-trust{font-size:11.5px;font-weight:300;color:var(--text-light);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.hero-trust span{display:flex;align-items:center;gap:4px}
+.hero-trust span::before{content:'✓';color:var(--sage);font-size:10px}
+.hero-trust-sep{color:var(--border)}
+.hero-social{display:flex;align-items:center;gap:8px;margin-top:20px}
+.hero-stars{color:var(--terra);font-size:12px;letter-spacing:2px}
+.hero-social-text{font-size:12px;color:var(--text-light)}
+.hero-social-text strong{color:var(--text-mid);font-weight:500}
+.hero-right{position:relative;z-index:2;display:flex;justify-content:center;align-items:center}
+.hero-mockup{position:relative;width:100%;max-width:460px}
+.hero-book{width:100%;border-radius:2px;box-shadow:24px 24px 60px rgba(37,35,32,0.18),4px 4px 0 var(--sage-dark)}
+.hero-badge{position:absolute;top:-16px;right:20px;background:var(--terra);color:white;padding:12px 20px;text-align:center;box-shadow:0 4px 20px rgba(196,132,90,0.35)}
+.hero-badge-price{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;line-height:1;display:block}
+.hero-badge-orig{font-size:10px;font-weight:300;color:rgba(255,255,255,0.6);text-decoration:line-through;display:block;margin-bottom:2px}
+.hero-badge-sub{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.8);display:block;margin-top:3px}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;justify-content:center}
+.hero-chip{background:white;border:1px solid var(--border);padding:7px 14px;font-size:11px;color:var(--text-mid)}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center}
+  .hero-sub{margin:0 auto 36px}
+  .hero-cta-group{justify-content:center}
+  .hero-trust{justify-content:center}
+  .hero-social{justify-content:center}
+  .eyebrow{justify-content:center}
+}
+
+/* ── SECTIONS ────────────────────────────────── */
+section{padding:100px 80px}
+.section-inner{max-width:1100px;margin:0 auto}
+@media(max-width:768px){section{padding:72px 24px}}
+
+/* ── PAIN SECTION ────────────────────────────── */
+.pain{background:var(--charcoal)}
+.pain *{color:inherit}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;margin-top:20px}
+.pain h2{font-size:clamp(36px,4vw,54px);color:var(--cream)!important;margin-bottom:20px}
+.pain h2 em{font-style:italic;color:var(--sage-light)!important}
+.pain-intro{font-size:15px;font-weight:300;color:rgba(247,243,238,0.62)!important;line-height:1.8;margin-bottom:28px}
+.pain-cta-wrap{margin-top:28px}
+.pain-bullets{list-style:none;padding:0}
+.pain-bullets li{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.07);font-size:14.5px;font-weight:300;color:rgba(247,243,238,0.72)!important;line-height:1.6}
+.pain-bullets li:last-child{border-bottom:none}
+.pain-bullet-icon{width:28px;height:28px;border-radius:50%;background:rgba(122,148,116,0.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:11px;color:var(--sage-light)!important}
+.pain-close{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;font-style:italic;color:var(--sage-light)!important;margin-top:28px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.08)}
+@media(max-width:768px){.pain-grid{grid-template-columns:1fr;gap:40px}}
+
+/* ── VALUE STACK ─────────────────────────────── */
+.value{background:var(--off-white)}
+.value h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);margin-bottom:8px}
+.value h2 em{font-style:italic;color:var(--sage-dark)}
+.value-sub{font-size:15px;font-weight:300;color:var(--text-mid);margin-bottom:48px;max-width:600px}
+.value-table{border:1px solid var(--border);margin-bottom:28px}
+.value-row{display:grid;grid-template-columns:1fr auto;align-items:center;padding:16px 28px;border-bottom:1px solid var(--border);background:white;transition:background 0.2s}
+.value-row:last-child{border-bottom:none}
+.value-row:hover{background:var(--cream)}
+.value-row-name{font-size:14px;font-weight:400;color:var(--charcoal)}
+.value-row-sub{font-size:12px;font-weight:300;color:var(--text-light);margin-top:2px}
+.value-row-price{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--sage-dark);white-space:nowrap}
+.value-total{background:var(--charcoal);display:grid;grid-template-columns:1fr auto;align-items:center;padding:22px 28px}
+.value-total-label{font-size:12px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-light)}
+.value-total-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream)}
+.value-deal{background:var(--charcoal);padding:40px 48px;margin-top:4px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px}
+.value-deal-text h3{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream)!important;margin-bottom:12px}
+.value-deal-text h3 em{font-style:italic;color:var(--sage-light)!important}
+.value-deal-text p{font-size:14px;font-weight:300;color:rgba(247,243,238,0.62)!important;line-height:1.75}
+.value-deal-cta{text-align:center;flex-shrink:0}
+.value-savings-block{background:rgba(122,148,116,0.12);border:1px solid rgba(122,148,116,0.2);padding:28px 32px;margin-top:28px}
+.value-savings-block p{font-size:14px;font-weight:300;color:var(--text);line-height:1.8}
+.value-savings-block strong{color:var(--sage-dark);font-weight:500}
+.value-savings-block .big-stat{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--sage-dark);line-height:1;display:block;margin:10px 0 4px}
+@media(max-width:768px){.value-deal{grid-template-columns:1fr;gap:24px}.value-deal-cta{text-align:left}.value-row{padding:14px 18px}.value-total{padding:18px}.value-deal{padding:28px 20px}}
+
+/* ── BENEFITS ────────────────────────────────── */
+.benefits{background:white}
+.benefits h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);margin-bottom:8px;text-align:center}
+.benefits h2 em{font-style:italic;color:var(--sage-dark)}
+.benefits-sub{font-size:15px;font-weight:300;color:var(--text-mid);text-align:center;margin-bottom:56px}
+.benefits-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.benefit-card{padding:36px 28px;background:var(--cream);transition:background 0.2s}
+.benefit-card:hover{background:var(--off-white)}
+.benefit-icon{font-size:24px;margin-bottom:18px}
+.benefit-title{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--charcoal);margin-bottom:10px;line-height:1.2}
+.benefit-desc{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.7}
+.benefits-cta{text-align:center;margin-top:52px}
+@media(max-width:900px){.benefits-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.benefits-grid{grid-template-columns:1fr}}
+
+/* ── WHAT'S INSIDE ───────────────────────────── */
+.inside{background:var(--cream)}
+.inside-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:80px;align-items:start;margin-top:16px}
+.inside h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);margin-bottom:16px}
+.inside h2 em{font-style:italic;color:var(--sage-dark)}
+.inside-intro{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.75;margin-bottom:36px}
+.inside-cta-wrap{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.chapters{border:1px solid var(--border)}
+.chapter-item{display:grid;grid-template-columns:48px 1fr;gap:0;border-bottom:1px solid var(--border)}
+.chapter-item:last-child{border-bottom:none}
+.chapter-num{display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--sage-light);background:var(--off-white);border-right:1px solid var(--border);padding:18px 0}
+.chapter-content{padding:18px 20px}
+.chapter-title{font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:4px}
+.chapter-desc{font-size:12px;font-weight:300;color:var(--text-light);line-height:1.5}
+.chapter-item.bonus{background:rgba(196,132,90,0.04);border-top:1px solid rgba(196,132,90,0.2)}
+.chapter-item.bonus .chapter-num{color:var(--terra);background:rgba(196,132,90,0.06)}
+@media(max-width:900px){.inside-grid{grid-template-columns:1fr;gap:40px}}
+
+/* ── REVIEWS ─────────────────────────────────── */
+.reviews{background:var(--charcoal)}
+.reviews *{color:inherit}
+.reviews h2{font-size:clamp(34px,3.5vw,50px);color:var(--cream)!important;margin-bottom:8px}
+.reviews h2 em{font-style:italic;color:var(--sage-light)!important}
+.reviews-sub{font-size:15px;font-weight:300;color:rgba(247,243,238,0.55)!important;margin-bottom:48px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.reviews-stars{color:var(--terra)!important;font-size:13px;letter-spacing:2px}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:16px}
+.review-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);padding:28px;transition:background 0.2s}
+.review-card:hover{background:rgba(255,255,255,0.08)}
+.review-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.review-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:white!important;flex-shrink:0}
+.review-name{font-size:13px;font-weight:500;color:var(--cream)!important}
+.review-meta{font-size:11px;font-weight:300;color:rgba(247,243,238,0.38)!important;margin-top:1px}
+.review-stars-small{color:var(--terra)!important;font-size:10px;letter-spacing:2px;margin-bottom:10px}
+.review-title{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;font-style:italic;color:var(--cream)!important;margin-bottom:10px;line-height:1.35}
+.review-body{font-size:12.5px;font-weight:300;color:rgba(247,243,238,0.62)!important;line-height:1.7}
+.review-wide{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:28px;background:rgba(122,148,116,0.12);border:1px solid rgba(122,148,116,0.2);padding:32px}
+.review-wide .review-title{font-size:20px;color:var(--cream)!important}
+.review-wide .review-body{font-size:13.5px;color:rgba(247,243,238,0.68)!important}
+.reviews-cta{text-align:center;margin-top:40px}
+.reviews-proof{font-size:12px;font-weight:300;color:rgba(247,243,238,0.38)!important;margin-top:14px;letter-spacing:0.5px}
+@media(max-width:900px){.reviews-grid{grid-template-columns:1fr}.review-wide{grid-template-columns:1fr}}
+
+/* ── FOR / NOT FOR ───────────────────────────── */
+.fornotfor{background:var(--off-white)}
+.fornotfor h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);text-align:center;margin-bottom:8px}
+.fornotfor h2 em{font-style:italic;color:var(--sage-dark)}
+.fornotfor-sub{text-align:center;font-size:15px;font-weight:300;color:var(--text-mid);margin-bottom:52px}
+.fornotfor-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.for-card{padding:36px 40px;background:white;border:1px solid var(--border)}
+.for-label{font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.for-label.yes{color:var(--sage-dark)}
+.for-label.no{color:var(--text-light)}
+.for-label::before{content:'';display:block;width:28px;height:1.5px}
+.for-label.yes::before{background:var(--sage)}
+.for-label.no::before{background:var(--border)}
+.for-list{list-style:none;padding:0}
+.for-list li{padding:10px 0 10px 22px;position:relative;font-size:14px;font-weight:300;color:var(--text);line-height:1.6;border-bottom:0.5px solid var(--border)}
+.for-list li:last-child{border-bottom:none}
+.for-list.yes li::before{content:'✓';position:absolute;left:0;color:var(--sage-dark);font-size:11px;top:12px;font-weight:500}
+.for-list.no li::before{content:'—';position:absolute;left:0;color:var(--text-light);font-size:11px;top:12px}
+@media(max-width:768px){.fornotfor-grid{grid-template-columns:1fr}}
+
+/* ── BRAND STORY ─────────────────────────────── */
+.story{background:white}
+.story-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1100px;margin:0 auto}
+.story h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);margin-bottom:24px}
+.story h2 em{font-style:italic;color:var(--sage-dark)}
+.story p{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.85;margin-bottom:18px}
+.story p:last-of-type{margin-bottom:0}
+.story-visual{background:var(--charcoal);padding:48px 44px;position:relative;overflow:hidden}
+.story-visual::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(122,148,116,0.15) 0%,transparent 70%)}
+.story-quote{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--cream);line-height:1.55;position:relative;z-index:2}
+.story-quote-attr{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage);margin-top:20px;position:relative;z-index:2}
+@media(max-width:768px){.story-inner{grid-template-columns:1fr;gap:40px}}
+
+/* ── FAQ ─────────────────────────────────────── */
+.faq{background:var(--cream)}
+.faq h2{font-size:clamp(34px,3.5vw,50px);color:var(--charcoal);margin-bottom:8px}
+.faq h2 em{font-style:italic;color:var(--sage-dark)}
+.faq-intro{font-size:15px;font-weight:300;color:var(--text-mid);margin-bottom:48px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.faq-item{padding:24px 28px;border:1px solid var(--border);margin:-1px 0 0 -1px;background:white;cursor:pointer;transition:background 0.2s}
+.faq-item:hover{background:var(--off-white)}
+.faq-q{font-size:14px;font-weight:500;color:var(--charcoal);line-height:1.4;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.faq-q-text{flex:1}
+.faq-toggle{color:var(--sage);font-size:18px;flex-shrink:0;transition:transform 0.2s;line-height:1}
+.faq-a{font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.75;display:none}
+.faq-item.open .faq-a{display:block}
+.faq-item.open .faq-toggle{transform:rotate(45deg)}
+.faq-cta{text-align:center;margin-top:56px}
+.faq-guarantee{margin-top:16px;font-size:12.5px;font-weight:300;color:var(--text-light);display:flex;align-items:center;justify-content:center;gap:6px}
+.faq-guarantee::before{content:'🔒';font-size:12px}
+@media(max-width:768px){.faq-grid{grid-template-columns:1fr}}
+
+/* ── FINAL CTA ───────────────────────────────── */
+.final-cta{background:var(--charcoal);text-align:center;position:relative;overflow:hidden}
+.final-cta *{color:inherit}
+.final-cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(122,148,116,0.1) 0%,transparent 70%);pointer-events:none}
+.final-cta-inner{position:relative;z-index:2;max-width:680px;margin:0 auto}
+.final-cta h2{font-size:clamp(38px,4.5vw,62px);color:var(--cream)!important;margin-bottom:22px}
+.final-cta h2 em{font-style:italic;color:var(--sage-light)!important}
+.final-cta p{font-size:15px;font-weight:300;color:rgba(247,243,238,0.62)!important;line-height:1.8;margin-bottom:44px}
+.final-cta-price{display:flex;align-items:baseline;gap:12px;justify-content:center;margin-bottom:28px;flex-wrap:wrap}
+.final-orig{font-size:18px;font-weight:300;color:rgba(247,243,238,0.32)!important;text-decoration:line-through}
+.final-price{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--cream)!important;line-height:1}
+.final-save{font-size:12px;font-weight:500;background:rgba(196,132,90,0.22);color:var(--terra-light,#E8C4A8)!important;padding:5px 12px;letter-spacing:0.5px}
+.final-guarantee{font-size:12px;font-weight:300;color:rgba(247,243,238,0.32)!important;margin-top:20px}
+.final-mini-review{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(247,243,238,0.42)!important;margin-top:20px}
+
+/* ── EMAIL CAPTURE ───────────────────────────── */
+.email-capture{background:var(--off-white);border-top:1px solid var(--border)}
+.email-inner{max-width:580px;margin:0 auto;text-align:center}
+.email-inner h3{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--charcoal);margin-bottom:12px}
+.email-inner h3 em{font-style:italic;color:var(--sage-dark)}
+.email-inner p{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.7;margin-bottom:30px}
+.email-form{display:flex;border:1px solid var(--border);margin-bottom:10px}
+.email-form input{flex:1;padding:16px 20px;background:white;border:none;outline:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:300;color:var(--text)}
+.email-form input::placeholder{color:var(--text-light)}
+.email-form button{background:var(--charcoal);color:var(--cream);border:none;padding:16px 28px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;letter-spacing:0.5px;cursor:pointer;white-space:nowrap;transition:background 0.2s}
+.email-form button:hover{background:var(--sage-dark)}
+.email-note{font-size:11px;color:var(--text-light);font-weight:300}
+@media(max-width:600px){.email-form{flex-direction:column}.email-form button{padding:14px}}
+
+/* ── FOOTER ──────────────────────────────────── */
+footer{background:var(--charcoal);padding:44px 80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-logo img{height:36px;filter:brightness(0) invert(1);opacity:0.5}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap}
+.footer-links a{font-size:11px;color:rgba(247,243,238,0.3);letter-spacing:0.5px;transition:color 0.2s}
+.footer-links a:hover{color:rgba(247,243,238,0.7)}
+.footer-copy{font-size:11px;color:rgba(247,243,238,0.2)}
+@media(max-width:600px){footer{padding:32px 24px;flex-direction:column;text-align:center}}
+
+/* ── EXIT POPUP ──────────────────────────────── */
+.popup-overlay{position:fixed;inset:0;background:rgba(37,35,32,0.75);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity 0.3s;backdrop-filter:blur(4px)}
+.popup-overlay.active{opacity:1;pointer-events:all}
+.popup{background:var(--cream);max-width:520px;width:100%;padding:52px 48px;position:relative;animation:popIn 0.35s ease both}
+@keyframes popIn{from{transform:scale(0.95) translateY(10px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.popup-close{position:absolute;top:16px;right:20px;font-size:20px;color:var(--text-light);cursor:pointer;background:none;border:none;line-height:1;transition:color 0.2s}
+.popup-close:hover{color:var(--charcoal)}
+.popup-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--terra);margin-bottom:14px}
+.popup h3{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:300;color:var(--charcoal);margin-bottom:14px;line-height:1.15}
+.popup h3 em{font-style:italic;color:var(--sage-dark)}
+.popup p{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.7;margin-bottom:28px}
+.popup-price-row{display:flex;align-items:baseline;gap:12px;margin-bottom:24px}
+.popup-orig{font-size:16px;color:var(--text-light);text-decoration:line-through;font-weight:300}
+.popup-now{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--charcoal);line-height:1}
+.popup-save{font-size:12px;font-weight:500;background:rgba(196,132,90,0.12);color:var(--terra-dark);padding:4px 10px}
+.popup-code{background:var(--charcoal);color:var(--cream);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.popup-code-label{font-size:11px;font-weight:300;color:rgba(247,243,238,0.5);text-transform:uppercase;letter-spacing:1px}
+.popup-code-value{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;color:var(--sage-light);letter-spacing:2px}
+.popup-btn{width:100%;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;border:none;text-align:center;display:block}
+.popup-skip{text-align:center;margin-top:14px;font-size:12px;color:var(--text-light);cursor:pointer;transition:color 0.2s}
+.popup-skip:hover{color:var(--text)}
+
+/* ── SCROLL REVEAL ───────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:#252320;letter-spacing:0.3px;text-decoration:none;display:block}
+.nav-logo-text em{font-style:italic;color:#4E6B49}
+</style>
+<!-- MailerLite Universal -->
+<script>
+(function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
+.push(arguments);},l=d.createElement(e),l.async=1,l.src=u,
+n=d.getElementsByTagName(e)[0],n.parentNode.insertBefore(l,n);})
+(window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
+ml('account', '2176117');
+</script>
+<!-- End MailerLite Universal -->
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════ -->
+<nav id="navbar">
+  <div class="nav-logo">
+    <a href="index.html" class="nav-logo-text">The Glow<em>Well</em></a>
+  </div>
+  <button class="nav-menu-toggle" id="navToggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="resources.html">Free Resources</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="nav-cta">Get the Playbook</a></li>
+  </ul>
+  <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary nav-mobile-cta" style="padding:10px 18px;font-size:12px">Get Playbook — $24.99</a>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════ -->
+<section style="padding:0">
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-left reveal">
+      <div class="eyebrow">The Anti-Aging Playbook</div>
+      <h1 class="hero-h1">Look Younger Longer With a Budget-Smart Routine That <em>Actually Works.</em></h1>
+      <p class="hero-sub">The Glow Well Anti-Aging Playbook gives women natural-leaning routines, ingredient truth, and step-by-step plans — without <strong>$300 serums</strong> or fear-based "clean" marketing.</p>
+      <div class="price-block" style="margin-bottom:28px">
+        <span class="price-orig">$47</span>
+        <span class="price-now">$24.99</span>
+        <span class="price-save">You save $22</span>
+      </div>
+      <div class="hero-cta-group">
+        <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra">
+          Get the Playbook — $24.99
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#inside" class="btn-ghost">See what's inside</a>
+      </div>
+      <div class="hero-trust">
+        <span>Instant download</span>
+        <span class="hero-trust-sep">·</span>
+        <span>100% digital PDF</span>
+        <span class="hero-trust-sep">·</span>
+        <span>7-day happiness guarantee</span>
+      </div>
+      <div class="hero-social" style="margin-top:22px">
+        <span class="hero-stars">★★★★★</span>
+        <span class="hero-social-text"><strong>4.9/5</strong> from verified readers</span>
+      </div>
+    </div>
+    <div class="hero-right reveal reveal-delay-2">
+      <div class="hero-mockup">
+        <img src="Skincare_essentials_on_cream_bedspread.png" alt="The Glow Well Anti-Aging Playbook on tablet" class="hero-book">
+        <div class="hero-badge">
+          <span class="hero-badge-orig">was $47</span>
+          <span class="hero-badge-price">$24.99</span>
+          <span class="hero-badge-sub">Intro price</span>
+        </div>
+        <div class="hero-chips">
+          <div class="hero-chip">✓ Instant Download</div>
+          <div class="hero-chip">✓ 96 Pages</div>
+          <div class="hero-chip">✓ 4 Budget Tiers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ PAIN SECTION ══════════════════════════════ -->
+<section class="pain">
+  <div class="section-inner">
+    <div class="pain-grid">
+      <div class="reveal">
+        <div class="eyebrow" style="color:var(--sage-light)"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>Sound familiar?</div>
+        <h2>Your skin deserves <em>better than this.</em></h2>
+        <p class="pain-intro">If any of these sound like you, you're in exactly the right place. This playbook was built for you.</p>
+        <p class="pain-close">That's exactly who The Glow Well is for.</p>
+        <div class="pain-cta-wrap">
+          <a href="#inside" class="btn-ghost" style="color:var(--sage-light);border-color:rgba(168,191,163,0.3)">See what's inside the playbook →</a>
+        </div>
+      </div>
+      <ul class="pain-bullets reveal reveal-delay-1">
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You've spent money on "clean" and anti-aging products that sat on your shelf and did nothing for your skin.</span>
+        </li>
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You feel overwhelmed — TikTok says one thing, your dermatologist says another, and every brand says theirs is the answer.</span>
+        </li>
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You want to look younger and glowing without a 12-step routine or a Sephora addiction.</span>
+        </li>
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You care about ingredients — but you're exhausted by fear-based "toxin-free" marketing that makes you anxious about everything.</span>
+        </li>
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You don't know where to start, what order to apply products, or which budget-friendly options actually work as well as the expensive ones.</span>
+        </li>
+        <li>
+          <div class="pain-bullet-icon">✗</div>
+          <span>You want to build smart skincare habits now — in your 20s, 30s, or early 40s — before it feels too late.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VALUE STACK ═══════════════════════════════ -->
+<section class="value">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="eyebrow">The real value</div>
+      <h2>Everything you'd pay a <em>professional</em> for.</h2>
+      <p class="value-sub">Here's what a dermatologist consultation, personalized routine plan, and ingredient education would cost you elsewhere — versus what you're actually paying today.</p>
+    </div>
+    <div class="value-table reveal">
+      <div class="value-row">
+        <div><div class="value-row-name">8-Chapter Anti-Aging System</div><div class="value-row-sub">Science-based, built around your age, skin type, and budget</div></div>
+        <div class="value-row-price">$97</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">24-Ingredient Decoder</div><div class="value-row-sub">Every major skincare ingredient explained in plain language with honest ratings</div></div>
+        <div class="value-row-price">$67</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">4 Complete Budget Routine Tiers</div><div class="value-row-sub">Full AM/PM routines from under $40 to $250 — with every step explained</div></div>
+        <div class="value-row-price">$79</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">Store-Specific Shopping Lists</div><div class="value-row-sub">Exact category picks for Target, Walmart, Amazon, and Sephora</div></div>
+        <div class="value-row-price">$49</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">Natural vs Marketing Truth Guide</div><div class="value-row-sub">What's genuinely worth avoiding vs what's pure fear-based branding</div></div>
+        <div class="value-row-price">$39</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">Printable Ingredient Cheat Sheet</div><div class="value-row-sub">One-page quick-reference to take shopping — forever</div></div>
+        <div class="value-row-price">$29</div>
+      </div>
+      <div class="value-row">
+        <div><div class="value-row-name">Routine Builder Worksheet</div><div class="value-row-sub">Step-by-step personalized plan you fill in for your exact skin and budget</div></div>
+        <div class="value-row-price">$37</div>
+      </div>
+      <div class="value-total">
+        <div class="value-total-label">Total value</div>
+        <div class="value-total-num">$397</div>
+      </div>
+    </div>
+
+    <div class="value-deal reveal">
+      <div class="value-deal-text">
+        <h3>You pay <em>$24.99.</em> Not $397.</h3>
+        <p>That's not a typo. The introductory price for the complete Glow Well system is $24.99 — less than a single mid-range serum that may or may not work for your skin. This price will not stay here.</p>
+      </div>
+      <div class="value-deal-cta">
+        <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra" style="white-space:nowrap">Get Instant Access — $24.99</a>
+        <div style="font-size:11px;color:rgba(247,243,238,0.3);margin-top:10px;text-align:center">You save $22 vs. regular price</div>
+      </div>
+    </div>
+
+    <div class="value-savings-block reveal">
+      <span class="big-stat">$12,000+</span>
+      <p>The average woman spends <strong>$300–600 per year</strong> on skincare products that don't work for her skin — wrong formulas, wrong order, wrong ingredients for her type. Over 20 years that's <strong>over $12,000</strong> quietly wasted on confusion. This $24.99 guide is the last skincare education purchase you'll ever need to make.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BENEFITS ══════════════════════════════════ -->
+<section class="benefits">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center">What you get</div>
+      <h2>A complete system. <em>Not just a guide.</em></h2>
+      <p class="benefits-sub">Everything is organized so you can start using it the same day you download it.</p>
+    </div>
+    <div class="benefits-grid reveal">
+      <div class="benefit-card">
+        <div class="benefit-icon">🌿</div>
+        <div class="benefit-title">Age-Based Routines</div>
+        <div class="benefit-desc">Simple AM/PM routines designed for your 20s, 30s, and early 40s — not generic advice for everyone.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">💰</div>
+        <div class="benefit-title">Budget Tiers That Respect Your Wallet</div>
+        <div class="benefit-desc">4 price levels — start with under $40 and build up. You can begin today, not "one day when you're rich."</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🔬</div>
+        <div class="benefit-title">Ingredient Decoder, No Fear</div>
+        <div class="benefit-desc">Know exactly what every ingredient does, what's worth paying for, and what's just expensive marketing.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">🛒</div>
+        <div class="benefit-title">Store Shopping Lists</div>
+        <div class="benefit-desc">Walk into Target, Walmart, Amazon, or Sephora with a specific plan. No more guessing in the aisle.</div>
+      </div>
+    </div>
+    <div class="benefits-cta reveal">
+      <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra" style="font-size:15px;padding:20px 48px">Get Instant Access — $24.99</a>
+      <p style="font-size:12px;color:var(--text-light);margin-top:12px">"My skin AND my bank account are happier." — Valentina M., verified reader</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHAT'S INSIDE ════════════════════════════ -->
+<section class="inside" id="inside">
+  <div class="section-inner">
+    <div class="inside-grid">
+      <div class="reveal">
+        <div class="eyebrow">Inside the playbook</div>
+        <h2>96 pages of clarity. <em>Zero fluff.</em></h2>
+        <p class="inside-intro">Every chapter is built to be used, not just read. Organized so you can start with the section most relevant to you and immediately take action.</p>
+        <div class="inside-cta-wrap">
+          <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra">Get the Playbook — $24.99</a>
+          <div class="price-block">
+            <span class="price-orig" style="font-size:14px">$47</span>
+            <span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--charcoal);font-weight:300">$24.99 today</span>
+          </div>
+          <div style="font-size:11.5px;color:var(--text-light);display:flex;align-items:center;gap:5px">🔒 Instant download · 7-day guarantee</div>
+        </div>
+      </div>
+      <div class="chapters reveal reveal-delay-1">
+        <div class="chapter-item">
+          <div class="chapter-num">1</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Why Most Skincare Fails You</div>
+            <div class="chapter-desc">How the industry keeps you confused — and the simple mindset that stops the waste</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">2</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Anti-Aging Fundamentals</div>
+            <div class="chapter-desc">The 4–5 things that actually matter for aging well — and what you can safely ignore</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">3</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Ingredient Decoder</div>
+            <div class="chapter-desc">20+ common ingredients decoded in plain English with honest, real-world advice</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">4</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Know Your Skin</div>
+            <div class="chapter-desc">Identify your skin type and what it actually needs at your age — no guessing</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">5</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Budget Routine Tiers</div>
+            <div class="chapter-desc">4 complete routine levels from "super broke" to "treat yourself, still smart"</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">6</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Natural & Clean, Without Fear</div>
+            <div class="chapter-desc">What to genuinely avoid vs what's just fear-based marketing theatre</div>
+          </div>
+        </div>
+        <div class="chapter-item">
+          <div class="chapter-num">7</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Store Shopping Lists</div>
+            <div class="chapter-desc">Target, Walmart, Amazon, and Sephora cart blueprints — ready to use</div>
+          </div>
+        </div>
+        <div class="chapter-item bonus">
+          <div class="chapter-num">+</div>
+          <div class="chapter-content">
+            <div class="chapter-title">Appendices: Ingredient Cheat Sheet · Routine Builder · 24 Ingredients Explained</div>
+            <div class="chapter-desc">Printable quick-reference, personalized routine worksheet, and the complete ingredient decoder</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ════════════════════════════════════ -->
+<section class="reviews">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="eyebrow" style="color:var(--sage-light)"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>What readers say</div>
+      <h2>Real women. <em>Real results.</em></h2>
+      <div class="reviews-sub">
+        <span class="reviews-stars">★★★★★</span>
+        <span>4.9/5 average · Verified purchases</span>
+      </div>
+    </div>
+    <div class="reviews-grid reveal">
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#7A9474">SA</div>
+          <div><div class="review-name">Sofia Andreou</div><div class="review-meta">Age 31 · Verified purchase</div></div>
+        </div>
+        <div class="review-stars-small">★★★★★</div>
+        <div class="review-title">"Finally someone explained it without fear or fluff"</div>
+        <div class="review-body">I changed my routine using the Tier 2 budget plan and in 4 weeks my skin looks smoother and less dull. It feels like having a smart big sister walk me through the aisle instead of a brand trying to sell me everything.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#4E6B49">NR</div>
+          <div><div class="review-name">Nadia Rahman</div><div class="review-meta">Age 32 · Verified purchase</div></div>
+        </div>
+        <div class="review-stars-small">★★★★★</div>
+        <div class="review-title">"Built a full routine for less than one Sephora serum"</div>
+        <div class="review-body">I was about to drop $120 on ONE serum because I was panicking about fine lines. After this playbook I built an entire AM/PM routine for about the same price. My skin looks better now than when I was throwing random expensive stuff at it.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#C4845A">JL</div>
+          <div><div class="review-name">Jasmine Lee</div><div class="review-meta">Age 27 · Verified purchase</div></div>
+        </div>
+        <div class="review-stars-small">★★★★★</div>
+        <div class="review-title">"If you're in your 20s and freaking out about aging, start here"</div>
+        <div class="review-body">Every time I open TikTok I feel like I'm already 'behind' on anti-aging. This guide calmed me down and gave me a simple start-now routine that still fits my budget. It made me feel prepared instead of panicked.</div>
+      </div>
+      <div class="review-card">
+        <div class="review-top">
+          <div class="review-avatar" style="background:#6B5344">DW</div>
+          <div><div class="review-name">Danielle Washington</div><div class="review-meta">Age 34 · Verified purchase</div></div>
+        </div>
+        <div class="review-stars-small">★★★★★</div>
+        <div class="review-title">"Not another fluffy ebook — this feels like a system"</div>
+        <div class="review-body">I've bought skincare ebooks before that were basically long blog posts. The Glow Well Playbook actually feels like a system. I printed the cheat sheet and taped it inside my bathroom cabinet. I finally have a plan instead of a drawer full of regrets.</div>
+      </div>
+      <div class="review-wide">
+        <div>
+          <div class="review-avatar" style="background:#7A9474;width:46px;height:46px;font-size:13px;margin-bottom:12px">VM</div>
+          <div class="review-stars-small" style="font-size:12px">★★★★★</div>
+        </div>
+        <div>
+          <div class="review-name" style="margin-bottom:3px">Valentina Morales</div>
+          <div class="review-meta" style="margin-bottom:14px">Age 38 · Sensitive skin · Verified purchase</div>
+          <div class="review-title">"My skin AND my bank account are happier"</div>
+          <div class="review-body">I'm 38 with sensitive skin and a limited budget. I swapped out 5 products using the ingredient decoder and budget tiers, and within a month my redness went down and my monthly skin spend dropped by about half. I've already sent the link to three friends.</div>
+        </div>
+      </div>
+    </div>
+    <div class="reviews-cta reveal">
+      <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra" style="font-size:15px;padding:20px 48px">Join Them — Get the Playbook for $24.99</a>
+      <p class="reviews-proof">Instant download · 96 pages · 7-day happiness guarantee</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOR / NOT FOR ════════════════════════════ -->
+<section class="fornotfor">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center">Be honest with yourself</div>
+      <h2>Is this <em>for you?</em></h2>
+      <p class="fornotfor-sub">We'd rather you know exactly who this is built for — and who it isn't.</p>
+    </div>
+    <div class="fornotfor-grid reveal">
+      <div class="for-card">
+        <div class="for-label yes">This IS for you if…</div>
+        <ul class="for-list yes">
+          <li>You're in your 20s, 30s, or early 40s and want to look younger longer — without panic or overwhelm</li>
+          <li>You're ingredient-curious and health-conscious, but tired of being scared about every chemical</li>
+          <li>You want clarity and a simple, sustainable routine — not another 15-step trend that won't last</li>
+          <li>You're on a real-world budget and want to know exactly where to spend and where to save</li>
+          <li>You prefer natural-leaning products but you're not an extremist about it — you want what works</li>
+          <li>You're a beginner who needs a starting point, OR you have a routine but want to audit and improve it</li>
+          <li>You have sensitive, oily, dry, or combination skin — all skin types are addressed</li>
+        </ul>
+      </div>
+      <div class="for-card">
+        <div class="for-label no">This is NOT for you if…</div>
+        <ul class="for-list no">
+          <li>You're looking for medical treatment advice — this is skincare routines, not dermatology</li>
+          <li>You want overnight miracle results and aren't willing to be consistent for a few weeks</li>
+          <li>You refuse to wear SPF under any circumstances — sunscreen is foundational to everything here</li>
+          <li>You want someone to validate fear-based "toxic ingredient" panic — we're calm and science-based here</li>
+          <li>You're looking for a specific product review blog — this is a system and education guide</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BRAND STORY ═══════════════════════════════ -->
+<section class="story" id="about">
+  <div class="story-inner">
+    <div class="reveal">
+      <div class="eyebrow">The Glow Well philosophy</div>
+      <h2>Good skin shouldn't require <em>rich-girl money.</em></h2>
+      <p>The Glow Well was created because good skincare information shouldn't be buried behind $300 serums, fear-based marketing, or impossible 12-step routines. Most "anti-aging" and "clean beauty" content is designed to keep you confused — because confused people keep buying things.</p>
+      <p>This playbook was built on a different philosophy: natural-leaning where it matters, science-respectful always, and ruthlessly honest about what's worth your money and what isn't. No affiliate bias. No brand deals. No drama.</p>
+      <p>The goal is simple — help you build a calm, consistent routine that actually supports your skin for the long term. Whether you have $30 or $200 to spend, whether you're 22 or 44, whether your skin is sensitive or oily or somewhere in between — there's a clear path in here for you.</p>
+    </div>
+    <div class="story-visual reveal reveal-delay-1">
+      <div class="story-quote">"I distilled hundreds of hours of skincare research into one calm, practical system. No fear, no fluff — just what actually works and why."</div>
+      <div class="story-quote-attr">— The Glow Well · theglowwell.com</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ═══════════════════════════════════════ -->
+<section class="faq">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="eyebrow">Still have questions?</div>
+      <h2>Let's clear them <em>up.</em></h2>
+      <p class="faq-intro">Everything you need to know before you decide.</p>
+    </div>
+    <div class="faq-grid reveal">
+      <div class="faq-item open">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Who is this actually for?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">For women who want younger-looking, glowing skin without spending hundreds of dollars or obsessing over every ingredient. It's best if you're ingredient-curious and tired of TikTok skincare overwhelm — but still want things explained simply. Whether you're in your early 20s, your 30s, or into your 40s, if you want a clear plan that respects your budget, this is for you.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">I'm a total beginner / I already have a routine — will this help?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Yes to both. If you're a beginner, the guide walks you through exactly what you need and what to ignore. If you already have a routine, it helps you audit what you're using, cut what's wasting money, and upgrade based on your age, budget, and skin type.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Will this work if I have sensitive or acne-prone skin?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Yes. The playbook focuses on gentle, barrier-supportive routines first, then introduces actives in a careful, gradual way. You'll find clear notes on how to start slowly, what to patch-test, and how to adjust if your skin reacts. It's not medical advice, but it gives you a safer, calmer starting point than most online content.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Do you give exact product recommendations or just theory?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Both. The guide teaches you how to read labels and understand ingredients — so you can evaluate any product yourself. It also includes example product types at different price points and store-specific shopping lists for Target, Walmart, Amazon, and Sephora so you're never left guessing in the aisle.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Is this just "clean beauty" fear-mongering?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">No. Glow Well is natural-leaning and ingredient-aware, but not fear-based. The goal is to help you understand what's genuinely worth avoiding and what's just marketing drama — so you can feel calm and confident about your routine, not scared of every product on the shelf.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How long until I see results?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Most women notice changes in texture and overall glow within 3–6 weeks of a consistent routine. Deeper changes like fine lines, pigmentation, and firmness take longer — think months, not days. The guide is built around sustainable long-term habits, not overnight gimmicks.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Why pay for this when there's free content online?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Free content is great for random tips, but it's rarely organized into a clear start-to-finish system tailored to your age, budget, and skin type. This playbook pulls everything into one calm, step-by-step plan so you stop bouncing between random posts and finally know exactly what to do morning and night.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How do I get the guide after I buy?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">Right after checkout you'll see a download link on the confirmation page, and you'll also receive an email with your PDF. You can read it on your phone, tablet, or laptop — and you're welcome to print it for personal use.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Is this a subscription or one-time purchase?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">One-time purchase. You pay once, the PDF is yours to keep forever. If major updates or bonuses are released in the future, early buyers will be the first to know how to access them.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What's your refund policy?</span><span class="faq-toggle">+</span></div>
+        <div class="faq-a">We want this to genuinely help you. If you go through the guide, try building a routine from it within 7 days, and still feel it brought you no clarity or value — email us at theglowwellcollective@gmail.com and we'll make it right. No hoops, no drama.</div>
+      </div>
+    </div>
+    <div class="faq-cta reveal">
+      <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra" style="font-size:15px;padding:20px 52px">Get The Glow Well Anti-Aging Playbook — $24.99</a>
+      <div class="faq-guarantee">7-day happiness guarantee · Instant download · One-time payment · Yours forever</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══════════════════════════════════ -->
+<section class="final-cta">
+  <div class="section-inner">
+    <div class="final-cta-inner reveal">
+      <div class="eyebrow" style="color:var(--sage-light);justify-content:center"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>Ready to stop guessing?</div>
+      <h2>Your skin is worth <em>understanding,</em> not just buying for.</h2>
+      <p>One $24.99 guide replaces years of trial-and-error, hundreds in wasted products, and hours of conflicting TikTok advice. Everything you need, organized into one calm system.</p>
+      <div class="final-cta-price">
+        <span class="final-orig">$47</span>
+        <span class="final-price">$24.99</span>
+        <span class="final-save">Introductory rate — price will increase</span>
+      </div>
+      <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra" style="font-size:16px;padding:22px 60px;display:inline-flex">
+        Get Instant Access — $24.99
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:10px"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="final-guarantee">🔒 Instant PDF download · 7-day happiness guarantee · No subscriptions ever</div>
+      <div class="final-mini-review">"I finally feel like I have a plan instead of a drawer full of regrets." — Danielle W.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ EMAIL CAPTURE ════════════════════════════ -->
+<section class="email-capture">
+  <div class="section-inner">
+    <div class="email-inner reveal">
+      <div class="eyebrow" style="justify-content:center">Not ready yet? That's okay.</div>
+      <h3>Get the <em>free</em> Starter Routine</h3>
+      <p>A free 1-page Glow Well Starter Routine PDF — the absolute essentials, zero fluff. Yours instantly when you join the list. No spam, ever.</p>
+      <div class="ml-embedded" data-form="CUwtxZ"></div>
+      <p class="email-note">We respect your inbox. Unsubscribe anytime.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo">
+    <a href="index.html" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(247,243,238,0.5);text-decoration:none">The Glow<em style="font-style:italic;color:#7A9474">Well</em></a>
+  </div>
+  <div class="footer-links">
+    <a href="blog.html">Blog</a>
+    <a href="resources.html">Free Resources</a>
+    <a href="#about">About</a>
+    <a href="terms.html">Terms</a>
+    <a href="refund.html">Refund Policy</a>
+    <a href="mailto:theglowwellcollective@gmail.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 The Glow Well · theglowwell.com</div>
+</footer>
+
+<!-- ══ EXIT INTENT POPUP ══════════════════════════ -->
+<div class="popup-overlay" id="exitPopup">
+  <div class="popup">
+    <button class="popup-close" onclick="closePopup()">×</button>
+    <div class="popup-eyebrow">Wait — before you go</div>
+    <h3>Your skin deserves <em>better than guessing.</em></h3>
+    <p>You made it this far because you want clearer skin and a smarter routine. Don't leave without this — we're making it even easier to say yes.</p>
+    <div class="popup-price-row">
+      <span class="popup-orig">$24.99</span>
+      <span class="popup-now">$19.99</span>
+      <span class="popup-save">20% off</span>
+    </div>
+    <div class="popup-code">
+      <span class="popup-code-label">Use code at checkout</span>
+      <span class="popup-code-value">20OFF</span>
+    </div>
+    <a href="https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6" class="btn-primary btn-terra popup-btn" onclick="closePopup()">
+      Claim My Discount — $19.99 →
+    </a>
+    <div class="popup-skip" onclick="closePopup()">No thanks, I'll pay full price</div>
+  </div>
+</div>
+
+<script>
+// ── NAV SCROLL ────────────────────────────────
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>40)
+})
+
+// ── MOBILE NAV TOGGLE ─────────────────────────
+function toggleMobileMenu(){
+  document.getElementById('navToggle').classList.toggle('open')
+  document.getElementById('navLinks').classList.toggle('open')
+}
+
+// ── SCROLL REVEAL ─────────────────────────────
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+},{threshold:0.1})
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el))
+
+// ── FAQ TOGGLE ────────────────────────────────
+function toggleFaq(el){
+  const item=el.parentElement
+  const wasOpen=item.classList.contains('open')
+  document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'))
+  if(!wasOpen)item.classList.add('open')
+}
+
+// ── EXIT INTENT ───────────────────────────────
+let popupShown=false
+let popupTimer=null
+
+function showPopup(){
+  if(popupShown)return
+  popupShown=true
+  document.getElementById('exitPopup').classList.add('active')
+  document.body.style.overflow='hidden'
+}
+
+function closePopup(){
+  document.getElementById('exitPopup').classList.remove('active')
+  document.body.style.overflow=''
+}
+
+// Desktop: mouse leaving toward top
+document.addEventListener('mouseleave',e=>{
+  if(e.clientY<=0)showPopup()
+})
+
+// Mobile: timer after 45 seconds
+popupTimer=setTimeout(()=>{
+  if(!popupShown&&window.innerWidth<768)showPopup()
+},45000)
+
+// Close on overlay click
+document.getElementById('exitPopup').addEventListener('click',e=>{
+  if(e.target===document.getElementById('exitPopup'))closePopup()
+})
+
+// Close on escape
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closePopup()
+})
+
+// ── SMOOTH SCROLL ─────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const target=document.querySelector(a.getAttribute('href'))
+    if(target){e.preventDefault();target.scrollIntoView({behavior:'smooth'})}
+  })
+})
+</script>
+
+</body>
+</html>
