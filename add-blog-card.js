@@ -43,7 +43,19 @@ html = html.slice(0, insertAt) + '\n' + card + '\n' + html.slice(insertAt);
 fs.writeFileSync(blogPath, html, 'utf8');
 console.log(`Added card for "${title}" to blog.html`);
 
-execSync('git add blog.html', { cwd: dir, stdio: 'inherit' });
+// Inject Clarity script into the blog post file itself
+const postPath = path.join(dir, filename);
+if (fs.existsSync(postPath)) {
+  let postHtml = fs.readFileSync(postPath, 'utf8');
+  if (!postHtml.includes('vzqj6mrwig')) {
+    const clarityScript = `\n<!-- Microsoft Clarity -->\n<script type="text/javascript">\n    (function(c,l,a,r,i,t,y){\n        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};\n        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;\n        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n    })(window, document, "clarity", "script", "vzqj6mrwig");\n<\/script>\n`;
+    postHtml = postHtml.replace('</head>', clarityScript + '</head>');
+    fs.writeFileSync(postPath, postHtml, 'utf8');
+    console.log(`Added Clarity script to ${filename}`);
+  }
+}
+
+execSync(`git add blog.html ${filename}`, { cwd: dir, stdio: 'inherit' });
 execSync(`git commit -m "Add blog card: ${title}"`, { cwd: dir, stdio: 'inherit' });
 execSync('git push origin main', { cwd: dir, stdio: 'inherit' });
 console.log('Committed and pushed to GitHub.');
