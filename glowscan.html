@@ -849,16 +849,21 @@ let addonChecked = true;
 
 // ── SCREEN NAV ────────────────────────────────
 function goToScreen(n) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  const target = document.getElementById('screen' + n);
-  target.classList.add('active');
-  target.classList.add('screen-fade');
-  window.scrollTo(0, 0);
-  currentScreen = n;
+  console.log('goToScreen called', n);
+  try {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('screen' + n);
+    target.classList.add('active');
+    target.classList.add('screen-fade');
+    window.scrollTo(0, 0);
+    currentScreen = n;
 
-  if (n === 3) startLoading();
-  if (n === 4) populateResults();
-  if (n === 7) showConfirmation();
+    if (n === 3) startLoading();
+    if (n === 4) populateResults();
+    if (n === 7) showConfirmation();
+  } catch(e) {
+    console.error('goToScreen error:', e);
+  }
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
