@@ -334,7 +334,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <div class="hero-image-placeholder">[ Before / after photos ]</div>
 
-    <button class="btn btn-terra btn-full" onclick="requireApiKey(() => goToScreen(2))" style="font-size:15px;padding:18px 32px;">
+    <button class="btn btn-terra btn-full" onclick="goToScreen(2)" style="font-size:15px;padding:18px 32px;">
       Scan My Skin — It's Free
     </button>
 
@@ -811,29 +811,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 </section>
 
 <!-- ══════════════════════════════════════════════
-     API KEY MODAL
-══════════════════════════════════════════════ -->
-<div id="apiKeyModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(37,35,32,0.75);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:24px">
-  <div style="background:var(--cream);max-width:400px;width:100%;padding:32px 28px;border-radius:2px;box-shadow:0 24px 60px rgba(0,0,0,0.3)">
-    <div style="font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:12px">Configuration</div>
-    <h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--charcoal);margin-bottom:8px">Enter your Anthropic API key</h3>
-    <p style="font-size:13px;color:var(--text-light);line-height:1.6;margin-bottom:20px">Stored in your browser session only — never saved to any file or server. Cleared when you close the tab.</p>
-    <input id="apiKeyInput" type="password" placeholder="sk-ant-api03-..." style="width:100%;padding:13px 16px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;border-radius:2px;margin-bottom:8px;transition:border-color 0.2s" oninput="this.style.borderColor='var(--border)'" />
-    <p id="apiKeyError" style="font-size:12px;color:#E24B4A;margin-bottom:12px;display:none">Please enter a valid API key (starts with sk-ant-)</p>
-    <button onclick="confirmApiKey()" style="width:100%;padding:15px;background:var(--charcoal);color:var(--cream);border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border-radius:2px;margin-bottom:10px">Save & Continue</button>
-    <button onclick="closeApiModal()" style="width:100%;padding:11px;background:transparent;color:var(--text-light);border:1px solid var(--border);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;border-radius:2px">Cancel</button>
-    <p style="font-size:11px;color:var(--text-light);margin-top:14px;line-height:1.5">Get your key at console.anthropic.com · Key is only used in your browser</p>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════
      JAVASCRIPT
 ══════════════════════════════════════════════ -->
 <script>
 // ── CONFIG ────────────────────────────────────
-// API key is never hardcoded. Retrieved from sessionStorage at runtime.
-function getApiKey() { return sessionStorage.getItem("glow_api_key") || ""; }
-function saveApiKey(key) { sessionStorage.setItem("glow_api_key", key.trim()); }
+const WORKER_URL = 'https://glowscan.theglowwell.workers.dev';
 
 // ── STATE ─────────────────────────────────────
 const userData = {
@@ -862,44 +844,6 @@ const scanResults = {
 let currentScreen = 1;
 let currentStep = 1;
 let addonChecked = true;
-
-// ── API KEY MODAL ─────────────────────────────
-let _afterKeyCallback = null;
-
-function requireApiKey(callback) {
-  if (getApiKey()) { callback(); return; }
-  _afterKeyCallback = callback;
-  const modal = document.getElementById('apiKeyModal');
-  modal.style.display = 'flex';
-  setTimeout(() => document.getElementById('apiKeyInput').focus(), 100);
-}
-
-function confirmApiKey() {
-  const val = document.getElementById('apiKeyInput').value.trim();
-  const errEl = document.getElementById('apiKeyError');
-  if (!val.startsWith('sk-ant-')) {
-    errEl.style.display = 'block';
-    document.getElementById('apiKeyInput').style.borderColor = '#E24B4A';
-    return;
-  }
-  errEl.style.display = 'none';
-  saveApiKey(val);
-  document.getElementById('apiKeyInput').value = '';
-  document.getElementById('apiKeyModal').style.display = 'none';
-  if (_afterKeyCallback) { _afterKeyCallback(); _afterKeyCallback = null; }
-}
-
-function closeApiModal() {
-  document.getElementById('apiKeyModal').style.display = 'none';
-  _afterKeyCallback = null;
-}
-
-// Allow Enter key in the input
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('apiKeyInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') confirmApiKey();
-  });
-});
 
 // ── SCREEN NAV ────────────────────────────────
 function goToScreen(n) {
@@ -1079,16 +1023,10 @@ User quiz answers:
       });
     }
 
-    const apiKey = getApiKey();
-    if (!apiKey) throw new Error('No API key set');
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch(WORKER_URL, {
       method: 'POST',
       headers: {
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
+        'content-type': 'application/json'
       },
       body: JSON.stringify({
         model: 'claude-opus-4-5',
