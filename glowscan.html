@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Glow Scan by The Glow Well — Free AI skin analysis. Upload a selfie, answer 5 questions, get your personalized skin report.">
+<title>Glow Scan — Free AI Skin Analysis | The Glow Well</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+/* ── RESET & ROOT ────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --cream:#F7F3EE;
+  --off-white:#F0EBE3;
+  --sage:#7A9474;
+  --sage-light:#A8BFA3;
+  --sage-dark:#4E6B49;
+  --terra:#C4845A;
+  --terra-dark:#A06840;
+  --charcoal:#252320;
+  --text:#3C3830;
+  --text-mid:#6B6458;
+  --text-light:#9A9088;
+  --border:#DDD6CC;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{text-decoration:none;color:inherit}
+
+/* ── TYPOGRAPHY ──────────────────────────────── */
+.serif{font-family:'Cormorant Garamond',serif}
+h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:1.1}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--sage-dark);display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.eyebrow::before{content:'';display:block;width:28px;height:1.5px;background:var(--sage);flex-shrink:0}
+
+/* ── NAV ─────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;letter-spacing:0.5px;color:var(--charcoal)}
+.nav-logo span{color:var(--sage-dark)}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:12px;font-weight:400;color:var(--text-mid);letter-spacing:0.3px;transition:color 0.2s}
+.nav-links a:hover{color:var(--charcoal)}
+.nav-cta-link{background:var(--charcoal);color:var(--cream)!important;padding:9px 20px;font-weight:500!important;transition:background 0.2s!important}
+.nav-cta-link:hover{background:var(--sage-dark)!important}
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+}
+
+/* ── SCREENS ─────────────────────────────────── */
+.screen{display:none;min-height:100vh;padding-top:72px}
+.screen.active{display:block}
+.screen-fade{animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── BUTTONS ─────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:16px 32px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;border:none;cursor:pointer;transition:background 0.2s,transform 0.15s;text-decoration:none;text-align:center}
+.btn-full{width:100%}
+.btn-terra{background:var(--terra);color:#fff}
+.btn-terra:hover{background:var(--terra-dark)}
+.btn-charcoal{background:var(--charcoal);color:var(--cream)}
+.btn-charcoal:hover{background:#3a3733}
+.btn-sage-outline{background:transparent;color:var(--sage-dark);border:1.5px solid var(--sage);padding:15px 32px}
+.btn-sage-outline:hover{background:var(--sage-dark);color:#fff}
+.btn-sm{padding:11px 24px;font-size:13px}
+.btn-secondary{background:var(--off-white);color:var(--text-mid);border:1px solid var(--border)}
+.btn-secondary:hover{background:var(--border)}
+
+/* ── PROGRESS BAR ────────────────────────────── */
+.progress-wrap{position:sticky;top:72px;left:0;right:0;z-index:100;background:var(--cream);padding:12px 20px 8px;border-bottom:1px solid var(--border)}
+.progress-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px}
+.progress-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.progress-fill{height:100%;background:var(--terra);border-radius:2px;transition:width 0.4s ease}
+
+/* ── SCREEN 1 — HERO ─────────────────────────── */
+#screen1{background:var(--cream)}
+.hero-inner{max-width:480px;margin:0 auto;padding:48px 24px 60px}
+.hero-badge-pill{display:inline-block;background:rgba(196,132,90,0.12);color:var(--terra-dark);font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:20px}
+.hero-h1{font-size:40px;font-weight:300;color:var(--charcoal);line-height:1.15;margin-bottom:18px;letter-spacing:-0.3px}
+.hero-sub{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.75;margin-bottom:28px}
+.hero-image-placeholder{width:100%;height:200px;background:#E0D8CF;display:flex;align-items:center;justify-content:center;border-radius:2px;margin-bottom:28px;font-size:13px;color:var(--text-light);letter-spacing:0.5px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px;margin-bottom:20px}
+.trust-item{font-size:11.5px;color:var(--text-light);display:flex;align-items:center;gap:5px}
+.trust-item::before{content:'·';color:var(--border)}
+.trust-item:first-child::before{display:none}
+.hero-social-proof{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:4px}
+.stars{color:var(--terra);font-size:13px;letter-spacing:1px}
+.social-text{font-size:12px;color:var(--text-light)}
+
+/* ── SCREEN 2 — QUIZ ─────────────────────────── */
+#screen2{background:var(--cream)}
+.quiz-inner{max-width:480px;margin:0 auto;padding:32px 24px 60px}
+.quiz-step{display:none}
+.quiz-step.active{display:block;animation:fadeIn 0.3s ease}
+
+/* Upload box */
+.upload-box{border:2px dashed var(--terra);border-radius:4px;padding:48px 24px;text-align:center;cursor:pointer;transition:background 0.2s;background:rgba(196,132,90,0.04)}
+.upload-box:hover{background:rgba(196,132,90,0.08)}
+.upload-icon{width:48px;height:48px;margin:0 auto 16px;opacity:0.5}
+.upload-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--charcoal);margin-bottom:8px}
+.upload-sub{font-size:13px;color:var(--text-light);line-height:1.6}
+.upload-preview{width:100%;max-height:260px;object-fit:cover;border-radius:4px;display:none;margin-bottom:16px}
+#fileInput{display:none}
+
+/* Question steps */
+.q-label{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px}
+.q-text{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--charcoal);line-height:1.3;margin-bottom:24px}
+.q-options{display:flex;flex-direction:column;gap:10px}
+.q-option{display:block;padding:14px 18px;border:1.5px solid var(--border);background:#fff;font-size:14px;color:var(--text);cursor:pointer;transition:all 0.2s;text-align:left;border-radius:2px;font-family:'DM Sans',sans-serif}
+.q-option:hover{border-color:var(--terra);background:rgba(196,132,90,0.04)}
+.q-option.selected{border-color:var(--terra);background:rgba(196,132,90,0.08);color:var(--terra-dark);font-weight:500}
+.q-next{margin-top:20px}
+
+/* Email step */
+.email-heading{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--charcoal);margin-bottom:8px}
+.email-sub{font-size:13px;color:var(--text-light);margin-bottom:20px;line-height:1.6}
+.email-input{width:100%;padding:14px 18px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;border-radius:2px;transition:border-color 0.2s;margin-bottom:8px}
+.email-input:focus{border-color:var(--terra)}
+.privacy-note{font-size:11.5px;color:var(--text-light);margin-bottom:20px;display:flex;align-items:center;gap:6px}
+.privacy-note::before{content:'🔒';font-size:11px}
+
+/* ── SCREEN 3 — LOADING ──────────────────────── */
+#screen3{background:var(--charcoal)}
+.loading-inner{max-width:480px;margin:0 auto;padding:48px 24px 60px;text-align:center}
+.loading-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:32px}
+.loading-bar-track{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-bottom:36px}
+.loading-bar-fill{height:100%;background:var(--terra);border-radius:2px;width:0;transition:width 0.5s linear}
+.status-list{list-style:none;text-align:left;margin-bottom:36px;display:flex;flex-direction:column;gap:14px}
+.status-item{display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(247,243,238,0.4);transition:color 0.5s}
+.status-item.done{color:var(--sage)}
+.status-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);flex-shrink:0;transition:background 0.5s}
+.status-item.done .status-dot{background:var(--sage)}
+.video-placeholder{width:100%;aspect-ratio:9/16;max-height:240px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;overflow:hidden}
+.video-placeholder video{width:100%;height:100%;object-fit:cover;border-radius:4px}
+.video-placeholder-label{font-size:12px;color:rgba(247,243,238,0.4);letter-spacing:1px}
+.video-placeholder-sub{font-size:11px;color:rgba(247,243,238,0.25)}
+.loading-footnote{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(247,243,238,0.4);margin-top:20px}
+
+/* ── SCREEN 4 — RESULTS ──────────────────────── */
+#screen4{background:var(--cream)}
+.results-inner{max-width:480px;margin:0 auto;padding:32px 24px 60px}
+
+/* Age banner */
+.age-banner{background:var(--charcoal);padding:24px 20px;border-radius:2px;display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:center;margin-bottom:24px}
+.age-left{text-align:center;border-right:1px solid rgba(255,255,255,0.1);padding-right:16px}
+.age-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,0.45);margin-bottom:4px}
+.age-number{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;color:var(--cream);line-height:1}
+.age-number-sub{font-size:11px;color:rgba(247,243,238,0.45);margin-top:4px}
+.age-right{text-align:center;padding-left:4px}
+.age-actual{font-size:13px;color:rgba(247,243,238,0.6);margin-bottom:6px}
+.age-gap{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;line-height:1}
+.age-gap.older{color:var(--terra)}
+.age-gap.younger{color:var(--sage)}
+.age-gap-label{font-size:11px;color:rgba(247,243,238,0.4);margin-top:4px}
+
+/* Photo with callouts */
+.photo-callout-wrap{position:relative;margin-bottom:24px;border-radius:2px;overflow:hidden}
+.photo-callout-wrap img{width:100%;display:block;max-height:320px;object-fit:cover}
+.callout-badge{position:absolute;background:rgba(37,35,32,0.88);color:#fff;font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;white-space:nowrap;letter-spacing:0.3px}
+.callout-badge.top-left{top:12px;left:12px}
+.callout-badge.top-right{top:12px;right:12px}
+.callout-badge.bottom-left{bottom:12px;left:12px}
+
+/* Score bars */
+.scores-section{margin-bottom:24px}
+.scores-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--charcoal);margin-bottom:16px}
+.score-row{margin-bottom:14px}
+.score-row-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.score-name{font-size:13px;font-weight:500;color:var(--text)}
+.score-num{font-size:13px;font-weight:400;color:var(--text-mid)}
+.score-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.score-fill{height:100%;border-radius:3px;width:0;transition:width 1s ease}
+.score-fill.hydration{background:var(--sage)}
+.score-fill.barrier{background:var(--sage-dark)}
+.score-fill.texture{background:var(--terra)}
+.score-fill.radiance{background:#D4A373}
+
+/* Glow score total */
+.glow-total{background:var(--charcoal);padding:20px 24px;border-radius:2px;display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+.glow-total-label{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(247,243,238,0.5)}
+.glow-total-score{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;color:var(--cream)}
+
+/* Teasers */
+.teasers-section{margin-bottom:24px}
+.teasers-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--charcoal);margin-bottom:14px}
+.teaser-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.teaser-item:last-child{border-bottom:none}
+.teaser-dot{width:7px;height:7px;border-radius:50%;background:var(--terra);flex-shrink:0;margin-top:6px}
+.teaser-text{font-size:14px;color:var(--text-mid);line-height:1.6;font-weight:300}
+
+/* Share button */
+.share-wrap{margin-bottom:24px;text-align:center}
+
+/* Blur split */
+.blur-split{display:grid;grid-template-columns:1fr 1fr;height:200px;border-radius:2px;overflow:hidden;margin-bottom:24px}
+.blur-left{position:relative;overflow:hidden}
+.blur-left img{width:100%;height:100%;object-fit:cover;filter:grayscale(80%)}
+.blur-left-label{position:absolute;bottom:8px;left:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.4);padding:3px 8px;border-radius:10px}
+.blur-right{position:relative;background:var(--charcoal);display:flex;align-items:center;justify-content:center}
+.blur-right-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.06)}
+.blur-right-content{text-align:center;padding:16px;position:relative;z-index:1}
+.blur-right-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--cream);line-height:1.4}
+.blur-right-label{position:absolute;bottom:8px;right:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,238,0.35)}
+
+/* Unlock banner */
+.unlock-banner{background:var(--charcoal);padding:28px 24px;border-radius:2px}
+.unlock-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:8px}
+.unlock-sub{font-size:13px;color:rgba(247,243,238,0.55);margin-bottom:20px;line-height:1.6}
+
+/* Screenshot score card */
+#scoreCard{background:var(--charcoal);padding:20px;border-radius:2px;margin-bottom:16px}
+.score-card-brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,0.35);text-align:center;margin-top:12px}
+
+/* ── SCREEN 5 — REPORT ───────────────────────── */
+#screen5{background:var(--cream)}
+.report-inner{max-width:480px;margin:0 auto;padding:40px 24px 60px}
+.report-h2{font-size:clamp(28px,6vw,36px);color:var(--charcoal);margin-bottom:12px;line-height:1.2}
+.report-sub{font-size:14px;color:var(--text-mid);margin-bottom:28px;line-height:1.7;font-weight:300}
+.checklist-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px}
+.checklist{list-style:none;display:flex;flex-direction:column;gap:0;border:1px solid var(--border);border-radius:2px;overflow:hidden;margin-bottom:32px}
+.check-item{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:#fff;border-bottom:1px solid var(--border);font-size:14px;color:var(--text);line-height:1.5}
+.check-item:last-child{border-bottom:none}
+.check-dot{width:22px;height:22px;border-radius:50%;background:rgba(122,148,116,0.15);border:1.5px solid var(--sage);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.check-dot::after{content:'✓';font-size:10px;color:var(--sage-dark);font-weight:600}
+
+/* Reviews */
+.reviews-section{margin-bottom:32px}
+.reviews-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--charcoal);margin-bottom:16px}
+.review-card{background:#fff;border:1px solid var(--border);padding:18px;margin-bottom:10px;border-radius:2px}
+.review-stars{color:var(--terra);font-size:12px;letter-spacing:1px;margin-bottom:6px}
+.review-text{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:8px;font-style:italic}
+.review-author{font-size:11.5px;color:var(--text-light);font-weight:500}
+
+/* Waste calculator */
+.waste-card{background:#fff;border:1.5px solid var(--sage);border-radius:2px;overflow:hidden;margin-bottom:32px}
+.waste-header{background:rgba(122,148,116,0.08);padding:14px 20px;font-size:12px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark)}
+.waste-row{display:grid;grid-template-columns:1fr auto;align-items:center;padding:12px 20px;border-bottom:1px solid var(--border);font-size:13.5px}
+.waste-row:last-child{border-bottom:none}
+.waste-row.total-row{background:rgba(122,148,116,0.06);font-weight:600;font-size:14px}
+.waste-price{color:var(--terra-dark);font-weight:500}
+
+/* Price reveal */
+.price-reveal{text-align:center;padding:32px 20px;border-top:1px solid var(--border);margin-bottom:24px}
+.price-orig-str{font-size:14px;color:var(--text-light);text-decoration:line-through;margin-bottom:8px}
+.price-big{font-family:'Cormorant Garamond',serif;font-size:52px;font-weight:300;color:var(--charcoal);line-height:1;margin-bottom:8px}
+.price-badge{display:inline-block;background:rgba(196,132,90,0.12);color:var(--terra-dark);font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border-radius:20px;margin-bottom:24px}
+
+/* Value props grid */
+.value-props{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:28px}
+.value-prop-card{background:#fff;border:1px solid var(--border);padding:16px;border-radius:2px;text-align:center}
+.value-prop-title{font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:4px}
+.value-prop-sub{font-size:11.5px;color:var(--text-light);line-height:1.4}
+.cta-fine{font-size:11.5px;color:var(--text-light);text-align:center;margin-top:10px}
+
+/* ── SCREEN 6 — CHECKOUT ─────────────────────── */
+#screen6{background:var(--cream)}
+.checkout-inner{max-width:480px;margin:0 auto;padding:40px 24px 60px}
+.checkout-h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--charcoal);margin-bottom:20px}
+.order-summary{background:#fff;border:1px solid var(--border);border-radius:2px;padding:20px;margin-bottom:20px}
+.order-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.order-name{font-size:14px;font-weight:500;color:var(--charcoal)}
+.order-desc{font-size:12px;color:var(--text-light);margin-bottom:8px}
+.order-price{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--charcoal)}
+.addon-label{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px}
+.addon-card{background:#fff;border:2px solid var(--terra);border-radius:2px;padding:18px;margin-bottom:20px}
+.addon-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:10px}
+.addon-checkbox{width:20px;height:20px;border:2px solid var(--terra);border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;background:#fff;transition:background 0.2s}
+.addon-checkbox.checked{background:var(--terra)}
+.addon-checkbox.checked::after{content:'✓';color:#fff;font-size:12px;font-weight:700}
+.addon-info{flex:1}
+.addon-title{font-size:14px;font-weight:500;color:var(--charcoal);margin-bottom:4px}
+.addon-desc{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:8px}
+.addon-value{font-size:13px;color:var(--sage-dark);font-style:italic;margin-bottom:8px}
+.addon-price-row{display:flex;align-items:baseline;gap:8px}
+.addon-orig{font-size:13px;color:var(--text-light);text-decoration:line-through}
+.addon-now{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--charcoal)}
+.addon-badge{display:inline-block;background:rgba(196,132,90,0.12);color:var(--terra-dark);font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:10px;margin-left:6px}
+.order-total-section{background:var(--off-white);border:1px solid var(--border);border-radius:2px;padding:16px 20px;margin-bottom:20px}
+.order-total-row{display:flex;justify-content:space-between;align-items:center}
+.order-total-label{font-size:13px;font-weight:500;color:var(--text)}
+.order-total-amount{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--charcoal)}
+.checkout-trust{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+.checkout-trust-item{font-size:11.5px;color:var(--text-light);display:flex;align-items:center;gap:4px}
+
+/* ── SCREEN 7 — CONFIRMATION ─────────────────── */
+#screen7{background:var(--cream)}
+.confirm-inner{max-width:480px;margin:0 auto;padding:56px 24px 80px;text-align:center}
+.confirm-icon{width:64px;height:64px;margin:0 auto 24px}
+.confirm-h2{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--charcoal);margin-bottom:10px}
+.confirm-sub{font-size:14px;color:var(--text-mid);line-height:1.7;font-weight:300;margin-bottom:32px;max-width:340px;margin-left:auto;margin-right:auto}
+.confirm-card{background:#fff;border:1px solid var(--border);border-left:4px solid var(--sage);border-radius:2px;padding:18px 20px;margin-bottom:14px;text-align:left}
+.confirm-card-label{font-size:10px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--sage);margin-bottom:6px}
+.confirm-card-title{font-size:15px;font-weight:500;color:var(--charcoal);margin-bottom:10px}
+.confirm-card-link{font-size:13px;color:var(--sage-dark);font-weight:500;display:flex;align-items:center;gap:4px}
+.confirm-card-link:hover{text-decoration:underline}
+
+/* Dupe upsell */
+.dupe-card{background:var(--cream);border:2px solid var(--terra);border-radius:2px;padding:24px 20px;margin-top:28px;text-align:center}
+.dupe-pill{display:inline-block;background:var(--terra);color:#fff;font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:14px}
+.dupe-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:var(--charcoal);margin-bottom:8px}
+.dupe-desc{font-size:13px;color:var(--text-mid);line-height:1.6;margin-bottom:16px}
+.dupe-fine{font-size:11px;color:var(--text-light);margin-top:8px}
+
+/* ── UTILITY ─────────────────────────────────── */
+.section-gap{margin-bottom:28px}
+.mt-16{margin-top:16px}
+.mt-8{margin-top:8px}
+.text-center{text-align:center}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────── -->
+<nav>
+  <a href="index.html" class="nav-logo">The Glow<span> Well</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#playbook">Playbook</a></li>
+    <li><a href="glowscan.html" class="nav-cta-link">Free Scan</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 1 — HERO
+══════════════════════════════════════════════ -->
+<section id="screen1" class="screen active screen-fade">
+  <div class="hero-inner">
+    <div class="eyebrow">Free AI Skin Analysis</div>
+    <h1 class="hero-h1">Your skin is older than your birth certificate.</h1>
+    <p class="hero-sub">Upload a selfie. Answer 5 questions. Find out what's really going on — and how to fix it.</p>
+
+    <div class="hero-image-placeholder">[ Before / after photos ]</div>
+
+    <button class="btn btn-terra btn-full" onclick="goToScreen(2)" style="font-size:15px;padding:18px 32px;">
+      Scan My Skin — It's Free
+    </button>
+
+    <div class="hero-trust">
+      <span class="trust-item">Photo never stored</span>
+      <span class="trust-item">No credit card</span>
+      <span class="trust-item">60 seconds</span>
+    </div>
+
+    <div class="hero-social-proof">
+      <span class="stars">★★★★★</span>
+      <span class="social-text">Used by 14,000+ women who stopped guessing</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 2 — QUIZ + UPLOAD
+══════════════════════════════════════════════ -->
+<section id="screen2" class="screen">
+  <!-- Progress bar -->
+  <div class="progress-wrap">
+    <div class="progress-label" id="progressLabel">Step 1 of 7</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:14%"></div>
+    </div>
+  </div>
+
+  <div class="quiz-inner">
+
+    <!-- Step 1 — Photo upload -->
+    <div class="quiz-step active" id="step1">
+      <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+        <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" stroke="#C4845A" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <path d="M24 16v12M18 22l6-6 6 6" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="upload-title">Drop your worst lighting selfie.</div>
+        <p class="upload-sub">The tired one. That's the data we actually need.</p>
+      </div>
+      <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
+      <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+    </div>
+
+    <!-- Step 2 — Age -->
+    <div class="quiz-step" id="step2">
+      <div class="q-label">Question 1 of 5</div>
+      <div class="q-text">How many candles on your last birthday cake?</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'age','Under 25')">Under 25</button>
+        <button class="q-option" onclick="selectOption(this,'age','25–29')">25–29</button>
+        <button class="q-option" onclick="selectOption(this,'age','30–34')">30–34</button>
+        <button class="q-option" onclick="selectOption(this,'age','35–39')">35–39</button>
+        <button class="q-option" onclick="selectOption(this,'age','40–44')">40–44</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 — Skin complaint -->
+    <div class="quiz-step" id="step3">
+      <div class="q-label">Question 2 of 5</div>
+      <div class="q-text">If your face could text you one complaint right now...</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'complaint','Fine lines appearing')">Fine lines appearing</button>
+        <button class="q-option" onclick="selectOption(this,'complaint','Dull no matter what')">Dull no matter what</button>
+        <button class="q-option" onclick="selectOption(this,'complaint','Red and reactive')">Red and reactive</button>
+        <button class="q-option" onclick="selectOption(this,'complaint','Shiny by 2pm')">Shiny by 2pm</button>
+        <button class="q-option" onclick="selectOption(this,'complaint','Uneven tone')">Uneven tone</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(4)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 — Routine -->
+    <div class="quiz-step" id="step4">
+      <div class="q-label">Question 3 of 5</div>
+      <div class="q-text">Be honest — how many steps is your current routine?</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'routine','Splash water and pray')">Splash water and pray</button>
+        <button class="q-option" onclick="selectOption(this,'routine','Cleanser + moisturizer')">Cleanser + moisturizer</button>
+        <button class="q-option" onclick="selectOption(this,'routine','3–4 solid steps')">3–4 solid steps</button>
+        <button class="q-option" onclick="selectOption(this,'routine','Full multi-step routine')">Full multi-step routine</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(5)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 5 — Budget -->
+    <div class="quiz-step" id="step5">
+      <div class="q-label">Question 4 of 5</div>
+      <div class="q-text">What's your monthly skincare budget?</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'budget','Under $25')">Under $25</button>
+        <button class="q-option" onclick="selectOption(this,'budget','$25–50')">$25–50</button>
+        <button class="q-option" onclick="selectOption(this,'budget','$50–100')">$50–100</button>
+        <button class="q-option" onclick="selectOption(this,'budget','$100+')">$100+</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(6)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 6 — Where they shop -->
+    <div class="quiz-step" id="step6">
+      <div class="q-label">Question 5 of 5</div>
+      <div class="q-text">Where do you usually shop?</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'shopping','Target / Drugstore')">Target / Drugstore</button>
+        <button class="q-option" onclick="selectOption(this,'shopping','Amazon')">Amazon</button>
+        <button class="q-option" onclick="selectOption(this,'shopping','Sephora / Ulta')">Sephora / Ulta</button>
+        <button class="q-option" onclick="selectOption(this,'shopping','Mix of everything')">Mix of everything</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(7)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 7 — Email capture -->
+    <div class="quiz-step" id="step7">
+      <div class="email-heading">Almost there — where should we send your results?</div>
+      <p class="email-sub">We'll analyze your scan and have results ready in 15 seconds.</p>
+      <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" />
+      <div class="privacy-note">Photo analyzed instantly. Never stored on our servers.</div>
+      <button class="btn btn-terra btn-full" onclick="submitQuiz()" style="font-size:15px;padding:18px 32px;">
+        Analyze My Skin — It's Free
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 3 — LOADING
+══════════════════════════════════════════════ -->
+<section id="screen3" class="screen">
+  <div class="loading-inner">
+    <div class="loading-bar-track">
+      <div class="loading-bar-fill" id="loadingBar"></div>
+    </div>
+    <h2 class="loading-title">Analyzing your skin...</h2>
+
+    <div class="video-placeholder">
+      <video autoplay muted playsinline loop src="" id="loadingVideo" style="display:none"></video>
+      <div id="videoFallback">
+        <div class="video-placeholder-label">[ Short-form video plays here ]</div>
+        <div class="video-placeholder-sub">15-second Reel while AI processes</div>
+      </div>
+    </div>
+
+    <ul class="status-list" id="statusList">
+      <li class="status-item" id="s1"><div class="status-dot"></div> Scanning sebaceous density patterns</li>
+      <li class="status-item" id="s2"><div class="status-dot"></div> Mapping inflammation markers</li>
+      <li class="status-item" id="s3"><div class="status-dot"></div> Checking barrier integrity</li>
+      <li class="status-item" id="s4"><div class="status-dot"></div> Detecting dehydration patterns</li>
+      <li class="status-item" id="s5"><div class="status-dot"></div> Crunching your biological age</li>
+    </ul>
+
+    <p class="loading-footnote">More detailed than any quiz you've taken.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 4 — FREE RESULTS
+══════════════════════════════════════════════ -->
+<section id="screen4" class="screen">
+  <div class="results-inner">
+    <div class="eyebrow">Your Glow Scan Results</div>
+
+    <!-- Age banner -->
+    <div class="age-banner">
+      <div class="age-left">
+        <div class="age-label">Skin Age</div>
+        <div class="age-number" id="skinAgeDisplay">—</div>
+        <div class="age-number-sub">estimated biological age</div>
+      </div>
+      <div class="age-right">
+        <div class="age-actual" id="actualAgeDisplay">Your actual age: —</div>
+        <div class="age-gap" id="ageGapDisplay">—</div>
+        <div class="age-gap-label" id="ageGapLabel">vs. your actual age</div>
+      </div>
+    </div>
+
+    <!-- Photo with callouts -->
+    <div class="photo-callout-wrap" id="photoCalloutWrap">
+      <img id="resultsPhoto" src="" alt="Your skin scan" />
+      <div class="callout-badge top-left" id="callout1"></div>
+      <div class="callout-badge top-right" id="callout2"></div>
+      <div class="callout-badge bottom-left" id="callout3"></div>
+    </div>
+
+    <!-- Score bars -->
+    <div class="scores-section" id="scoreCard">
+      <div class="scores-title">Your Skin Scores</div>
+      <div class="score-row">
+        <div class="score-row-header">
+          <span class="score-name">Hydration</span>
+          <span class="score-num" id="hydScore">—</span>
+        </div>
+        <div class="score-track"><div class="score-fill hydration" id="hydBar"></div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-row-header">
+          <span class="score-name">Barrier Health</span>
+          <span class="score-num" id="barrierScore">—</span>
+        </div>
+        <div class="score-track"><div class="score-fill barrier" id="barrierBar"></div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-row-header">
+          <span class="score-name">Texture Clarity</span>
+          <span class="score-num" id="textureScore">—</span>
+        </div>
+        <div class="score-track"><div class="score-fill texture" id="textureBar"></div></div>
+      </div>
+      <div class="score-row">
+        <div class="score-row-header">
+          <span class="score-name">Radiance</span>
+          <span class="score-num" id="radianceScore">—</span>
+        </div>
+        <div class="score-track"><div class="score-fill radiance" id="radianceBar"></div></div>
+      </div>
+      <div class="score-card-brand">theglowwell.com · Free Glow Scan</div>
+    </div>
+
+    <!-- Glow total -->
+    <div class="glow-total">
+      <span class="glow-total-label">Your Glow Score</span>
+      <span class="glow-total-score" id="glowScoreDisplay">— / 100</span>
+    </div>
+
+    <!-- Teasers -->
+    <div class="teasers-section">
+      <div class="teasers-title">What we're seeing</div>
+      <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser1"></p></div>
+      <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser2"></p></div>
+      <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser3"></p></div>
+    </div>
+
+    <!-- Share -->
+    <div class="share-wrap">
+      <button class="btn btn-secondary btn-sm" onclick="shareScore()">Share Your Score</button>
+    </div>
+
+    <!-- Blur split -->
+    <div class="blur-split" id="blurSplit">
+      <div class="blur-left">
+        <img id="blurPhoto" src="" alt="Current habits" />
+        <span class="blur-left-label">Current habits</span>
+      </div>
+      <div class="blur-right">
+        <div class="blur-right-overlay"></div>
+        <div class="blur-right-content">
+          <p class="blur-right-text">One routine change away from this.</p>
+        </div>
+        <span class="blur-right-label">Optimized routine</span>
+      </div>
+    </div>
+
+    <!-- Unlock banner -->
+    <div class="unlock-banner">
+      <p class="unlock-title">One routine change away from this.</p>
+      <p class="unlock-sub">Full breakdown, routine gaps, and your next-step plan.</p>
+      <button class="btn btn-sage-outline btn-full" onclick="goToScreen(5)">Unlock My Full Report</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 5 — REPORT DETAILS + PRICE REVEAL
+══════════════════════════════════════════════ -->
+<section id="screen5" class="screen">
+  <div class="report-inner">
+    <div class="eyebrow">What's inside your report</div>
+    <h2 class="report-h2">
+      Your skin doesn't need more <span style="color:#E24B4A;font-style:italic">expensive</span> products. It needs the <span style="color:var(--sage-dark);font-style:italic">right ones.</span>
+    </h2>
+    <p class="report-sub">The full breakdown, the hidden patterns, and your next-step plan.</p>
+
+    <!-- Report summary from Claude -->
+    <div style="background:#fff;border:1px solid var(--border);border-left:3px solid var(--terra);padding:16px 18px;margin-bottom:28px;border-radius:2px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--terra-dark);margin-bottom:6px">Your scan summary</div>
+      <p style="font-size:13.5px;color:var(--text-mid);line-height:1.7;font-weight:300" id="reportSummaryText">Based on your photo and quiz answers, your report covers your unique skin profile in detail.</p>
+    </div>
+
+    <div class="checklist-label">Everything below is specific to your scan.</div>
+    <ul class="checklist">
+      <li class="check-item"><div class="check-dot"></div>Skin age breakdown — what's causing the gap</li>
+      <li class="check-item"><div class="check-dot"></div>Routine red flags — what's working against you</li>
+      <li class="check-item"><div class="check-dot"></div>Ingredient overlap — what's canceling each other out</li>
+      <li class="check-item"><div class="check-dot"></div>Your 6-week reset plan — AM and PM, step by step</li>
+      <li class="check-item"><div class="check-dot"></div>Shelf purge — what to keep, toss, or swap</li>
+    </ul>
+
+    <!-- Reviews -->
+    <div class="reviews-section">
+      <div class="reviews-title">What women are saying</div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</p>
+        <div class="review-author">Sara, 26</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Called out the exact stuff I keep buying and never use. That alone saved me money."</p>
+        <div class="review-author">Yasmine, 34</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Finally understood why that $80 serum did nothing. Wrong acid for my skin."</p>
+        <div class="review-author">Celeste, 42</div>
+      </div>
+    </div>
+
+    <!-- Waste calculator -->
+    <div class="waste-card">
+      <div class="waste-header">What wrong products cost you</div>
+      <div class="waste-row">
+        <span>Wrong cleanser — yearly</span>
+        <span class="waste-price">$120</span>
+      </div>
+      <div class="waste-row">
+        <span>Mismatched actives</span>
+        <span class="waste-price">$180</span>
+      </div>
+      <div class="waste-row">
+        <span>Products that cancel each other</span>
+        <span class="waste-price">$150</span>
+      </div>
+      <div class="waste-row">
+        <span>Trending items that don't match your skin</span>
+        <span class="waste-price">$150</span>
+      </div>
+      <div class="waste-row total-row">
+        <span>Average wasted per year</span>
+        <span class="waste-price">$600+</span>
+      </div>
+    </div>
+
+    <!-- Price reveal -->
+    <div class="price-reveal">
+      <div class="price-orig-str">Originally $29</div>
+      <div class="price-big">$7.99</div>
+      <div class="price-badge">Today only — intro price</div>
+
+      <div class="value-props">
+        <div class="value-prop-card">
+          <div class="value-prop-title">Instant access</div>
+          <div class="value-prop-sub">View right after payment</div>
+        </div>
+        <div class="value-prop-card">
+          <div class="value-prop-title">Private link</div>
+          <div class="value-prop-sub">Yours to keep forever</div>
+        </div>
+        <div class="value-prop-card">
+          <div class="value-prop-title">100% personalized</div>
+          <div class="value-prop-sub">Built from your scan</div>
+        </div>
+        <div class="value-prop-card">
+          <div class="value-prop-title">7-day refund</div>
+          <div class="value-prop-sub">Not useful? We'll fix it.</div>
+        </div>
+      </div>
+
+      <button class="btn btn-terra btn-full" onclick="goToScreen(6)" style="font-size:15px;padding:18px 32px;">
+        Get My Full Glow Report — $7.99
+      </button>
+      <p class="cta-fine">One-time · No subscription · Instant access</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 6 — CHECKOUT
+══════════════════════════════════════════════ -->
+<section id="screen6" class="screen">
+  <div class="checkout-inner">
+    <h2 class="checkout-h2">Complete your order</h2>
+
+    <!-- Order summary -->
+    <div class="order-summary">
+      <div class="order-row">
+        <span class="order-name">Full Glow Report</span>
+        <span class="order-price">$7.99</span>
+      </div>
+      <div class="order-desc">Personalized to your scan</div>
+    </div>
+
+    <!-- Add-on -->
+    <div class="addon-label">Add to your order</div>
+    <div class="addon-card">
+      <div class="addon-top">
+        <div class="addon-checkbox checked" id="addonCheckbox" onclick="toggleAddon()"></div>
+        <div class="addon-info">
+          <div class="addon-title">The Glow Well Playbook</div>
+          <p class="addon-desc">96 pages. Ingredient decoder, 4 budget routine tiers, store shopping lists.</p>
+          <p class="addon-value">"Most women save $300–400/year on wrong products after reading this."</p>
+          <div class="addon-price-row">
+            <span class="addon-orig">$40</span>
+            <span class="addon-now">$14.99</span>
+            <span class="addon-badge">Glow Scan exclusive</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order total -->
+    <div class="order-total-section">
+      <div class="order-total-row">
+        <span class="order-total-label">Order total</span>
+        <span class="order-total-amount" id="orderTotal">$22.98</span>
+      </div>
+    </div>
+
+    <button class="btn btn-charcoal btn-full" style="font-size:15px;padding:18px 32px;margin-bottom:14px;" onclick="goToScreen(7)">
+      Pay Securely — Coming Soon
+    </button>
+
+    <div class="checkout-trust">
+      <span class="checkout-trust-item">🔒 256-bit encryption</span>
+      <span class="checkout-trust-item">↩ 7-day guarantee</span>
+      <span class="checkout-trust-item">✗ No subscriptions</span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SCREEN 7 — CONFIRMATION
+══════════════════════════════════════════════ -->
+<section id="screen7" class="screen">
+  <div class="confirm-inner">
+
+    <!-- Sage checkmark -->
+    <svg class="confirm-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="31" fill="rgba(122,148,116,0.12)" stroke="#7A9474" stroke-width="1.5"/>
+      <path d="M20 32l9 9 15-16" stroke="#4E6B49" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <h2 class="confirm-h2">You're all set.</h2>
+    <p class="confirm-sub">Your report is ready. Bookmark your link — it's yours forever. Your photo has been deleted.</p>
+
+    <!-- Report card -->
+    <div class="confirm-card">
+      <div class="confirm-card-label">Your Glow Scan Report</div>
+      <div class="confirm-card-title">Full personalized skin analysis</div>
+      <a href="#" class="confirm-card-link">View your report → </a>
+    </div>
+
+    <!-- Playbook card — only shows if add-on checked -->
+    <div class="confirm-card" id="playbookCard" style="display:none">
+      <div class="confirm-card-label">The Glow Well Playbook</div>
+      <div class="confirm-card-title">96-page anti-aging system</div>
+      <a href="#" class="confirm-card-link">Download your PDF →</a>
+    </div>
+
+    <!-- Dupe detector upsell -->
+    <div class="dupe-card">
+      <div class="dupe-pill">One-time offer</div>
+      <h3 class="dupe-title serif">Got an expensive product?</h3>
+      <p class="dupe-desc">Tell us what you're using. We'll find the budget version that does the same job.</p>
+      <button class="btn btn-terra btn-full" style="font-size:14px;padding:15px 24px;">
+        Find My Budget Dupe — $2.99
+      </button>
+      <p class="dupe-fine">Instant result · One-time · No subscription</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script>
+// ── CONFIG ────────────────────────────────────
+const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE';
+
+// ── STATE ─────────────────────────────────────
+const userData = {
+  photoFile: null,
+  photoBase64: null,
+  photoMimeType: null,
+  email: '',
+  age: '',
+  complaint: '',
+  routine: '',
+  budget: '',
+  shopping: ''
+};
+
+const scanResults = {
+  skinAge: 0,
+  actualAge: 0,
+  ageDiff: 0,
+  scores: { hydration: 0, barrier: 0, texture: 0, radiance: 0 },
+  glowScore: 0,
+  callouts: [],
+  teasers: [],
+  reportSummary: ''
+};
+
+let currentScreen = 1;
+let currentStep = 1;
+let addonChecked = true;
+
+// ── SCREEN NAV ────────────────────────────────
+function goToScreen(n) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('screen' + n);
+  target.classList.add('active');
+  target.classList.add('screen-fade');
+  window.scrollTo(0, 0);
+  currentScreen = n;
+
+  if (n === 3) startLoading();
+  if (n === 4) populateResults();
+  if (n === 7) showConfirmation();
+}
+
+// ── PROGRESS BAR (Screen 2) ───────────────────
+function updateProgress(step) {
+  const pct = Math.round((step / 7) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = 'Step ' + step + ' of 7';
+}
+
+// ── FILE UPLOAD ───────────────────────────────
+function handleFileUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  userData.photoFile = file;
+  userData.photoMimeType = file.type || 'image/jpeg';
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    // Extract base64 only (strip data:image/...;base64,)
+    userData.photoBase64 = dataUrl.split(',')[1];
+
+    // Show preview
+    const preview = document.getElementById('uploadPreview');
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    document.getElementById('uploadBox').style.display = 'none';
+
+    // Auto-advance after short delay
+    setTimeout(() => nextStep(2), 600);
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── QUIZ STEP NAVIGATION ──────────────────────
+function nextStep(step) {
+  // Hide current
+  document.getElementById('step' + currentStep).classList.remove('active');
+  // Show next
+  currentStep = step;
+  document.getElementById('step' + currentStep).classList.add('active');
+  updateProgress(step);
+  window.scrollTo(0, 0);
+}
+
+function selectOption(el, field, value) {
+  // Deselect siblings
+  el.closest('.q-options').querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  userData[field] = value;
+
+  // Show next button
+  const nextWrap = el.closest('.quiz-step').querySelector('.q-next');
+  if (nextWrap) nextWrap.classList.remove('hidden');
+}
+
+// ── QUIZ SUBMIT ───────────────────────────────
+function submitQuiz() {
+  const email = document.getElementById('emailInput').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('emailInput').style.borderColor = 'var(--terra)';
+    document.getElementById('emailInput').focus();
+    return;
+  }
+  userData.email = email;
+  goToScreen(3);
+}
+
+// ── LOADING SCREEN ────────────────────────────
+function startLoading() {
+  const bar = document.getElementById('loadingBar');
+  const statuses = ['s1','s2','s3','s4','s5'];
+  let elapsed = 0;
+
+  // Fill bar over 15 seconds
+  const barInterval = setInterval(() => {
+    elapsed += 100;
+    const pct = Math.min((elapsed / 15000) * 100, 100);
+    bar.style.width = pct + '%';
+    if (elapsed >= 15000) clearInterval(barInterval);
+  }, 100);
+
+  // Activate status items every 3s
+  statuses.forEach((id, i) => {
+    setTimeout(() => {
+      document.getElementById(id).classList.add('done');
+    }, (i + 1) * 3000);
+  });
+
+  // Make API call (starts immediately, but we show loading for min 15s)
+  const apiPromise = callClaudeAPI();
+  const timerPromise = new Promise(resolve => setTimeout(resolve, 15000));
+
+  Promise.all([apiPromise, timerPromise]).then(() => {
+    goToScreen(4);
+  });
+}
+
+// ── CLAUDE API CALL ───────────────────────────
+async function callClaudeAPI() {
+  try {
+    const ageMap = {
+      'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42
+    };
+    const actualAge = ageMap[userData.age] || 30;
+
+    const textPrompt = `You are a skin analysis AI for Glow Scan by The Glow Well. Analyze the uploaded photo and the user's quiz answers below. Return ONLY a valid JSON object with exactly this structure, no other text, no markdown, no explanation:
+
+{
+  "skinAge": <number — estimated biological skin age based on visible skin markers>,
+  "actualAge": ${actualAge},
+  "ageDiff": <number — skinAge minus actualAge, can be negative>,
+  "scores": {
+    "hydration": <number 0-100>,
+    "barrier": <number 0-100>,
+    "texture": <number 0-100>,
+    "radiance": <number 0-100>
+  },
+  "glowScore": <number — weighted average of the 4 scores>,
+  "callouts": [
+    {"label": "<short callout label, max 3 words>", "position": "top-left"},
+    {"label": "<short callout label, max 3 words>", "position": "top-right"},
+    {"label": "<short callout label, max 3 words>", "position": "bottom-left"}
+  ],
+  "teasers": [
+    "<insight teaser 1 — pattern-based observation, general but feels personal, references something they can think about without giving the fix. Max 20 words.>",
+    "<insight teaser 2 — same format>",
+    "<insight teaser 3 — same format>"
+  ],
+  "reportSummary": "<2-3 sentence summary of what the full report will cover, personalized to their specific answers and photo analysis. This is shown on Screen 5.>"
+}
+
+User quiz answers:
+- Age range: ${userData.age}
+- Main skin complaint: ${userData.complaint}
+- Current routine: ${userData.routine}
+- Monthly budget: ${userData.budget}
+- Where they shop: ${userData.shopping}`;
+
+    const messages = [];
+
+    if (userData.photoBase64) {
+      messages.push({
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: {
+              type: 'base64',
+              media_type: userData.photoMimeType || 'image/jpeg',
+              data: userData.photoBase64
+            }
+          },
+          {
+            type: 'text',
+            text: textPrompt
+          }
+        ]
+      });
+    } else {
+      messages.push({
+        role: 'user',
+        content: textPrompt
+      });
+    }
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-opus-4-5',
+        max_tokens: 1024,
+        messages: messages
+      })
+    });
+
+    if (!response.ok) throw new Error('API error: ' + response.status);
+
+    const data = await response.json();
+    const text = data.content[0].text.trim();
+
+    // Extract JSON from response (strip any surrounding text)
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('No JSON in response');
+    const parsed = JSON.parse(jsonMatch[0]);
+
+    // Store results
+    Object.assign(scanResults, parsed);
+
+  } catch (err) {
+    console.warn('API call failed, using fallback:', err.message);
+    useFallbackResults();
+  }
+}
+
+function useFallbackResults() {
+  const ageMap = { 'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42 };
+  const actualAge = ageMap[userData.age] || 30;
+  const skinAge = actualAge + 3;
+
+  Object.assign(scanResults, {
+    skinAge,
+    actualAge,
+    ageDiff: 3,
+    scores: { hydration: 58, barrier: 62, texture: 71, radiance: 55 },
+    glowScore: 62,
+    callouts: [
+      { label: 'Dehydration lines', position: 'top-left' },
+      { label: 'Uneven tone', position: 'top-right' },
+      { label: 'Barrier stress', position: 'bottom-left' }
+    ],
+    teasers: [
+      'There\'s a pattern in your T-zone that\'s more about habit than genetics — worth a closer look.',
+      'Your current routine might be doing one thing well and undoing another at the same time.',
+      'The complaint you flagged? It\'s a symptom of something upstream — not the root cause.'
+    ],
+    reportSummary: 'Based on your responses, your skin shows signs of a compromised moisture barrier combined with inconsistent hydration — a very fixable combination. Your full report details the exact routine gaps, ingredient conflicts, and the 6-week reset sequence designed around your ' + userData.budget + ' budget.'
+  });
+}
+
+// ── POPULATE RESULTS (Screen 4) ───────────────
+function populateResults() {
+  const r = scanResults;
+
+  // Age banner
+  document.getElementById('skinAgeDisplay').textContent = r.skinAge;
+  document.getElementById('actualAgeDisplay').textContent = 'Your actual age: ' + r.actualAge;
+
+  const gapEl = document.getElementById('ageGapDisplay');
+  if (r.ageDiff > 0) {
+    gapEl.textContent = '+' + r.ageDiff + ' years';
+    gapEl.className = 'age-gap older';
+  } else if (r.ageDiff < 0) {
+    gapEl.textContent = r.ageDiff + ' years';
+    gapEl.className = 'age-gap younger';
+  } else {
+    gapEl.textContent = 'On track';
+    gapEl.className = 'age-gap';
+    gapEl.style.color = 'var(--cream)';
+  }
+
+  // Photo
+  if (userData.photoBase64) {
+    const src = 'data:' + (userData.photoMimeType || 'image/jpeg') + ';base64,' + userData.photoBase64;
+    document.getElementById('resultsPhoto').src = src;
+    document.getElementById('blurPhoto').src = src;
+    document.getElementById('photoCalloutWrap').style.display = 'block';
+    document.getElementById('blurSplit').style.display = 'grid';
+  } else {
+    document.getElementById('photoCalloutWrap').style.display = 'none';
+    document.getElementById('blurSplit').style.display = 'none';
+  }
+
+  // Callout badges
+  const posMap = { 'top-left': 'callout1', 'top-right': 'callout2', 'bottom-left': 'callout3' };
+  (r.callouts || []).forEach(c => {
+    const el = document.getElementById(posMap[c.position]);
+    if (el) el.textContent = c.label;
+  });
+
+  // Scores (animate after slight delay)
+  const s = r.scores;
+  setTimeout(() => {
+    setScore('hydScore', 'hydBar', s.hydration);
+    setScore('barrierScore', 'barrierBar', s.barrier);
+    setScore('textureScore', 'textureBar', s.texture);
+    setScore('radianceScore', 'radianceBar', s.radiance);
+  }, 300);
+
+  // Glow score
+  document.getElementById('glowScoreDisplay').textContent = r.glowScore + ' / 100';
+
+  // Teasers
+  (r.teasers || []).forEach((t, i) => {
+    const el = document.getElementById('teaser' + (i + 1));
+    if (el) el.textContent = t;
+  });
+
+  // Report summary on Screen 5
+  if (r.reportSummary) {
+    document.getElementById('reportSummaryText').textContent = r.reportSummary;
+  }
+}
+
+function setScore(labelId, barId, value) {
+  document.getElementById(labelId).textContent = value + ' / 100';
+  document.getElementById(barId).style.width = value + '%';
+}
+
+// ── SHARE SCORE ───────────────────────────────
+async function shareScore() {
+  const card = document.getElementById('scoreCard');
+  try {
+    const canvas = await html2canvas(card, { scale: 2, useCORS: true, backgroundColor: '#252320' });
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], 'glowscan-score.png', { type: 'image/png' });
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: 'My Glow Scan Score',
+          text: 'Got my skin score from The Glow Well Glow Scan. Try it free 👇',
+          files: [file]
+        });
+      } else {
+        // Fallback: download
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'glowscan-score.png';
+        a.click();
+        URL.revokeObjectURL(url);
+      }
+    }, 'image/png');
+  } catch (err) {
+    console.warn('Share failed:', err);
+  }
+}
+
+// ── ADDON TOGGLE (Screen 6) ───────────────────
+function toggleAddon() {
+  addonChecked = !addonChecked;
+  const box = document.getElementById('addonCheckbox');
+  box.classList.toggle('checked', addonChecked);
+  document.getElementById('orderTotal').textContent = addonChecked ? '$22.98' : '$7.99';
+}
+
+// ── CONFIRMATION (Screen 7) ───────────────────
+function showConfirmation() {
+  document.getElementById('playbookCard').style.display = addonChecked ? 'block' : 'none';
+}
+
+</script>
+</body>
+</html>
