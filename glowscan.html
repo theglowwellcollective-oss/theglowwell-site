@@ -53,7 +53,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
 /* ── SCREENS ─────────────────────────────────── */
 .screen{display:none;min-height:100vh;padding-top:72px}
-.screen.active{display:block}
 .screen-fade{animation:fadeIn 0.4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
@@ -328,7 +327,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 1 — HERO
 ══════════════════════════════════════════════ -->
-<section id="screen1" class="screen active screen-fade">
+<section id="screen1" class="screen" style="display:block">
   <div class="hero-inner">
     <div class="eyebrow">Free AI Skin Analysis</div>
     <h1 class="hero-h1">Your skin is older than your birth certificate.</h1>
@@ -356,7 +355,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 2 — QUIZ + UPLOAD
 ══════════════════════════════════════════════ -->
-<section id="screen2" class="screen">
+<section id="screen2" class="screen" style="display:none">
   <!-- Progress bar -->
   <div class="progress-wrap">
     <div class="progress-label" id="progressLabel">Step 1 of 7</div>
@@ -476,7 +475,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 3 — LOADING
 ══════════════════════════════════════════════ -->
-<section id="screen3" class="screen">
+<section id="screen3" class="screen" style="display:none">
   <div class="loading-inner">
     <div class="loading-bar-track">
       <div class="loading-bar-fill" id="loadingBar"></div>
@@ -506,7 +505,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 4 — FREE RESULTS
 ══════════════════════════════════════════════ -->
-<section id="screen4" class="screen">
+<section id="screen4" class="screen" style="display:none">
   <div class="results-inner">
     <div class="eyebrow">Your Glow Scan Results</div>
 
@@ -613,7 +612,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 5 — REPORT DETAILS + PRICE REVEAL
 ══════════════════════════════════════════════ -->
-<section id="screen5" class="screen">
+<section id="screen5" class="screen" style="display:none">
   <div class="report-inner">
     <div class="eyebrow">What's inside your report</div>
     <h2 class="report-h2">
@@ -718,7 +717,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 6 — CHECKOUT
 ══════════════════════════════════════════════ -->
-<section id="screen6" class="screen">
+<section id="screen6" class="screen" style="display:none">
   <div class="checkout-inner">
     <h2 class="checkout-h2">Complete your order</h2>
 
@@ -772,7 +771,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <!-- ══════════════════════════════════════════════
      SCREEN 7 — CONFIRMATION
 ══════════════════════════════════════════════ -->
-<section id="screen7" class="screen">
+<section id="screen7" class="screen" style="display:none">
   <div class="confirm-inner">
 
     <!-- Sage checkmark -->
@@ -849,20 +848,17 @@ let addonChecked = true;
 
 // ── SCREEN NAV ────────────────────────────────
 function goToScreen(n) {
-  console.log('goToScreen called', n);
-  try {
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById('screen' + n);
-    target.classList.add('active');
-    target.classList.add('screen-fade');
+  document.querySelectorAll('.screen').forEach(function(s) {
+    s.style.display = 'none';
+  });
+  var target = document.getElementById('screen' + n);
+  if (target) {
+    target.style.display = 'block';
     window.scrollTo(0, 0);
     currentScreen = n;
-
     if (n === 3) startLoading();
     if (n === 4) populateResults();
     if (n === 7) showConfirmation();
-  } catch(e) {
-    console.error('goToScreen error:', e);
   }
 }
 
