@@ -2,6 +2,18 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.getRegistrations().then(function(r){
+    r.forEach(function(reg){ reg.unregister(); });
+  });
+}
+if('caches' in window){
+  caches.keys().then(function(k){
+    k.forEach(function(n){ caches.delete(n); });
+  });
+}
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Glow Scan by The Glow Well — Free AI skin analysis. Upload a selfie, answer 5 questions, get your personalized skin report.">
 <title>Glow Scan — Free AI Skin Analysis | The Glow Well</title>
@@ -335,7 +347,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <div class="hero-image-placeholder">[ Before / after photos ]</div>
 
-    <button class="btn btn-terra btn-full" onclick="goToScreen(2)" style="font-size:15px;padding:18px 32px;">
+    <button type="button" id="scanBtn" class="btn btn-terra btn-full" style="font-size:15px;padding:18px 32px;">
       Scan My Skin — It's Free
     </button>
 
@@ -828,18 +840,17 @@ const userData = {
   complaint: '',
   routine: '',
   budget: '',
-  shopping: ''
+  shopping: '',
+  skinFeel: ''
 };
 
 const scanResults = {
   skinAge: 0,
-  actualAge: 0,
-  ageDiff: 0,
-  scores: { hydration: 0, barrier: 0, texture: 0, radiance: 0 },
   glowScore: 0,
+  scores: { hydration: 0, barrier: 0, texture: 0, radiance: 0 },
   callouts: [],
   teasers: [],
-  reportSummary: ''
+  reportData: {}
 };
 
 let currentScreen = 1;
@@ -966,38 +977,75 @@ async function callClaudeAPI() {
     };
     const actualAge = ageMap[userData.age] || 30;
 
-    const textPrompt = `You are a skin analysis AI for Glow Scan by The Glow Well. Analyze the uploaded photo and the user's quiz answers below. Return ONLY a valid JSON object with exactly this structure, no other text, no markdown, no explanation:
+    const textPrompt = `You are Glow Scan, a skincare analysis AI for The Glow Well.
+Analyze the uploaded photo and quiz answers together.
 
+QUIZ ANSWERS:
+- Age: ${userData.age}
+- Primary concern: ${userData.complaint}
+- Routine complexity: ${userData.routine}
+- Monthly budget: ${userData.budget}
+- Shopping preference: ${userData.shopping}
+- Skin feel at 4pm: ${userData.skinFeel || 'Not provided'}
+
+Analyze the photo for these 8 visual markers:
+forehead texture, T-zone shine, pore visibility,
+redness, fine line depth, under-eye appearance,
+tone evenness, surface reflectivity.
+
+Return ONLY valid JSON with this exact structure, no markdown, no explanation:
 {
-  "skinAge": <number — estimated biological skin age based on visible skin markers>,
-  "actualAge": ${actualAge},
-  "ageDiff": <number — skinAge minus actualAge, can be negative>,
+  "skinAge": number,
+  "glowScore": number,
   "scores": {
-    "hydration": <number 0-100>,
-    "barrier": <number 0-100>,
-    "texture": <number 0-100>,
-    "radiance": <number 0-100>
+    "hydration": number,
+    "barrier": number,
+    "texture": number,
+    "radiance": number
   },
-  "glowScore": <number — weighted average of the 4 scores>,
   "callouts": [
-    {"label": "<short callout label, max 3 words>", "position": "top-left"},
-    {"label": "<short callout label, max 3 words>", "position": "top-right"},
-    {"label": "<short callout label, max 3 words>", "position": "bottom-left"}
+    {"label": "max 3 words", "zone": "forehead"},
+    {"label": "max 3 words", "zone": "cheek"},
+    {"label": "max 3 words", "zone": "tzone"}
   ],
   "teasers": [
-    "<insight teaser 1 — pattern-based observation, general but feels personal, references something they can think about without giving the fix. Max 20 words.>",
-    "<insight teaser 2 — same format>",
-    "<insight teaser 3 — same format>"
+    "teaser 1 — pattern-based, max 25 words, not generic",
+    "teaser 2 — same",
+    "teaser 3 — adapts to their primary concern"
   ],
-  "reportSummary": "<2-3 sentence summary of what the full report will cover, personalized to their specific answers and photo analysis. This is shown on Screen 5.>"
+  "reportData": {
+    "profileSummary": "3 short paragraphs, uses their exact age/concern/routine",
+    "photoFindings": ["finding 1", "finding 2", "finding 3", "finding 4"],
+    "scoreExplanations": {
+      "hydration": "one line tied to photo observation",
+      "barrier": "one line tied to photo observation",
+      "texture": "one line tied to photo observation",
+      "radiance": "one line tied to photo observation"
+    },
+    "top3priorities": ["priority 1 with why", "priority 2 with why", "priority 3 with why"],
+    "amRoutine": [{"step": "step name", "product": "budget product at their store", "why": "why for their skin"}],
+    "pmRoutine": [{"step": "step name", "product": "budget product at their store", "why": "why for their skin"}],
+    "seekIngredients": [{"ingredient": "name", "why": "specific to their profile"}],
+    "avoidIngredients": [{"ingredient": "name", "why": "specific to their profile"}],
+    "shelfAudit": {"keep": "...", "pause": "...", "watch": "..."},
+    "sixWeekPlan": [
+      {"week": "1-2", "focus": "...", "goal": "...", "watchFor": "..."},
+      {"week": "3-4", "focus": "...", "goal": "...", "watchFor": "..."},
+      {"week": "5-6", "focus": "...", "goal": "...", "watchFor": "..."}
+    ],
+    "shoppingList": {
+      "store1": {"name": "their store", "items": [{"product": "...", "price": "$X"}]},
+      "store2": {"name": "their second store", "items": [{"product": "...", "price": "$X"}]}
+    }
+  }
 }
 
-User quiz answers:
-- Age range: ${userData.age}
-- Main skin complaint: ${userData.complaint}
-- Current routine: ${userData.routine}
-- Monthly budget: ${userData.budget}
-- Where they shop: ${userData.shopping}`;
+Language rules:
+- Always say "patterns consistent with" never "you have X"
+- Never diagnose medical conditions
+- Be specific to their photo and quiz, never generic
+- Tone: knowledgeable friend, not medical authority
+- Max skin age difference: +/- 8 years from actual age (actual age midpoint: ${actualAge})`;
 
     const messages = [];
 
@@ -1060,42 +1108,96 @@ User quiz answers:
 function useFallbackResults() {
   const ageMap = { 'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42 };
   const actualAge = ageMap[userData.age] || 30;
-  const skinAge = actualAge + 3;
 
   Object.assign(scanResults, {
-    skinAge,
-    actualAge,
-    ageDiff: 3,
-    scores: { hydration: 58, barrier: 62, texture: 71, radiance: 55 },
+    skinAge: actualAge + 3,
     glowScore: 62,
+    scores: { hydration: 58, barrier: 62, texture: 71, radiance: 55 },
     callouts: [
-      { label: 'Dehydration lines', position: 'top-left' },
-      { label: 'Uneven tone', position: 'top-right' },
-      { label: 'Barrier stress', position: 'bottom-left' }
+      { label: 'Dehydration lines', zone: 'forehead' },
+      { label: 'Uneven tone', zone: 'cheek' },
+      { label: 'Barrier stress', zone: 'tzone' }
     ],
     teasers: [
-      'There\'s a pattern in your T-zone that\'s more about habit than genetics — worth a closer look.',
-      'Your current routine might be doing one thing well and undoing another at the same time.',
-      'The complaint you flagged? It\'s a symptom of something upstream — not the root cause.'
+      'Patterns consistent with a compromised barrier — more about habit than genetics.',
+      'Your routine may be doing one thing well while undoing another at the same time.',
+      'The concern you flagged tends to be a symptom of something upstream — not the root cause.'
     ],
-    reportSummary: 'Based on your responses, your skin shows signs of a compromised moisture barrier combined with inconsistent hydration — a very fixable combination. Your full report details the exact routine gaps, ingredient conflicts, and the 6-week reset sequence designed around your ' + userData.budget + ' budget.'
+    reportData: {
+      profileSummary: 'Based on your photo and quiz, your skin shows patterns consistent with a moisture barrier under stress combined with inconsistent hydration — a very fixable combination.\n\nYour ' + userData.routine + ' routine is a starting point, but there are likely gaps that are working against your primary concern: ' + userData.complaint + '.\n\nYour full report is built around your ' + userData.budget + ' budget and shopping at ' + userData.shopping + '.',
+      photoFindings: [
+        'Surface texture patterns suggest dehydration rather than dryness',
+        'T-zone activity inconsistent with stated routine complexity',
+        'Tone evenness affected by barrier function, not pigmentation alone',
+        'Reflectivity patterns suggest hydration levels fluctuate throughout the day'
+      ],
+      scoreExplanations: {
+        hydration: 'Surface texture and fine line patterns suggest water content is lower than optimal',
+        barrier: 'Slight reactivity patterns visible around nose and cheek zones',
+        texture: 'Pore appearance and surface smoothness show moderate unevenness',
+        radiance: 'Light reflectivity is muted — consistent with dehydration and barrier stress'
+      },
+      top3priorities: [
+        'Restore barrier function first — nothing else works well until this is stable',
+        'Address hydration at the cellular level, not just surface moisture',
+        'Simplify active ingredients — layering without sequence is likely causing conflict'
+      ],
+      amRoutine: [
+        { step: 'Cleanse', product: 'CeraVe Hydrating Cleanser', why: 'Non-stripping, maintains barrier while cleaning' },
+        { step: 'Tone', product: 'Klairs Supple Preparation Toner', why: 'Preps skin to absorb subsequent steps better' },
+        { step: 'Moisturize', product: 'CeraVe Moisturizing Cream', why: 'Ceramides directly support barrier repair' },
+        { step: 'SPF', product: 'EltaMD UV Clear SPF 46', why: 'Prevents further barrier damage from UV' }
+      ],
+      pmRoutine: [
+        { step: 'Cleanse', product: 'CeraVe Hydrating Cleanser', why: 'Same gentle cleanser, no need to double up' },
+        { step: 'Treatment', product: 'The Ordinary Buffet', why: 'Peptides support barrier repair overnight' },
+        { step: 'Moisturize', product: 'La Roche-Posay Cicaplast Baume', why: 'Occlusive barrier repair while you sleep' }
+      ],
+      seekIngredients: [
+        { ingredient: 'Ceramides', why: 'Directly rebuilds the lipid barrier your skin is missing' },
+        { ingredient: 'Niacinamide', why: 'Reduces inflammation and supports barrier without irritation' },
+        { ingredient: 'Panthenol', why: 'Attracts and holds moisture at the surface level' }
+      ],
+      avoidIngredients: [
+        { ingredient: 'High-strength AHAs daily', why: 'Exfoliating a compromised barrier worsens sensitivity' },
+        { ingredient: 'Fragrance', why: 'Common trigger for the reactive patterns visible in your photo' },
+        { ingredient: 'Alcohol-forward toners', why: 'Disrupts the moisture gradient you\'re trying to restore' }
+      ],
+      shelfAudit: {
+        keep: 'Any ceramide or peptide moisturizer you currently own',
+        pause: 'Exfoliating acids until barrier scores improve in 3-4 weeks',
+        watch: 'Anything with fragrance high on the ingredient list'
+      },
+      sixWeekPlan: [
+        { week: '1-2', focus: 'Barrier reset', goal: 'Reduce reactivity and redness patterns', watchFor: 'Skin feeling less tight after cleansing' },
+        { week: '3-4', focus: 'Hydration layering', goal: 'Improve glow score by 8-10 points', watchFor: 'Skin holding moisture past 2pm' },
+        { week: '5-6', focus: 'Targeted treatment', goal: 'Introduce one active ingredient correctly', watchFor: 'Texture clarity improvement without purging' }
+      ],
+      shoppingList: {
+        store1: { name: userData.shopping || 'Drugstore', items: [{ product: 'CeraVe Hydrating Cleanser', price: '$14' }, { product: 'CeraVe Moisturizing Cream', price: '$17' }] },
+        store2: { name: 'Amazon', items: [{ product: 'La Roche-Posay Cicaplast Baume B5', price: '$15' }, { product: 'Klairs Supple Preparation Toner', price: '$22' }] }
+      }
+    }
   });
 }
 
 // ── POPULATE RESULTS (Screen 4) ───────────────
 function populateResults() {
   const r = scanResults;
+  const ageMap = { 'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42 };
+  const actualAge = ageMap[userData.age] || 30;
+  const ageDiff = r.skinAge - actualAge;
 
   // Age banner
   document.getElementById('skinAgeDisplay').textContent = r.skinAge;
-  document.getElementById('actualAgeDisplay').textContent = 'Your actual age: ' + r.actualAge;
+  document.getElementById('actualAgeDisplay').textContent = 'Your actual age: ' + actualAge;
 
   const gapEl = document.getElementById('ageGapDisplay');
-  if (r.ageDiff > 0) {
-    gapEl.textContent = '+' + r.ageDiff + ' years';
+  if (ageDiff > 0) {
+    gapEl.textContent = '+' + ageDiff + ' years';
     gapEl.className = 'age-gap older';
-  } else if (r.ageDiff < 0) {
-    gapEl.textContent = r.ageDiff + ' years';
+  } else if (ageDiff < 0) {
+    gapEl.textContent = ageDiff + ' years';
     gapEl.className = 'age-gap younger';
   } else {
     gapEl.textContent = 'On track';
@@ -1115,10 +1217,10 @@ function populateResults() {
     document.getElementById('blurSplit').style.display = 'none';
   }
 
-  // Callout badges
-  const posMap = { 'top-left': 'callout1', 'top-right': 'callout2', 'bottom-left': 'callout3' };
+  // Callout badges — map zone to badge position slots
+  const zoneMap = { 'forehead': 'callout1', 'tzone': 'callout2', 'cheek': 'callout3' };
   (r.callouts || []).forEach(c => {
-    const el = document.getElementById(posMap[c.position]);
+    const el = document.getElementById(zoneMap[c.zone]);
     if (el) el.textContent = c.label;
   });
 
@@ -1140,9 +1242,10 @@ function populateResults() {
     if (el) el.textContent = t;
   });
 
-  // Report summary on Screen 5
-  if (r.reportSummary) {
-    document.getElementById('reportSummaryText').textContent = r.reportSummary;
+  // Report summary on Screen 5 — use profileSummary from reportData
+  const summary = (r.reportData && r.reportData.profileSummary) || '';
+  if (summary) {
+    document.getElementById('reportSummaryText').textContent = summary;
   }
 }
 
@@ -1192,6 +1295,10 @@ function showConfirmation() {
   document.getElementById('playbookCard').style.display = addonChecked ? 'block' : 'none';
 }
 
+document.getElementById('scanBtn').addEventListener('click', function(e){
+  e.preventDefault();
+  goToScreen(2);
+});
 </script>
 </body>
 </html>
