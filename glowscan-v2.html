@@ -211,11 +211,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .blur-left{position:relative;overflow:hidden}
 .blur-left img{width:100%;height:100%;object-fit:cover;filter:grayscale(80%)}
 .blur-left-label{position:absolute;bottom:8px;left:8px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.7);background:rgba(0,0,0,0.4);padding:3px 8px;border-radius:10px}
-.blur-right{position:relative;background:var(--charcoal);display:flex;align-items:center;justify-content:center}
-.blur-right-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.06)}
-.blur-right-content{text-align:center;padding:16px;position:relative;z-index:1}
-.blur-right-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--cream);line-height:1.4}
-.blur-right-label{position:absolute;bottom:8px;right:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,238,0.35)}
+.blur-right{position:relative;background:var(--charcoal);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.blur-right-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);z-index:1}
+.blur-right-content{text-align:center;padding:16px;position:relative;z-index:2}
+.blur-right-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;font-style:italic;color:var(--cream);line-height:1.4;background:rgba(28,26,23,0.6);padding:8px 16px;display:inline-block}
+.blur-right-label{position:absolute;bottom:8px;right:8px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,238,0.7);z-index:2}
 
 /* Unlock banner */
 .unlock-banner{background:var(--charcoal);padding:28px 24px;border-radius:2px}
@@ -223,8 +223,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .unlock-sub{font-size:13px;color:rgba(247,243,238,0.55);margin-bottom:20px;line-height:1.6}
 
 /* Screenshot score card */
-#scoreCard{background:var(--charcoal);padding:20px;border-radius:2px;margin-bottom:16px}
-.score-card-brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(247,243,238,0.35);text-align:center;margin-top:12px}
+#scoreCard{background:var(--cream);padding:20px;border-radius:2px;margin-bottom:16px;border:1px solid var(--border)}
+.score-card-brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);text-align:center;margin-top:12px}
 
 /* ── SCREEN 5 — REPORT ───────────────────────── */
 #screen5{background:var(--cream)}
@@ -387,38 +387,33 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
           <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
         <div class="upload-title">Drop your worst lighting selfie.</div>
-        <p class="upload-sub">The tired one. That's the data we actually need.</p>
+        <p class="upload-sub">Face fully in frame, no sunglasses. The more real, the more accurate.</p>
       </div>
       <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
       <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
     </div>
 
-    <!-- Step 2 — Age -->
+    <!-- Step 2 — Age (exact number) -->
     <div class="quiz-step" id="step2">
-      <div class="q-label">Question 1 of 5</div>
-      <div class="q-text">How many candles on your last birthday cake?</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'age','Under 25')">Under 25</button>
-        <button class="q-option" onclick="selectOption(this,'age','25–29')">25–29</button>
-        <button class="q-option" onclick="selectOption(this,'age','30–34')">30–34</button>
-        <button class="q-option" onclick="selectOption(this,'age','35–39')">35–39</button>
-        <button class="q-option" onclick="selectOption(this,'age','40–44')">40–44</button>
-      </div>
-      <div class="q-next hidden">
+      <div class="q-label">Question 1 of 7</div>
+      <div class="q-text">How old are you?</div>
+      <input type="number" class="email-input" id="ageInput" min="18" max="80" placeholder="Enter your age" oninput="onAgeInput()" style="margin-bottom:0" />
+      <div class="q-next hidden" id="ageNext">
         <button class="btn btn-terra btn-full mt-16" onclick="nextStep(3)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 3 — Skin complaint -->
+    <!-- Step 3 — Primary concern (2-col grid) -->
     <div class="quiz-step" id="step3">
-      <div class="q-label">Question 2 of 5</div>
-      <div class="q-text">If your face could text you one complaint right now...</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'complaint','Fine lines appearing')">Fine lines appearing</button>
-        <button class="q-option" onclick="selectOption(this,'complaint','Dull no matter what')">Dull no matter what</button>
-        <button class="q-option" onclick="selectOption(this,'complaint','Red and reactive')">Red and reactive</button>
-        <button class="q-option" onclick="selectOption(this,'complaint','Shiny by 2pm')">Shiny by 2pm</button>
-        <button class="q-option" onclick="selectOption(this,'complaint','Uneven tone')">Uneven tone</button>
+      <div class="q-label">Question 2 of 7</div>
+      <div class="q-text">If your skin could text you one complaint right now, what would it be?</div>
+      <div class="q-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <button class="q-option" onclick="selectOption(this,'concern','Fine lines appearing')">Fine lines appearing</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Dull no matter what')">Dull no matter what</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Red and reactive')">Red and reactive</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Shiny by 2pm, tight after washing')">Shiny by 2pm, tight after washing</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Texture makeup can\'t fix')">Texture makeup can't fix</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Breaking out more than I should')">Breaking out more than I should</button>
       </div>
       <div class="q-next hidden">
         <button class="btn btn-terra btn-full mt-16" onclick="nextStep(4)">Next →</button>
@@ -427,13 +422,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <!-- Step 4 — Routine -->
     <div class="quiz-step" id="step4">
-      <div class="q-label">Question 3 of 5</div>
-      <div class="q-text">Be honest — how many steps is your current routine?</div>
+      <div class="q-label">Question 3 of 7</div>
+      <div class="q-text">How many steps do you actually do when you're being honest?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'routine','Splash water and pray')">Splash water and pray</button>
-        <button class="q-option" onclick="selectOption(this,'routine','Cleanser + moisturizer')">Cleanser + moisturizer</button>
-        <button class="q-option" onclick="selectOption(this,'routine','3–4 solid steps')">3–4 solid steps</button>
-        <button class="q-option" onclick="selectOption(this,'routine','Full multi-step routine')">Full multi-step routine</button>
+        <button class="q-option" onclick="selectOption(this,'routine','Cleanser and moisturizer')">Cleanser and moisturizer</button>
+        <button class="q-option" onclick="selectOption(this,'routine','3-4 things TikTok told me to buy')">3-4 things TikTok told me to buy</button>
+        <button class="q-option" onclick="selectOption(this,'routine','Full routine — I have a shelf')">Full routine — I have a shelf</button>
       </div>
       <div class="q-next hidden">
         <button class="btn btn-terra btn-full mt-16" onclick="nextStep(5)">Next →</button>
@@ -442,12 +437,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <!-- Step 5 — Budget -->
     <div class="quiz-step" id="step5">
-      <div class="q-label">Question 4 of 5</div>
+      <div class="q-label">Question 4 of 7</div>
       <div class="q-text">What's your monthly skincare budget?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'budget','Under $25')">Under $25</button>
-        <button class="q-option" onclick="selectOption(this,'budget','$25–50')">$25–50</button>
-        <button class="q-option" onclick="selectOption(this,'budget','$50–100')">$50–100</button>
+        <button class="q-option" onclick="selectOption(this,'budget','$25-50')">$25–50</button>
+        <button class="q-option" onclick="selectOption(this,'budget','$50-100')">$50–100</button>
         <button class="q-option" onclick="selectOption(this,'budget','$100+')">$100+</button>
       </div>
       <div class="q-next hidden">
@@ -457,12 +452,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <!-- Step 6 — Where they shop -->
     <div class="quiz-step" id="step6">
-      <div class="q-label">Question 5 of 5</div>
-      <div class="q-text">Where do you usually shop?</div>
+      <div class="q-label">Question 5 of 7</div>
+      <div class="q-text">Where do you panic-buy most often?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'shopping','Target / Drugstore')">Target / Drugstore</button>
         <button class="q-option" onclick="selectOption(this,'shopping','Amazon')">Amazon</button>
         <button class="q-option" onclick="selectOption(this,'shopping','Sephora / Ulta')">Sephora / Ulta</button>
+        <button class="q-option" onclick="selectOption(this,'shopping','Small brands online')">Small brands online</button>
         <button class="q-option" onclick="selectOption(this,'shopping','Mix of everything')">Mix of everything</button>
       </div>
       <div class="q-next hidden">
@@ -470,8 +466,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
       </div>
     </div>
 
-    <!-- Step 7 — Email capture -->
+    <!-- Step 7 — Skin feel at 4pm -->
     <div class="quiz-step" id="step7">
+      <div class="q-label">Question 6 of 7</div>
+      <div class="q-text">How does your skin feel at 4pm?</div>
+      <div class="q-options">
+        <button class="q-option" onclick="selectOption(this,'skinFeel','Tight and dry')">Tight and dry</button>
+        <button class="q-option" onclick="selectOption(this,'skinFeel','Shiny and oily')">Shiny and oily</button>
+        <button class="q-option" onclick="selectOption(this,'skinFeel','Pretty balanced')">Pretty balanced</button>
+        <button class="q-option" onclick="selectOption(this,'skinFeel','Reactive and red')">Reactive and red</button>
+      </div>
+      <div class="q-next hidden">
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(8)">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 8 — Email capture -->
+    <div class="quiz-step" id="step8">
+      <div class="q-label">Question 7 of 7</div>
       <div class="email-heading">Almost there — where should we send your results?</div>
       <p class="email-sub">We'll analyze your scan and have results ready in 15 seconds.</p>
       <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" />
@@ -543,8 +555,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
       <div class="callout-badge bottom-left" id="callout3"></div>
     </div>
 
-    <!-- Score bars -->
+    <!-- Score bars / share card -->
     <div class="scores-section" id="scoreCard">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;color:var(--text-mid)">Skin Age: <strong id="skinAgeMini" style="color:var(--charcoal);font-size:16px">—</strong></div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:400;color:var(--text-mid)">Glow Score: <strong id="glowScoreMini" style="color:var(--charcoal);font-size:16px">—</strong>/100</div>
+      </div>
       <div class="scores-title">Your Skin Scores</div>
       <div class="score-row">
         <div class="score-row-header">
@@ -574,7 +590,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
         </div>
         <div class="score-track"><div class="score-fill radiance" id="radianceBar"></div></div>
       </div>
-      <div class="score-card-brand">theglowwell.com · Free Glow Scan</div>
+      <div class="score-card-brand">Free Glow Scan · theglowwell.com</div>
     </div>
 
     <!-- Glow total -->
@@ -603,6 +619,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
         <span class="blur-left-label">Current habits</span>
       </div>
       <div class="blur-right">
+        <img src="blur-face-routine.png" alt="Optimized routine result" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(8px);transform:scale(1.05)">
         <div class="blur-right-overlay"></div>
         <div class="blur-right-content">
           <p class="blur-right-text">One routine change away from this.</p>
@@ -649,7 +666,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <!-- Reviews -->
     <div class="reviews-section">
-      <div class="reviews-title">What women are saying</div>
+      <div class="reviews-title">What people are saying</div>
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
         <p class="review-text">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</p>
@@ -832,16 +849,16 @@ const WORKER_URL = 'https://glowscan.theglowwellcollective.workers.dev';
 
 // ── STATE ─────────────────────────────────────
 const userData = {
-  photoFile: null,
+  photo: null,
   photoBase64: null,
   photoMimeType: null,
-  email: '',
-  age: '',
-  complaint: '',
-  routine: '',
-  budget: '',
-  shopping: '',
-  skinFeel: ''
+  age: null,
+  concern: null,
+  routine: null,
+  budget: null,
+  shopping: null,
+  skinFeel: null,
+  email: null
 };
 
 const scanResults = {
@@ -875,16 +892,16 @@ function goToScreen(n) {
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
 function updateProgress(step) {
-  const pct = Math.round((step / 7) * 100);
+  const pct = Math.round((step / 8) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = 'Step ' + step + ' of 7';
+  document.getElementById('progressLabel').textContent = 'Step ' + step + ' of 8';
 }
 
 // ── FILE UPLOAD ───────────────────────────────
 function handleFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
-  userData.photoFile = file;
+  userData.photo = file;
   userData.photoMimeType = file.type || 'image/jpeg';
 
   const reader = new FileReader();
@@ -925,6 +942,18 @@ function selectOption(el, field, value) {
   // Show next button
   const nextWrap = el.closest('.quiz-step').querySelector('.q-next');
   if (nextWrap) nextWrap.classList.remove('hidden');
+}
+
+// ── AGE INPUT HANDLER ─────────────────────────
+function onAgeInput() {
+  const val = parseInt(document.getElementById('ageInput').value);
+  const nextEl = document.getElementById('ageNext');
+  if (val >= 18 && val <= 80) {
+    userData.age = val;
+    nextEl.classList.remove('hidden');
+  } else {
+    nextEl.classList.add('hidden');
+  }
 }
 
 // ── QUIZ SUBMIT ───────────────────────────────
@@ -972,17 +1001,14 @@ function startLoading() {
 // ── CLAUDE API CALL ───────────────────────────
 async function callClaudeAPI() {
   try {
-    const ageMap = {
-      'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42
-    };
-    const actualAge = ageMap[userData.age] || 30;
+    const actualAge = parseInt(userData.age) || 30;
 
     const textPrompt = `You are Glow Scan, a skincare analysis AI for The Glow Well.
 Analyze the uploaded photo and quiz answers together.
 
 QUIZ ANSWERS:
 - Age: ${userData.age}
-- Primary concern: ${userData.complaint}
+- Primary concern: ${userData.concern}
 - Routine complexity: ${userData.routine}
 - Monthly budget: ${userData.budget}
 - Shopping preference: ${userData.shopping}
@@ -1106,8 +1132,7 @@ Language rules:
 }
 
 function useFallbackResults() {
-  const ageMap = { 'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42 };
-  const actualAge = ageMap[userData.age] || 30;
+  const actualAge = parseInt(userData.age) || 30;
 
   Object.assign(scanResults, {
     skinAge: actualAge + 3,
@@ -1124,7 +1149,7 @@ function useFallbackResults() {
       'The concern you flagged tends to be a symptom of something upstream — not the root cause.'
     ],
     reportData: {
-      profileSummary: 'Based on your photo and quiz, your skin shows patterns consistent with a moisture barrier under stress combined with inconsistent hydration — a very fixable combination.\n\nYour ' + userData.routine + ' routine is a starting point, but there are likely gaps that are working against your primary concern: ' + userData.complaint + '.\n\nYour full report is built around your ' + userData.budget + ' budget and shopping at ' + userData.shopping + '.',
+      profileSummary: 'Based on your photo and quiz, your skin shows patterns consistent with a moisture barrier under stress combined with inconsistent hydration — a very fixable combination.\n\nYour ' + userData.routine + ' routine is a starting point, but there are likely gaps that are working against your primary concern: ' + userData.concern + '.\n\nYour full report is built around your ' + userData.budget + ' budget and shopping at ' + userData.shopping + '.',
       photoFindings: [
         'Surface texture patterns suggest dehydration rather than dryness',
         'T-zone activity inconsistent with stated routine complexity',
@@ -1184,8 +1209,7 @@ function useFallbackResults() {
 // ── POPULATE RESULTS (Screen 4) ───────────────
 function populateResults() {
   const r = scanResults;
-  const ageMap = { 'Under 25': 22, '25–29': 27, '30–34': 32, '35–39': 37, '40–44': 42 };
-  const actualAge = ageMap[userData.age] || 30;
+  const actualAge = parseInt(userData.age) || 30;
   const ageDiff = r.skinAge - actualAge;
 
   // Age banner
@@ -1235,9 +1259,20 @@ function populateResults() {
 
   // Glow score
   document.getElementById('glowScoreDisplay').textContent = r.glowScore + ' / 100';
+  // Share card mini header
+  var skinAgeMiniEl = document.getElementById('skinAgeMini');
+  var glowScoreMiniEl = document.getElementById('glowScoreMini');
+  if (skinAgeMiniEl) skinAgeMiniEl.textContent = r.skinAge;
+  if (glowScoreMiniEl) glowScoreMiniEl.textContent = r.glowScore;
 
-  // Teasers
-  (r.teasers || []).forEach((t, i) => {
+  // Teasers — dynamic from API, fallback to defaults
+  const fallbackTeasers = [
+    'Patterns consistent with a compromised barrier — more about habit than genetics.',
+    'Your routine may be doing one thing well while undoing another at the same time.',
+    'The concern you flagged tends to be a symptom of something upstream — not the root cause.'
+  ];
+  const teasers = (r.teasers && r.teasers.length === 3) ? r.teasers : fallbackTeasers;
+  teasers.forEach((t, i) => {
     const el = document.getElementById('teaser' + (i + 1));
     if (el) el.textContent = t;
   });
