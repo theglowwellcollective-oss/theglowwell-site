@@ -242,7 +242,16 @@ h2.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weig
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('reportDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
 
-  const raw = sessionStorage.getItem('glowReportData');
+  let raw = sessionStorage.getItem('glowReportData');
+  if (!raw) {
+    const lsData = localStorage.getItem('glowscan_reportData');
+    if (lsData) {
+      try {
+        const parsed = JSON.parse(lsData);
+        if (parsed.reportData) { raw = JSON.stringify(parsed.reportData); }
+      } catch(e) {}
+    }
+  }
   if (!raw) {
     document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:\'DM Sans\',sans-serif;max-width:480px;margin:0 auto"><p style="color:#6B6458;margin-bottom:20px;line-height:1.6">Report not found. Please complete the Glow Scan first to generate your personalized report.</p><a href="glowscan-v2.html" style="display:inline-block;padding:12px 28px;background:#252320;color:#F7F3EE;font-family:\'DM Sans\',sans-serif;font-size:13px;border-radius:3px;text-decoration:none">← Back to Glow Scan</a></div>';
     return;

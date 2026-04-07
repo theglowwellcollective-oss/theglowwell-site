@@ -19,6 +19,7 @@ if('caches' in window){
 <title>Glow Scan — Free AI Skin Analysis | The Glow Well</title>
 <meta name="color-scheme" content="light">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 html{color-scheme:light only}
@@ -141,11 +142,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .loading-bar-track{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-bottom:36px}
 .loading-bar-fill{height:100%;background:var(--terra);border-radius:2px;width:0;transition:width 0.5s linear}
 .status-list{list-style:none;text-align:left;margin-bottom:36px;display:flex;flex-direction:column;gap:14px}
-.status-item{display:flex;align-items:center;gap:12px;font-size:13px;color:rgba(247,243,238,0.4);transition:color 0.5s}
+.status-item{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(247,243,238,0.4);transition:color 0.5s;padding:5px 0}
 .status-item.done{color:var(--sage)}
 .status-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);flex-shrink:0;transition:background 0.5s}
 .status-item.done .status-dot{background:var(--sage)}
-.video-placeholder{width:100%;aspect-ratio:9/16;max-height:240px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;overflow:hidden}
+.video-placeholder{width:100%;aspect-ratio:9/16;max-height:320px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;overflow:hidden}
 .video-placeholder video{width:100%;height:100%;object-fit:cover;border-radius:4px}
 .video-placeholder-label{font-size:12px;color:rgba(247,243,238,0.4);letter-spacing:1px}
 .video-placeholder-sub{font-size:11px;color:rgba(247,243,238,0.25)}
@@ -618,13 +619,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
         <img id="blurPhoto" src="" alt="Current habits" />
         <span class="blur-left-label">Current habits</span>
       </div>
-      <div class="blur-right">
-        <img src="blur-face-routine.png" alt="Optimized routine result" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(8px);transform:scale(1.05)">
-        <div class="blur-right-overlay"></div>
-        <div class="blur-right-content">
-          <p class="blur-right-text">One routine change away from this.</p>
+      <div style="position:relative;overflow:hidden;background:#252320">
+        <img src="blur-face-routine.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(8px);transform:scale(1.05)" alt="">
+        <div style="position:absolute;inset:0;background:rgba(28,26,23,0.35)"></div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px">
+          <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;font-style:italic;color:#F7F3EE;line-height:1.4;text-align:center;background:rgba(28,26,23,0.6);padding:8px 14px;border-radius:2px">One routine change away from this.</p>
         </div>
-        <span class="blur-right-label">Optimized routine</span>
+        <div style="position:absolute;bottom:8px;right:8px;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,238,0.6)">Optimized routine</div>
       </div>
     </div>
 
@@ -682,39 +683,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
       </div>
     </div>
 
-    <!-- Section 3 — One review before price -->
-    <div style="padding:0 28px;margin-bottom:20px">
-      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px">
-        <div style="color:#C4845A;font-size:11px;letter-spacing:1.5px;margin-bottom:6px">★★★★★</div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#252320;margin-bottom:6px;line-height:1.4">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</div>
+    <!-- Section 3 — All 3 reviews -->
+    <div style="padding:0 28px;margin-bottom:20px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:14px 16px">
+        <div style="color:#C4845A;font-size:11px;letter-spacing:1.5px;margin-bottom:5px">★★★★★</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#252320;margin-bottom:5px;line-height:1.4">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</div>
         <div style="font-size:11px;color:#9A9088;font-weight:300">Sara, 26 · Verified</div>
       </div>
-    </div>
-
-    <!-- Section 4 — Cost comparison -->
-    <div style="padding:0 28px;margin-bottom:20px">
-      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px">
-        <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#9A9088;margin-bottom:12px">What wrong products cost you</div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid #F0EBE3;font-size:12px">
-          <span style="color:#9A9088;font-weight:300">Wrong products per year</span>
-          <span style="color:#9A9088;text-decoration:line-through">$450+</span>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:10px 0 4px;font-size:14px;font-weight:500">
-          <span style="color:#252320">This report</span>
-          <span style="color:#4E6B49">$7.99</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Section 5 — Price reveal -->
-    <div style="padding:20px 28px;text-align:center;border-top:0.5px solid #DDD6CC;margin-bottom:20px">
-      <div style="font-size:13px;color:#9A9088;text-decoration:line-through;font-weight:300;margin-bottom:4px">Originally $29</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:#252320;line-height:1">$7.99</div>
-      <span style="display:inline-block;background:rgba(196,132,90,0.1);color:#A06840;font-size:10px;font-weight:500;padding:4px 12px;border-radius:2px;margin-top:8px;letter-spacing:0.5px">Today only — intro price</span>
-    </div>
-
-    <!-- Section 6 — Two more reviews -->
-    <div style="padding:0 28px;margin-bottom:20px;display:flex;flex-direction:column;gap:8px">
       <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:14px 16px">
         <div style="color:#C4845A;font-size:10px;letter-spacing:1.5px;margin-bottom:5px">★★★★★</div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#252320;margin-bottom:5px;line-height:1.4">"Called out the exact stuff I keep buying and never use. Saved me money immediately."</div>
@@ -725,6 +700,40 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
         <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#252320;margin-bottom:5px;line-height:1.4">"Finally understood why that $80 serum did nothing. Wrong acid for my skin."</div>
         <div style="font-size:11px;color:#9A9088;font-weight:300">Celeste, 42 · Verified</div>
       </div>
+    </div>
+
+    <!-- Section 4 — Full cost comparison -->
+    <div style="padding:0 28px;margin-bottom:20px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;overflow:hidden">
+        <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#9A9088;padding:12px 16px 10px;border-bottom:0.5px solid #F0EBE3">What wrong products cost you</div>
+        <div style="display:flex;justify-content:space-between;padding:10px 16px;border-bottom:0.5px solid #F0EBE3;font-size:12px">
+          <span style="color:#6B6458;font-weight:300">Wrong cleanser — yearly</span>
+          <span style="color:#9A9088">$120</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:10px 16px;border-bottom:0.5px solid #F0EBE3;font-size:12px">
+          <span style="color:#6B6458;font-weight:300">Mismatched actives</span>
+          <span style="color:#9A9088">$180</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:10px 16px;border-bottom:0.5px solid #F0EBE3;font-size:12px">
+          <span style="color:#6B6458;font-weight:300">Products that cancel each other</span>
+          <span style="color:#9A9088">$150</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:10px 16px;border-bottom:0.5px solid #F0EBE3;font-size:12px">
+          <span style="color:#6B6458;font-weight:300">Trending items that don't match your skin</span>
+          <span style="color:#9A9088">$150</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:12px 16px;background:#F7F3EE;font-size:13px;font-weight:500">
+          <span style="color:#252320">Average wasted per year</span>
+          <span style="color:#C4845A">$600+</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 5 — Price reveal -->
+    <div style="padding:20px 28px;text-align:center;border-top:0.5px solid #DDD6CC;margin-bottom:20px">
+      <div style="font-size:13px;color:#9A9088;text-decoration:line-through;font-weight:300;margin-bottom:4px">Originally $29</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:#252320;line-height:1">$7.99</div>
+      <span style="display:inline-block;background:rgba(196,132,90,0.1);color:#A06840;font-size:10px;font-weight:500;padding:4px 12px;border-radius:2px;margin-top:8px;letter-spacing:0.5px">Today only — intro price</span>
     </div>
 
     <!-- Section 7 — CTA -->
@@ -740,52 +749,54 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
      SCREEN 6 — CHECKOUT
 ══════════════════════════════════════════════ -->
 <section id="screen6" class="screen" style="display:none">
-  <div class="checkout-inner">
-    <h2 class="checkout-h2">Complete your order</h2>
+  <div style="max-width:480px;margin:0 auto;padding-bottom:40px">
+    <div style="padding:28px">
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#252320;margin-bottom:6px">Complete your order</h2>
+      <p style="font-size:13px;color:#6B6458;font-weight:300;margin-bottom:20px">One-time payment. Instant access. No subscription.</p>
 
-    <!-- Order summary -->
-    <div class="order-summary">
-      <div class="order-row">
-        <span class="order-name">Full Glow Report</span>
-        <span class="order-price">$7.99</span>
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px;margin-bottom:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
+          <div>
+            <div style="font-size:13px;font-weight:400;color:#252320">Full Glow Report</div>
+            <div style="font-size:11px;color:#9A9088;font-weight:300;margin-top:2px">Personalized to your scan</div>
+          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#4E6B49">$7.99</div>
+        </div>
       </div>
-      <div class="order-desc">Personalized to your scan</div>
-    </div>
 
-    <!-- Add-on -->
-    <div class="addon-label">Add to your order</div>
-    <div class="addon-card">
-      <div class="addon-top">
-        <div class="addon-checkbox checked" id="addonCheckbox" onclick="toggleAddon()"></div>
-        <div class="addon-info">
-          <div class="addon-title">The Glow Well Playbook</div>
-          <p class="addon-desc">96 pages. Ingredient decoder, 4 budget routine tiers, store shopping lists.</p>
-          <p class="addon-value">"Most women save $300–400/year on wrong products after reading this."</p>
-          <div class="addon-price-row">
-            <span class="addon-orig">$40</span>
-            <span class="addon-now">$14.99</span>
-            <span class="addon-badge">Glow Scan exclusive</span>
+      <div id="playbookAddonCard" style="border:1.5px solid rgba(196,132,90,0.3);border-radius:8px;padding:16px;margin-bottom:16px;background:rgba(196,132,90,0.02)">
+        <div style="display:flex;gap:12px;align-items:flex-start">
+          <div id="addonCheckbox" onclick="toggleAddon()" style="width:19px;height:19px;border-radius:3px;background:#4E6B49;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer">
+            <svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 3l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">Add The Glow Well Playbook</div>
+            <div style="font-size:11px;color:#6B6458;font-weight:300;line-height:1.55;margin-bottom:8px">96 pages. Ingredient decoder, 4 budget routine tiers, store shopping lists. The education behind your routine.</div>
+            <div style="font-size:11px;color:#4E6B49;font-weight:400;font-style:italic;margin-bottom:8px">Most people save $300–400/year on wrong products after reading this.</div>
+            <div style="display:flex;align-items:baseline;gap:8px;padding-top:8px;border-top:0.5px solid #F0EBE3">
+              <span style="font-size:11px;color:#9A9088;text-decoration:line-through">$40</span>
+              <span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#C4845A">$14.99</span>
+              <span style="font-size:9px;font-weight:500;background:rgba(196,132,90,0.1);color:#A06840;padding:3px 8px;border-radius:2px">Glow Scan exclusive</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Order total -->
-    <div class="order-total-section">
-      <div class="order-total-row">
-        <span class="order-total-label">Order total</span>
-        <span class="order-total-amount" id="orderTotal">$22.98</span>
+      <div id="orderTotalBar" style="background:#252320;padding:16px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <div style="font-size:10px;color:rgba(247,243,238,0.38);letter-spacing:1.5px;text-transform:uppercase">Total today</div>
+        <div id="orderTotalNum" style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#F7F3EE;font-weight:300">$22.98</div>
       </div>
-    </div>
 
-    <button class="btn btn-charcoal btn-full" style="font-size:15px;padding:18px 32px;margin-bottom:14px;" onclick="goToScreen(7)">
-      Pay Securely — Coming Soon
-    </button>
+      <button type="button" id="checkoutBtn" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Pay Securely — Unlock My Report</button>
 
-    <div class="checkout-trust">
-      <span class="checkout-trust-item">🔒 256-bit encryption</span>
-      <span class="checkout-trust-item">↩ 7-day guarantee</span>
-      <span class="checkout-trust-item">✗ No subscriptions</span>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;color:#9A9088;margin-top:10px;font-weight:300">
+        <div style="width:3px;height:3px;border-radius:50%;background:#DDD6CC"></div>
+        Secured by Lemon Squeezy
+        <div style="width:3px;height:3px;border-radius:50%;background:#DDD6CC"></div>
+        7-day guarantee
+        <div style="width:3px;height:3px;border-radius:50%;background:#DDD6CC"></div>
+        No subscriptions
+      </div>
     </div>
   </div>
 </section>
@@ -809,11 +820,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     <div class="confirm-card">
       <div class="confirm-card-label">Your Glow Scan Report</div>
       <div class="confirm-card-title">Full personalized skin analysis</div>
-      <a href="#" id="reportLink" class="confirm-card-link">View your report →</a>
+      <a href="report.html" id="reportLink" style="font-size:13px;color:#4E6B49;text-decoration:underline;text-underline-offset:3px;font-weight:400">View Your Full Report →</a>
     </div>
 
     <!-- Playbook card — only shows if add-on checked -->
-    <div class="confirm-card" id="playbookCard" style="display:none">
+    <div class="confirm-card" id="playbookConfirmCard" style="display:none">
       <div class="confirm-card-label">The Glow Well Playbook</div>
       <div class="confirm-card-title">96-page anti-aging system</div>
       <a href="#" class="confirm-card-link">Download your PDF →</a>
@@ -1118,6 +1129,13 @@ Language rules:
     // Store results
     Object.assign(scanResults, parsed);
 
+    try {
+      localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+      localStorage.setItem('glowscan_timestamp', Date.now().toString());
+    } catch(e) {
+      console.error('localStorage save failed:', e);
+    }
+
   } catch (err) {
     console.warn('API call failed, using fallback:', err.message);
     useFallbackResults();
@@ -1312,21 +1330,47 @@ async function shareScore() {
   }
 }
 
+// ── LEMON SQUEEZY URLS ────────────────────────
+const LS_REPORT_URL = 'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7?variant=report-only';
+const LS_BUNDLE_URL = 'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7?variant=bundle';
+
 // ── ADDON TOGGLE (Screen 6) ───────────────────
 function toggleAddon() {
   addonChecked = !addonChecked;
-  const box = document.getElementById('addonCheckbox');
-  box.classList.toggle('checked', addonChecked);
-  document.getElementById('orderTotal').textContent = addonChecked ? '$22.98' : '$7.99';
+  const cb = document.getElementById('addonCheckbox');
+  const total = document.getElementById('orderTotalNum');
+  if (addonChecked) {
+    cb.style.background = '#4E6B49';
+    cb.style.border = 'none';
+    cb.innerHTML = '<svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 3l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    if (total) total.textContent = '$22.98';
+  } else {
+    cb.style.background = 'white';
+    cb.style.border = '1.5px solid #DDD6CC';
+    cb.innerHTML = '';
+    if (total) total.textContent = '$7.99';
+  }
 }
 
-// ── CONFIRMATION (Screen 7) ───────────────────
+// ── CONFIRMATION ──────────────────────────────
+function showConfirmationAndReport() {
+  const raw = localStorage.getItem('glowscan_reportData');
+  if (raw) {
+    try {
+      const data = JSON.parse(raw);
+      if (data.reportData) sessionStorage.setItem('glowReportData', JSON.stringify(data.reportData));
+      if (data.scores) sessionStorage.setItem('glowScores', JSON.stringify({ hydration: data.scores.hydration, barrier: data.scores.barrier, texture: data.scores.texture, radiance: data.scores.radiance, glowScore: data.glowScore }));
+    } catch(e) {}
+  }
+  goToScreen(7);
+}
+
 function showConfirmation() {
-  document.getElementById('playbookCard').style.display = addonChecked ? 'block' : 'none';
+  const playbookCard = document.getElementById('playbookConfirmCard');
+  if (playbookCard) playbookCard.style.display = addonChecked ? 'block' : 'none';
   if (scanResults.reportData) {
     sessionStorage.setItem('glowReportData', JSON.stringify(scanResults.reportData));
   }
-  // Also save scores so report.html can render the score bars
   sessionStorage.setItem('glowScores', JSON.stringify({
     hydration: scanResults.scores.hydration,
     barrier: scanResults.scores.barrier,
@@ -1334,6 +1378,10 @@ function showConfirmation() {
     radiance: scanResults.scores.radiance,
     glowScore: scanResults.glowScore
   }));
+  try {
+    localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+    localStorage.setItem('glowscan_timestamp', Date.now().toString());
+  } catch(e) {}
   var reportLink = document.getElementById('reportLink');
   if (reportLink) {
     reportLink.href = 'report.html';
@@ -1341,13 +1389,66 @@ function showConfirmation() {
   }
 }
 
-document.getElementById('scanBtn').addEventListener('click', function(e){
-  e.preventDefault();
-  goToScreen(2);
-});
+document.addEventListener('DOMContentLoaded', function() {
+  // ── Detect ?paid=1 on load ──
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('paid') === '1') {
+    const raw = localStorage.getItem('glowscan_reportData');
+    if (raw) {
+      try {
+        const data = JSON.parse(raw);
+        if (data.reportData) sessionStorage.setItem('glowReportData', JSON.stringify(data.reportData));
+        Object.assign(scanResults, data);
+      } catch(e) {}
+    }
+    localStorage.setItem('glowscan_paid', 'true');
+    window.history.replaceState({}, document.title, window.location.pathname);
+    showConfirmationAndReport();
+    return;
+  }
 
-document.getElementById('getReportBtn').addEventListener('click', function() {
-  goToScreen(6);
+  // ── Scan button ──
+  const scanBtn = document.getElementById('scanBtn');
+  if (scanBtn) {
+    scanBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      goToScreen(2);
+    });
+  }
+
+  // ── Get report button (Screen 5 → Screen 6) ──
+  const getReportBtn = document.getElementById('getReportBtn');
+  if (getReportBtn) {
+    getReportBtn.addEventListener('click', function() {
+      goToScreen(6);
+    });
+  }
+
+  // ── Checkout button ──
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function() {
+      try {
+        localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+        localStorage.setItem('glowscan_timestamp', Date.now().toString());
+      } catch(e) {}
+      const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
+      if (window.LemonSqueezy && window.LemonSqueezy.Url) {
+        window.LemonSqueezy.Url.Open(url);
+      } else {
+        window.open(url, '_blank');
+      }
+    });
+  }
+
+  // ── Init Lemon Squeezy ──
+  if (window.createLemonSqueezy) window.createLemonSqueezy();
+
+  // ── LS payment completed event ──
+  document.addEventListener('lemon-squeezy:payment-completed', function() {
+    try { localStorage.setItem('glowscan_paid', 'true'); } catch(e) {}
+    showConfirmationAndReport();
+  });
 });
 </script>
 </body>
