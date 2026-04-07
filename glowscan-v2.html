@@ -1119,6 +1119,8 @@ Language rules:
     if (!response.ok) throw new Error('API error: ' + response.status);
 
     const data = await response.json();
+    console.log('Anthropic response status:', response.status);
+    console.log('Anthropic response data:', JSON.stringify(data).slice(0, 500));
     const text = data.content[0].text.trim();
 
     // Extract JSON from response (strip any surrounding text)
@@ -1137,7 +1139,8 @@ Language rules:
     }
 
   } catch (err) {
-    console.warn('API call failed, using fallback:', err.message);
+    console.error('CLAUDE API FAILED — FULL ERROR:', err.message, err);
+    console.error('This means the fallback is showing — not real results');
     useFallbackResults();
   }
 }

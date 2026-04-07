@@ -107,6 +107,21 @@ export default {
 
     const data = await response.json();
 
+    if (!response.ok) {
+      console.error('Anthropic API error:', response.status, JSON.stringify(data));
+      return new Response(JSON.stringify({
+        error: true,
+        status: response.status,
+        anthropicError: data
+      }), {
+        status: response.status,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': origin || '*'
+        }
+      });
+    }
+
     return new Response(JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json',
