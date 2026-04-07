@@ -4,19 +4,9 @@ const ALLOWED_ORIGINS = [
   'https://theglowwell-site.pages.dev'
 ];
 
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW = 3600;
-
 export default {
   async fetch(request, env) {
-
     const origin = request.headers.get('Origin');
-    if (origin && !ALLOWED_ORIGINS.includes(origin)) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 403,
-        headers: { 'Content-Type': 'application/json' }
-      });
-    }
 
     if (request.method === 'OPTIONS') {
       return new Response(null, {
@@ -28,71 +18,46 @@ export default {
       });
     }
 
+    const corsHeaders = {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': origin || '*'
+    };
+
     if (request.method !== 'POST') {
       return new Response('Method not allowed', { status: 405 });
     }
 
-    const contentLength = request.headers.get('content-length');
-    if (contentLength && parseInt(contentLength) > 5 * 1024 * 1024) {
-      return new Response(JSON.stringify({ error: 'Request too large' }), { status: 413 });
-    }
-
-    const ip = request.headers.get('CF-Connecting-IP') ||
-               request.headers.get('X-Forwarded-For')?.split(',')[0]?.trim() ||
-               'unknown';
-
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
     const cache = caches.default;
     const cacheKey = new Request(`https://ratelimit.internal/${ip}`);
     let limitRecord = await cache.match(cacheKey);
 
     if (limitRecord) {
       const count = parseInt(await limitRecord.text());
-      if (count >= RATE_LIMIT_MAX) {
-        return new Response(JSON.stringify({
-          error: 'Too many scans. Try again in an hour.'
-        }), {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': origin || '*'
-          }
-        });
+      if (count >= 10) {
+        return new Response(JSON.stringify({ error: 'Too many requests. Try again in an hour.' }), { status: 429, headers: corsHeaders });
       }
-      await cache.put(cacheKey, new Response(String(count + 1), {
-        headers: { 'Cache-Control': `max-age=${RATE_LIMIT_WINDOW}` }
-      }));
+      await cache.put(cacheKey, new Response(String(count + 1), { headers: { 'Cache-Control': 'max-age=3600' } }));
     } else {
-      await cache.put(cacheKey, new Response('1', {
-        headers: { 'Cache-Control': `max-age=${RATE_LIMIT_WINDOW}` }
-      }));
+      await cache.put(cacheKey, new Response('1', { headers: { 'Cache-Control': 'max-age=3600' } }));
     }
 
     let body;
     try {
       body = await request.json();
     } catch {
-      return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400 });
+      return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers: corsHeaders });
     }
 
-    if (body.messages) {
-      const imageMessage = body.messages.find(m =>
-        Array.isArray(m.content) && m.content.some(c => c.type === 'image')
-      );
-      if (imageMessage) {
-        const imageContent = imageMessage.content.find(c => c.type === 'image');
-        if (imageContent?.source?.data) {
-          const sizeEstimate = imageContent.source.data.length * 0.75;
-          if (sizeEstimate > 3 * 1024 * 1024) {
-            return new Response(JSON.stringify({ error: 'Image too large. Please use a smaller photo.' }), {
-              status: 400,
-              headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': origin || '*'
-              }
-            });
-          }
-        }
-      }
+    const url = new URL(request.url);
+    const isFreeCall = url.pathname === '/free' || body.callType === 'free';
+    const isPaidCall = url.pathname === '/report' || body.callType === 'report';
+
+    let maxTokens = 800;
+    let model = 'claude-opus-4-5';
+
+    if (isPaidCall) {
+      maxTokens = 4000;
     }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -102,31 +67,49 @@ export default {
         'x-api-key': env.ANTHROPIC_KEY,
         'anthropic-version': '2023-06-01'
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({
+        model: model,
+        max_tokens: maxTokens,
+        temperature: 0,
+        messages: body.messages
+      })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Anthropic API error:', response.status, JSON.stringify(data));
-      return new Response(JSON.stringify({
-        error: true,
+      console.error('Anthropic error:', response.status, JSON.stringify(data));
+      return new Response(JSON.stringify({ error: true, status: response.status, detail: data }), {
         status: response.status,
-        anthropicError: data
-      }), {
-        status: response.status,
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': origin || '*'
-        }
+        headers: corsHeaders
       });
     }
 
-    return new Response(JSON.stringify(data), {
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': origin || '*'
+    const rawText = data.content?.[0]?.text || '';
+    let parsed;
+
+    try {
+      parsed = JSON.parse(rawText);
+    } catch {
+      const codeBlock = rawText.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (codeBlock) {
+        try { parsed = JSON.parse(codeBlock[1]); } catch {}
       }
-    });
+      if (!parsed) {
+        const jsonMatch = rawText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          try { parsed = JSON.parse(jsonMatch[0]); } catch {}
+        }
+      }
+      if (!parsed) {
+        console.error('JSON parse failed. Raw text:', rawText.slice(0, 500));
+        return new Response(JSON.stringify({ error: 'JSON parse failed', raw: rawText.slice(0, 500) }), {
+          status: 500,
+          headers: corsHeaders
+        });
+      }
+    }
+
+    return new Response(JSON.stringify(parsed), { headers: corsHeaders });
   }
 };
