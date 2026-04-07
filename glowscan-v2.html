@@ -345,7 +345,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     <h1 class="hero-h1">Your skin is older than your birth certificate.</h1>
     <p class="hero-sub">Upload a selfie. Answer 5 questions. Find out what's really going on — and how to fix it.</p>
 
-    <div class="hero-image-placeholder">[ Before / after photos ]</div>
+    <img src="pdf-photo1.png" alt="Real results from our readers" style="width:100%;border-radius:6px;object-fit:cover;max-height:220px;display:block;margin-bottom:28px">
 
     <button type="button" id="scanBtn" class="btn btn-terra btn-full" style="font-size:15px;padding:18px 32px;">
       Scan My Skin — It's Free
@@ -609,7 +609,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 
     <!-- Share -->
     <div class="share-wrap">
-      <button class="btn btn-secondary btn-sm" onclick="shareScore()">Share Your Score</button>
+      <button onclick="shareScore()" style="background:#F7F3EE;color:#252320;border:1px solid #DDD6CC;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Score</button>
     </div>
 
     <!-- Blur split -->
@@ -1314,6 +1314,8 @@ async function shareScore() {
     }, 'image/png');
   } catch (err) {
     console.warn('Share failed:', err);
+    var btn = document.querySelector('.share-wrap button');
+    if (btn) { btn.textContent = 'Screenshot saved — check your downloads'; btn.style.color = '#4E6B49'; }
   }
 }
 
