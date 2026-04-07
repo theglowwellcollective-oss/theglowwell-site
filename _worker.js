@@ -54,7 +54,6 @@ export default {
     const isPaidCall = url.pathname === '/report' || body.callType === 'report';
 
     let maxTokens = 800;
-    let model = 'claude-opus-4-5';
 
     if (isPaidCall) {
       maxTokens = 4000;
@@ -68,7 +67,7 @@ export default {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: model,
+        model: 'claude-opus-4-5',
         max_tokens: maxTokens,
         temperature: 0,
         messages: body.messages
