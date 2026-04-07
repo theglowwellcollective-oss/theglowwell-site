@@ -809,7 +809,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     <div class="confirm-card">
       <div class="confirm-card-label">Your Glow Scan Report</div>
       <div class="confirm-card-title">Full personalized skin analysis</div>
-      <a href="#" class="confirm-card-link">View your report → </a>
+      <a href="#" id="reportLink" class="confirm-card-link">View your report →</a>
     </div>
 
     <!-- Playbook card — only shows if add-on checked -->
@@ -1323,6 +1323,22 @@ function toggleAddon() {
 // ── CONFIRMATION (Screen 7) ───────────────────
 function showConfirmation() {
   document.getElementById('playbookCard').style.display = addonChecked ? 'block' : 'none';
+  if (scanResults.reportData) {
+    sessionStorage.setItem('glowReportData', JSON.stringify(scanResults.reportData));
+  }
+  // Also save scores so report.html can render the score bars
+  sessionStorage.setItem('glowScores', JSON.stringify({
+    hydration: scanResults.scores.hydration,
+    barrier: scanResults.scores.barrier,
+    texture: scanResults.scores.texture,
+    radiance: scanResults.scores.radiance,
+    glowScore: scanResults.glowScore
+  }));
+  var reportLink = document.getElementById('reportLink');
+  if (reportLink) {
+    reportLink.href = 'report.html';
+    reportLink.textContent = 'View Your Full Report →';
+  }
 }
 
 document.getElementById('scanBtn').addEventListener('click', function(e){

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<title>Your Glow Report — The Glow Well</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+html{color-scheme:light only}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#F7F3EE;
+  --off-white:#F0EBE3;
+  --sage:#7A9474;
+  --sage-dark:#4E6B49;
+  --terra:#C4845A;
+  --terra-dark:#A06840;
+  --charcoal:#252320;
+  --text:#3C3830;
+  --text-mid:#6B6458;
+  --text-light:#9A9088;
+  --border:#DDD6CC;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;overflow-x:hidden}
+.serif{font-family:'Cormorant Garamond',serif}
+
+/* ── LAYOUT ── */
+.page{max-width:680px;margin:0 auto;padding-bottom:80px}
+.section{padding:32px 24px;border-bottom:1px solid var(--border)}
+.section:last-of-type{border-bottom:none}
+.eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:'';display:block;width:20px;height:1.5px;background:var(--sage);flex-shrink:0}
+h2.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--charcoal);margin-bottom:16px;line-height:1.2}
+
+/* ── HEADER ── */
+.report-header{padding:28px 24px 24px;border-bottom:1px solid var(--border);background:var(--cream)}
+.report-logo{font-family:'Cormorant Garamond',serif;font-size:18px;font-style:italic;color:var(--sage-dark);margin-bottom:16px}
+.report-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--charcoal);margin-bottom:6px}
+.report-date{font-size:11px;color:var(--text-light);margin-bottom:10px}
+.report-private{font-size:12px;color:var(--text-light);background:rgba(122,148,116,0.1);padding:8px 12px;border-radius:3px;display:inline-block;font-weight:300}
+
+/* ── PROFILE SUMMARY ── */
+.profile-panel{background:var(--charcoal);border-radius:4px;padding:24px}
+.profile-para{font-size:14px;font-weight:300;color:rgba(247,243,238,0.78);line-height:1.75;margin-bottom:14px}
+.profile-para:last-child{margin-bottom:0}
+
+/* ── PHOTO FINDINGS ── */
+.finding-item{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.finding-item:last-child{border-bottom:none}
+.finding-dot{width:7px;height:7px;border-radius:50%;background:var(--terra);flex-shrink:0;margin-top:7px}
+.finding-text{font-size:14px;color:var(--text);line-height:1.6;font-weight:300}
+
+/* ── SCORE BARS ── */
+.score-row{margin-bottom:16px}
+.score-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+.score-label{font-size:13px;font-weight:500;color:var(--text)}
+.score-val{font-size:13px;color:var(--text-mid)}
+.score-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:6px}
+.score-fill{height:100%;border-radius:3px;width:0;transition:width 1.2s ease}
+.score-fill.hydration{background:var(--sage)}
+.score-fill.barrier{background:var(--sage-dark)}
+.score-fill.texture{background:var(--terra)}
+.score-fill.radiance{background:#D4A373}
+.score-explanation{font-size:12px;color:var(--text-light);font-weight:300;line-height:1.5}
+.glow-total-bar{background:var(--charcoal);border-radius:4px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.glow-total-label{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(247,243,238,0.5)}
+.glow-total-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--cream)}
+
+/* ── PRIORITIES ── */
+.priority-card{display:flex;align-items:flex-start;gap:14px;padding:14px;background:#fff;border:1px solid var(--border);border-radius:4px;margin-bottom:10px}
+.priority-num{width:32px;height:32px;border-radius:50%;background:rgba(196,132,90,0.12);color:var(--terra-dark);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.priority-text{font-size:14px;color:var(--text);line-height:1.6;font-weight:300;padding-top:4px}
+
+/* ── ROUTINE STEPS ── */
+.routine-step{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.routine-step:last-child{border-bottom:none}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--text-light);flex-shrink:0;width:24px;text-align:center;line-height:1}
+.step-body{}
+.step-name{font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:2px}
+.step-product{font-size:13px;color:var(--terra-dark);margin-bottom:4px;font-weight:400}
+.step-why{font-size:12px;color:var(--text-light);font-weight:300;line-height:1.5}
+
+/* ── INGREDIENT WATCH ── */
+.ingredient-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:480px){.ingredient-cols{grid-template-columns:1fr}}
+.ingredient-col-title{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid}
+.ingredient-col-title.seek{color:var(--sage-dark);border-color:var(--sage)}
+.ingredient-col-title.avoid{color:var(--terra-dark);border-color:var(--terra)}
+.ingredient-item{padding:10px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start}
+.ingredient-item:last-child{border-bottom:none}
+.ing-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.ing-dot.seek{background:var(--sage)}
+.ing-dot.avoid{background:var(--terra)}
+.ing-name{font-size:13px;font-weight:500;color:var(--text);margin-bottom:2px}
+.ing-why{font-size:11.5px;color:var(--text-light);font-weight:300;line-height:1.45}
+
+/* ── SHELF AUDIT ── */
+.shelf-grid{display:flex;flex-direction:column;gap:10px}
+.shelf-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px;display:flex;align-items:flex-start;gap:12px}
+.shelf-tag{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:20px;flex-shrink:0;margin-top:2px}
+.shelf-tag.keep{background:rgba(122,148,116,0.12);color:var(--sage-dark)}
+.shelf-tag.pause{background:rgba(196,132,90,0.12);color:var(--terra-dark)}
+.shelf-tag.watch{background:rgba(37,35,32,0.07);color:var(--charcoal)}
+.shelf-text{font-size:13.5px;color:var(--text);line-height:1.55;font-weight:300}
+
+/* ── 6-WEEK PLAN ── */
+.timeline{position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--sage),rgba(122,148,116,0.2))}
+.timeline-block{position:relative;margin-bottom:24px}
+.timeline-block:last-child{margin-bottom:0}
+.timeline-dot{position:absolute;left:-24px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--sage);border:2px solid var(--cream)}
+.timeline-week{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:6px}
+.timeline-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px}
+.timeline-focus{font-size:14px;font-weight:500;color:var(--charcoal);margin-bottom:6px}
+.timeline-meta{display:flex;flex-direction:column;gap:4px}
+.timeline-meta-row{font-size:12.5px;color:var(--text-mid);font-weight:300;line-height:1.5}
+.timeline-meta-row strong{color:var(--text);font-weight:500}
+
+/* ── SHOPPING LIST ── */
+.store-card{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:12px}
+.store-header{background:var(--off-white);padding:10px 16px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid)}
+.shop-item{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border);font-size:13.5px}
+.shop-item:last-child{border-bottom:none}
+.shop-product{color:var(--text);font-weight:300}
+.shop-price{color:var(--sage-dark);font-weight:500;font-size:13px;flex-shrink:0;margin-left:12px}
+
+/* ── FOOTER ── */
+.report-footer{padding:32px 24px;text-align:center;border-top:1px solid var(--border)}
+.footer-brand{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--sage-dark);font-style:italic;margin-bottom:10px}
+.footer-disclaimer{font-size:11.5px;color:var(--text-light);font-weight:300;line-height:1.6;max-width:480px;margin:0 auto 20px}
+.back-btn{display:inline-block;padding:12px 28px;background:var(--charcoal);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;border-radius:3px;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ── HEADER ── -->
+  <header class="report-header">
+    <div class="report-logo">The Glow Well</div>
+    <div class="report-title">Your Glow Report</div>
+    <div class="report-date" id="reportDate"></div>
+    <div class="report-private">Your results are private and personalized to your scan</div>
+  </header>
+
+  <!-- ── SECTION 1: PROFILE SUMMARY ── -->
+  <div class="section">
+    <div class="eyebrow">Your skin profile</div>
+    <h2 class="section-title">How we read your skin</h2>
+    <div class="profile-panel" id="profilePanel">
+      <p class="profile-para">Loading your profile...</p>
+    </div>
+  </div>
+
+  <!-- ── SECTION 2: PHOTO FINDINGS ── -->
+  <div class="section">
+    <div class="eyebrow">What we found</div>
+    <h2 class="section-title">From your photo</h2>
+    <div id="photoFindingsList"></div>
+  </div>
+
+  <!-- ── SECTION 3: SCORE BREAKDOWN ── -->
+  <div class="section">
+    <div class="eyebrow">Glow score breakdown</div>
+    <h2 class="section-title">Your four skin markers</h2>
+    <div id="scoreBars"></div>
+    <div class="glow-total-bar">
+      <span class="glow-total-label">Total Glow Score</span>
+      <span class="glow-total-num" id="totalGlowScore">—</span>
+    </div>
+  </div>
+
+  <!-- ── SECTION 4: TOP 3 PRIORITIES ── -->
+  <div class="section">
+    <div class="eyebrow">Focus here first</div>
+    <h2 class="section-title">Your three priorities</h2>
+    <div id="priorityList"></div>
+  </div>
+
+  <!-- ── SECTION 5: AM ROUTINE ── -->
+  <div class="section">
+    <div class="eyebrow">Every morning</div>
+    <h2 class="section-title">Your AM routine</h2>
+    <div id="amRoutineList"></div>
+  </div>
+
+  <!-- ── SECTION 6: PM ROUTINE ── -->
+  <div class="section">
+    <div class="eyebrow">Every evening</div>
+    <h2 class="section-title">Your PM routine</h2>
+    <div id="pmRoutineList"></div>
+  </div>
+
+  <!-- ── SECTION 7: INGREDIENT WATCH ── -->
+  <div class="section">
+    <div class="eyebrow">Ingredient watch list</div>
+    <h2 class="section-title">What to seek and avoid</h2>
+    <div class="ingredient-cols">
+      <div>
+        <div class="ingredient-col-title seek">Seek these</div>
+        <div id="seekList"></div>
+      </div>
+      <div>
+        <div class="ingredient-col-title avoid">Avoid these</div>
+        <div id="avoidList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SECTION 8: SHELF AUDIT ── -->
+  <div class="section">
+    <div class="eyebrow">Your shelf right now</div>
+    <h2 class="section-title">What to keep, pause, and watch</h2>
+    <div class="shelf-grid" id="shelfAudit"></div>
+  </div>
+
+  <!-- ── SECTION 9: 6-WEEK PLAN ── -->
+  <div class="section">
+    <div class="eyebrow">Your timeline</div>
+    <h2 class="section-title">Six-week reset plan</h2>
+    <div class="timeline" id="weeklyPlan"></div>
+  </div>
+
+  <!-- ── SECTION 10: SHOPPING LIST ── -->
+  <div class="section">
+    <div class="eyebrow">Your shopping list</div>
+    <h2 class="section-title">Exactly what to buy and where</h2>
+    <div id="shoppingList"></div>
+  </div>
+
+  <!-- ── FOOTER ── -->
+  <footer class="report-footer">
+    <div class="footer-brand">The Glow Well · theglowwell.com</div>
+    <p class="footer-disclaimer">This report was generated from your photo and quiz answers. It reflects observed skin patterns only and is not medical advice. For skin conditions, consult a dermatologist.</p>
+    <a href="glowscan-v2.html" class="back-btn">← Back to Glow Scan</a>
+  </footer>
+
+</div>
+
+<script>
+window.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('reportDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+
+  const raw = sessionStorage.getItem('glowReportData');
+  if (!raw) {
+    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:\'DM Sans\',sans-serif;max-width:480px;margin:0 auto"><p style="color:#6B6458;margin-bottom:20px;line-height:1.6">Report not found. Please complete the Glow Scan first to generate your personalized report.</p><a href="glowscan-v2.html" style="display:inline-block;padding:12px 28px;background:#252320;color:#F7F3EE;font-family:\'DM Sans\',sans-serif;font-size:13px;border-radius:3px;text-decoration:none">← Back to Glow Scan</a></div>';
+    return;
+  }
+
+  let data;
+  try {
+    data = JSON.parse(raw);
+  } catch(e) {
+    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:\'DM Sans\',sans-serif"><p>Could not load report data.</p><a href="glowscan-v2.html">← Back to Glow Scan</a></div>';
+    return;
+  }
+
+  populateReport(data);
+});
+
+function populateReport(data) {
+  // ── Profile summary ──
+  var profilePanel = document.getElementById('profilePanel');
+  if (data.profileSummary) {
+    var paras = data.profileSummary.split('\n').filter(function(p){ return p.trim(); });
+    profilePanel.innerHTML = paras.map(function(p){
+      return '<p class="profile-para">' + esc(p) + '</p>';
+    }).join('');
+  }
+
+  // ── Photo findings ──
+  var findingsList = document.getElementById('photoFindingsList');
+  if (data.photoFindings && data.photoFindings.length) {
+    findingsList.innerHTML = data.photoFindings.map(function(f){
+      return '<div class="finding-item"><div class="finding-dot"></div><p class="finding-text">' + esc(f) + '</p></div>';
+    }).join('');
+  }
+
+  // ── Score bars ──
+  var scoreBars = document.getElementById('scoreBars');
+  var expl = data.scoreExplanations || {};
+  var scores = JSON.parse(sessionStorage.getItem('glowScores') || 'null') || {};
+  var barDefs = [
+    { key: 'hydration', label: 'Hydration', cls: 'hydration' },
+    { key: 'barrier',   label: 'Barrier Health', cls: 'barrier' },
+    { key: 'texture',   label: 'Texture Clarity', cls: 'texture' },
+    { key: 'radiance',  label: 'Radiance', cls: 'radiance' }
+  ];
+  scoreBars.innerHTML = barDefs.map(function(b){
+    var val = scores[b.key] || 0;
+    return '<div class="score-row">' +
+      '<div class="score-header"><span class="score-label">' + b.label + '</span><span class="score-val" id="sv-' + b.key + '">' + (val || '—') + ' / 100</span></div>' +
+      '<div class="score-track"><div class="score-fill ' + b.cls + '" id="sb-' + b.key + '"></div></div>' +
+      '<p class="score-explanation">' + esc(expl[b.key] || '') + '</p>' +
+    '</div>';
+  }).join('');
+
+  // Animate bars
+  setTimeout(function(){
+    barDefs.forEach(function(b){
+      var val = scores[b.key] || 0;
+      var el = document.getElementById('sb-' + b.key);
+      if (el) el.style.width = val + '%';
+    });
+  }, 200);
+
+  // Total glow score
+  var glowTotal = scores.glowScore || '—';
+  document.getElementById('totalGlowScore').textContent = glowTotal + (glowTotal !== '—' ? ' / 100' : '');
+
+  // ── Top 3 priorities ──
+  var priorityList = document.getElementById('priorityList');
+  if (data.top3priorities && data.top3priorities.length) {
+    priorityList.innerHTML = data.top3priorities.map(function(p, i){
+      return '<div class="priority-card">' +
+        '<div class="priority-num">' + (i + 1) + '</div>' +
+        '<p class="priority-text">' + esc(p) + '</p>' +
+      '</div>';
+    }).join('');
+  }
+
+  // ── Routine builder ──
+  function buildRoutine(steps, containerId) {
+    var el = document.getElementById(containerId);
+    if (!steps || !steps.length) { el.innerHTML = '<p style="font-size:13px;color:var(--text-light)">No routine data available.</p>'; return; }
+    el.innerHTML = steps.map(function(s, i){
+      return '<div class="routine-step">' +
+        '<div class="step-num">' + (i + 1) + '</div>' +
+        '<div class="step-body">' +
+          '<div class="step-name">' + esc(s.step || '') + '</div>' +
+          '<div class="step-product">' + esc(s.product || '') + '</div>' +
+          '<div class="step-why">' + esc(s.why || '') + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+  buildRoutine(data.amRoutine, 'amRoutineList');
+  buildRoutine(data.pmRoutine, 'pmRoutineList');
+
+  // ── Ingredients ──
+  function buildIngredients(items, containerId, dotClass) {
+    var el = document.getElementById(containerId);
+    if (!items || !items.length) return;
+    el.innerHTML = items.map(function(item){
+      return '<div class="ingredient-item">' +
+        '<div class="ing-dot ' + dotClass + '"></div>' +
+        '<div><div class="ing-name">' + esc(item.ingredient || '') + '</div><div class="ing-why">' + esc(item.why || '') + '</div></div>' +
+      '</div>';
+    }).join('');
+  }
+  buildIngredients(data.seekIngredients, 'seekList', 'seek');
+  buildIngredients(data.avoidIngredients, 'avoidList', 'avoid');
+
+  // ── Shelf audit ──
+  var shelfEl = document.getElementById('shelfAudit');
+  if (data.shelfAudit) {
+    var sa = data.shelfAudit;
+    var shelfItems = [
+      { tag: 'keep', label: 'Keep', text: sa.keep },
+      { tag: 'pause', label: 'Pause', text: sa.pause },
+      { tag: 'watch', label: 'Watch', text: sa.watch }
+    ];
+    shelfEl.innerHTML = shelfItems.map(function(s){
+      return '<div class="shelf-card">' +
+        '<span class="shelf-tag ' + s.tag + '">' + s.label + '</span>' +
+        '<p class="shelf-text">' + esc(s.text || '—') + '</p>' +
+      '</div>';
+    }).join('');
+  }
+
+  // ── 6-week plan ──
+  var planEl = document.getElementById('weeklyPlan');
+  if (data.sixWeekPlan && data.sixWeekPlan.length) {
+    planEl.innerHTML = data.sixWeekPlan.map(function(w){
+      return '<div class="timeline-block">' +
+        '<div class="timeline-dot"></div>' +
+        '<div class="timeline-week">Week ' + esc(w.week || '') + '</div>' +
+        '<div class="timeline-card">' +
+          '<div class="timeline-focus">' + esc(w.focus || '') + '</div>' +
+          '<div class="timeline-meta">' +
+            '<div class="timeline-meta-row"><strong>Goal:</strong> ' + esc(w.goal || '') + '</div>' +
+            '<div class="timeline-meta-row"><strong>Watch for:</strong> ' + esc(w.watchFor || '') + '</div>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // ── Shopping list ──
+  var shopEl = document.getElementById('shoppingList');
+  if (data.shoppingList) {
+    var storeHtml = '';
+    Object.values(data.shoppingList).forEach(function(store){
+      if (!store || !store.name) return;
+      var items = store.items || [];
+      var total = items.reduce(function(sum, item){
+        var price = parseFloat((item.price || '$0').replace('$','')) || 0;
+        return sum + price;
+      }, 0);
+      storeHtml += '<div class="store-card">' +
+        '<div class="store-header">' + esc(store.name) + '</div>' +
+        items.map(function(item){
+          return '<div class="shop-item"><span class="shop-product">' + esc(item.product || '') + '</span><span class="shop-price">' + esc(item.price || '') + '</span></div>';
+        }).join('') +
+        (total > 0 ? '<div class="shop-item" style="background:var(--off-white);font-weight:500"><span>Estimated total</span><span class="shop-price">~$' + total.toFixed(2) + '</span></div>' : '') +
+      '</div>';
+    });
+    shopEl.innerHTML = storeHtml || '<p style="font-size:13px;color:var(--text-light)">Shopping list not available.</p>';
+  }
+}
+
+function esc(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+</script>
+</body>
+</html>
