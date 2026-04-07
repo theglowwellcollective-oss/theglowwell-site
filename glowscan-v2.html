@@ -642,102 +642,95 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
      SCREEN 5 — REPORT DETAILS + PRICE REVEAL
 ══════════════════════════════════════════════ -->
 <section id="screen5" class="screen" style="display:none">
-  <div class="report-inner">
-    <div class="eyebrow">What's inside your report</div>
-    <h2 class="report-h2">
-      Your skin doesn't need more <span style="color:#E24B4A;font-style:italic">expensive</span> products. It needs the <span style="color:var(--sage-dark);font-style:italic">right ones.</span>
-    </h2>
-    <p class="report-sub">The full breakdown, the hidden patterns, and your next-step plan.</p>
+  <div style="max-width:480px;margin:0 auto;padding-bottom:40px">
 
-    <!-- Report summary from Claude -->
-    <div style="background:#fff;border:1px solid var(--border);border-left:3px solid var(--terra);padding:16px 18px;margin-bottom:28px;border-radius:2px">
-      <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--terra-dark);margin-bottom:6px">Your scan summary</div>
-      <p style="font-size:13.5px;color:var(--text-mid);line-height:1.7;font-weight:300" id="reportSummaryText">Based on your photo and quiz answers, your report covers your unique skin profile in detail.</p>
+    <!-- Section 1 — Bridge headline -->
+    <div style="padding:28px 28px 0">
+      <div style="font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#4E6B49;margin-bottom:12px">Your full report is ready</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#252320;line-height:1.1;margin-bottom:10px">Your skin doesn't need more <span style="color:#E24B4A;font-style:italic">expensive</span> products.<br>It needs the <span style="color:#4E6B49;font-style:italic">right ones.</span></h2>
+      <p style="font-size:13px;font-weight:300;color:#6B6458;line-height:1.65;margin-bottom:24px" id="reportSummaryText">Your photo and answers revealed patterns we couldn't show for free. Here's what's inside your full report.</p>
     </div>
 
-    <div class="checklist-label">Everything below is specific to your scan.</div>
-    <ul class="checklist">
-      <li class="check-item"><div class="check-dot"></div>Skin age breakdown — what's causing the gap</li>
-      <li class="check-item"><div class="check-dot"></div>Routine red flags — what's working against you</li>
-      <li class="check-item"><div class="check-dot"></div>Ingredient overlap — what's canceling each other out</li>
-      <li class="check-item"><div class="check-dot"></div>Your 6-week reset plan — AM and PM, step by step</li>
-      <li class="check-item"><div class="check-dot"></div>Shelf purge — what to keep, toss, or swap</li>
-    </ul>
-
-    <!-- Reviews -->
-    <div class="reviews-section">
-      <div class="reviews-title">What people are saying</div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</p>
-        <div class="review-author">Sara, 26</div>
+    <!-- Section 2 — 3 visual benefit cards -->
+    <div style="padding:0 28px;display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(196,132,90,0.1);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2v12M2 8h12" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">What's aging your skin right now</div>
+          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">The specific patterns from your photo — explained and prioritized for your age and skin type</div>
+        </div>
       </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Called out the exact stuff I keep buying and never use. That alone saved me money."</p>
-        <div class="review-author">Yasmine, 34</div>
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(78,107,73,0.1);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#4E6B49" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">Your custom AM and PM reset</div>
+          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">Step by step. Built for your budget and the stores you actually shop at</div>
+        </div>
       </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Finally understood why that $80 serum did nothing. Wrong acid for my skin."</p>
-        <div class="review-author">Celeste, 42</div>
-      </div>
-    </div>
-
-    <!-- Waste calculator -->
-    <div class="waste-card">
-      <div class="waste-header">What wrong products cost you</div>
-      <div class="waste-row">
-        <span>Wrong cleanser — yearly</span>
-        <span class="waste-price">$120</span>
-      </div>
-      <div class="waste-row">
-        <span>Mismatched actives</span>
-        <span class="waste-price">$180</span>
-      </div>
-      <div class="waste-row">
-        <span>Products that cancel each other</span>
-        <span class="waste-price">$150</span>
-      </div>
-      <div class="waste-row">
-        <span>Trending items that don't match your skin</span>
-        <span class="waste-price">$150</span>
-      </div>
-      <div class="waste-row total-row">
-        <span>Average wasted per year</span>
-        <span class="waste-price">$600+</span>
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
+        <div style="width:36px;height:36px;border-radius:50%;background:rgba(37,35,32,0.06);flex-shrink:0;display:flex;align-items:center;justify-content:center">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4h8v8H4zM4 8h8" stroke="#252320" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <div>
+          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">The toss it list</div>
+          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">What to stop using immediately — and what to swap it with at a fraction of the cost</div>
+        </div>
       </div>
     </div>
 
-    <!-- Price reveal -->
-    <div class="price-reveal">
-      <div class="price-orig-str">Originally $29</div>
-      <div class="price-big">$7.99</div>
-      <div class="price-badge">Today only — intro price</div>
+    <!-- Section 3 — One review before price -->
+    <div style="padding:0 28px;margin-bottom:20px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px">
+        <div style="color:#C4845A;font-size:11px;letter-spacing:1.5px;margin-bottom:6px">★★★★★</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:#252320;margin-bottom:6px;line-height:1.4">"I thought I had dry skin for 3 years. Nope. Just a destroyed barrier. Fixed it in 3 weeks."</div>
+        <div style="font-size:11px;color:#9A9088;font-weight:300">Sara, 26 · Verified</div>
+      </div>
+    </div>
 
-      <div class="value-props">
-        <div class="value-prop-card">
-          <div class="value-prop-title">Instant access</div>
-          <div class="value-prop-sub">View right after payment</div>
+    <!-- Section 4 — Cost comparison -->
+    <div style="padding:0 28px;margin-bottom:20px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px">
+        <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#9A9088;margin-bottom:12px">What wrong products cost you</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:0.5px solid #F0EBE3;font-size:12px">
+          <span style="color:#9A9088;font-weight:300">Wrong products per year</span>
+          <span style="color:#9A9088;text-decoration:line-through">$450+</span>
         </div>
-        <div class="value-prop-card">
-          <div class="value-prop-title">Private link</div>
-          <div class="value-prop-sub">Yours to keep forever</div>
-        </div>
-        <div class="value-prop-card">
-          <div class="value-prop-title">100% personalized</div>
-          <div class="value-prop-sub">Built from your scan</div>
-        </div>
-        <div class="value-prop-card">
-          <div class="value-prop-title">7-day refund</div>
-          <div class="value-prop-sub">Not useful? We'll fix it.</div>
+        <div style="display:flex;justify-content:space-between;padding:10px 0 4px;font-size:14px;font-weight:500">
+          <span style="color:#252320">This report</span>
+          <span style="color:#4E6B49">$7.99</span>
         </div>
       </div>
+    </div>
 
-      <button class="btn btn-terra btn-full" onclick="goToScreen(6)" style="font-size:15px;padding:18px 32px;">
-        Get My Full Glow Report — $7.99
-      </button>
-      <p class="cta-fine">One-time · No subscription · Instant access</p>
+    <!-- Section 5 — Price reveal -->
+    <div style="padding:20px 28px;text-align:center;border-top:0.5px solid #DDD6CC;margin-bottom:20px">
+      <div style="font-size:13px;color:#9A9088;text-decoration:line-through;font-weight:300;margin-bottom:4px">Originally $29</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:#252320;line-height:1">$7.99</div>
+      <span style="display:inline-block;background:rgba(196,132,90,0.1);color:#A06840;font-size:10px;font-weight:500;padding:4px 12px;border-radius:2px;margin-top:8px;letter-spacing:0.5px">Today only — intro price</span>
+    </div>
+
+    <!-- Section 6 — Two more reviews -->
+    <div style="padding:0 28px;margin-bottom:20px;display:flex;flex-direction:column;gap:8px">
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:14px 16px">
+        <div style="color:#C4845A;font-size:10px;letter-spacing:1.5px;margin-bottom:5px">★★★★★</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#252320;margin-bottom:5px;line-height:1.4">"Called out the exact stuff I keep buying and never use. Saved me money immediately."</div>
+        <div style="font-size:11px;color:#9A9088;font-weight:300">Yasmine, 34 · Verified</div>
+      </div>
+      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:14px 16px">
+        <div style="color:#C4845A;font-size:10px;letter-spacing:1.5px;margin-bottom:5px">★★★★★</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:#252320;margin-bottom:5px;line-height:1.4">"Finally understood why that $80 serum did nothing. Wrong acid for my skin."</div>
+        <div style="font-size:11px;color:#9A9088;font-weight:300">Celeste, 42 · Verified</div>
+      </div>
+    </div>
+
+    <!-- Section 7 — CTA -->
+    <div style="padding:0 28px 32px">
+      <button type="button" id="getReportBtn" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Get My Reset — $7.99</button>
+      <div style="font-size:11px;color:#9A9088;text-align:center;margin-top:10px;font-weight:300;line-height:1.6">Instant access · Built from your scan · One-time payment<br>7-day refund if it doesn't help</div>
     </div>
 
   </div>
@@ -1335,6 +1328,10 @@ function showConfirmation() {
 document.getElementById('scanBtn').addEventListener('click', function(e){
   e.preventDefault();
   goToScreen(2);
+});
+
+document.getElementById('getReportBtn').addEventListener('click', function() {
+  goToScreen(6);
 });
 </script>
 </body>
