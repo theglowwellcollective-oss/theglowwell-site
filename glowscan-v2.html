@@ -1071,6 +1071,23 @@ Return ONLY this JSON, no other text, no markdown:
       return;
     }
 
+    const responseText = JSON.stringify(data);
+    if (
+      responseText.includes("not able to identify") ||
+      responseText.includes("cannot identify") ||
+      responseText.includes("I can't") ||
+      responseText.includes("unable to analyze") ||
+      !data.skinAge ||
+      data.skinAge === 0
+    ) {
+      document.getElementById('loadingScreen')?.style && (document.getElementById('loadingScreen').style.display = 'none');
+      goToScreen(2);
+      setTimeout(() => {
+        alert('We couldn\'t analyze this photo clearly. Please try a selfie in natural light with your face fully visible and centered.');
+      }, 300);
+      return;
+    }
+
     Object.assign(scanResults, data);
     scanResults.actualAge = parseInt(userData.age) || 30;
     scanResults.ageDiff = scanResults.skinAge - scanResults.actualAge;
