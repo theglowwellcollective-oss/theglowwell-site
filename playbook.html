@@ -106,6 +106,14 @@ nav.scrolled{border-bottom-color:var(--border)}
 .hero-badge-sub{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.8);display:block;margin-top:3px}
 .hero-chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px;justify-content:center}
 .hero-chip{background:white;border:1px solid var(--border);padding:7px 14px;font-size:11px;color:var(--text-mid)}
+.hero-carousel{position:relative;width:100%;overflow:hidden;border-radius:6px;touch-action:pan-y;margin-top:16px}
+.carousel-track{display:flex;transition:transform 0.4s ease;will-change:transform}
+.carousel-slide{min-width:100%;flex-shrink:0}
+.carousel-slide img{width:100%;height:260px;object-fit:cover;display:block;border-radius:6px}
+.carousel-dots{display:flex;justify-content:center;gap:8px;padding:10px 0 4px}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:var(--border);cursor:pointer;transition:background 0.2s}
+.carousel-dot.active{background:var(--terra)}
+@media(max-width:768px){.carousel-slide img{height:200px}}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center}
@@ -423,7 +431,22 @@ ml('account', '2176117');
     <div class="hero-right reveal reveal-delay-2">
       <div class="hero-mockup">
         <img src="Skincare_essentials_on_cream_bedspread.png" alt="The Glow Well Anti-Aging Playbook on tablet" class="hero-book">
-        <img src="pdf-photo1.png" alt="Before and after results" style="width:100%;border-radius:2px;box-shadow:24px 24px 60px rgba(37,35,32,0.18);margin-top:16px;display:block">
+        <div class="hero-carousel" id="heroCarousel" style="box-shadow:24px 24px 60px rgba(37,35,32,0.18)">
+          <div class="carousel-track" id="carouselTrack">
+            <div class="carousel-slide"><img src="pdf-photo1.png" alt="Before and after skin results" loading="lazy"></div>
+            <div class="carousel-slide"><img src="pdf-photo2.png" alt="Before and after skin results" loading="lazy"></div>
+            <div class="carousel-slide"><img src="pdf-photo3.png" alt="Before and after skin results" loading="lazy"></div>
+            <div class="carousel-slide"><img src="pdf-photo4.png" alt="Before and after skin results" loading="lazy"></div>
+            <div class="carousel-slide"><img src="pdf-photo5.png" alt="Before and after skin results" loading="lazy"></div>
+          </div>
+          <div class="carousel-dots" id="carouselDots">
+            <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+            <span class="carousel-dot" onclick="goToSlide(1)"></span>
+            <span class="carousel-dot" onclick="goToSlide(2)"></span>
+            <span class="carousel-dot" onclick="goToSlide(3)"></span>
+            <span class="carousel-dot" onclick="goToSlide(4)"></span>
+          </div>
+        </div>
         <p style="font-family:'DM Sans',sans-serif;font-size:11px;color:var(--text-light);text-align:center;margin-top:8px">Results shown are from consistent routine use over 6-8 weeks — your skin's timeline may vary, but the path is the same.</p>
         <div class="hero-badge">
           <span class="hero-badge-orig">was $40</span>
@@ -450,7 +473,7 @@ ml('account', '2176117');
         <span>4.9/5 average · Verified purchases</span>
       </div>
     </div>
-    <img src="pdf-photo3.png" alt="Before and after — 6 weeks on the Glow Well routine" style="width:100%;border-radius:2px;display:block;margin-bottom:8px">
+    <img src="pdf-photo5.png" alt="Before and after — 6 weeks on the Glow Well routine" style="width:100%;border-radius:2px;display:block;margin-bottom:8px">
     <p style="font-size:11px;color:rgba(247,243,238,0.45);text-align:center;margin-bottom:24px">Before and after — 6 weeks on the Glow Well routine</p>
     <div class="reviews-grid reveal">
       <div class="review-card">
@@ -843,7 +866,7 @@ ml('account', '2176117');
 <section class="final-cta">
   <div class="section-inner">
     <div class="final-cta-inner reveal">
-      <img src="pdf-photo4.png" alt="Before and after results" style="width:100%;max-width:480px;margin:0 auto 32px;border-radius:2px;display:block">
+      <img src="pdf-photo4.png" alt="Before and after results" style="width:100%;max-width:480px;margin:0 auto 32px;border-radius:4px;display:block">
       <div class="eyebrow" style="color:var(--sage-light);justify-content:center"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>Ready to stop guessing?</div>
       <h2>Your skin is worth <em>understanding,</em> not just buying for.</h2>
       <p>Stop guessing. One guide. Everything you need.</p>
@@ -931,6 +954,44 @@ const revealObserver=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
 },{threshold:0.1})
 document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el))
+
+// ── HERO CAROUSEL ─────────────────────────────
+let currentSlide = 0;
+let carouselInterval;
+let touchStartX = 0;
+let touchEndX = 0;
+
+function goToSlide(n) {
+  currentSlide = n;
+  document.getElementById('carouselTrack').style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === n);
+  });
+}
+
+function nextSlide() {
+  goToSlide((currentSlide + 1) % 5);
+}
+
+function startCarousel() {
+  carouselInterval = setInterval(nextSlide, 3500);
+}
+
+function resetCarousel() {
+  clearInterval(carouselInterval);
+  startCarousel();
+}
+
+const carousel = document.getElementById('heroCarousel');
+if (carousel) {
+  carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+  carousel.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) { goToSlide((currentSlide + 1) % 5); resetCarousel(); }
+    if (touchEndX - touchStartX > 50) { goToSlide((currentSlide + 4) % 5); resetCarousel(); }
+  }, {passive:true});
+  startCarousel();
+}
 
 // ── FAQ TOGGLE ────────────────────────────────
 function toggleFaq(el){

@@ -134,6 +134,23 @@ section{padding:100px 80px}
 .photo-disclaimer{font-size:11px;font-weight:300;color:var(--text-light);text-align:center}
 @media(max-width:768px){.photo-grid{grid-template-columns:1fr}}
 
+/* ── HERO CAROUSEL ───────────────────────────── */
+.hero-carousel{position:relative;width:100%;overflow:hidden;border-radius:6px;touch-action:pan-y}
+.carousel-track{display:flex;transition:transform 0.4s ease;will-change:transform}
+.carousel-slide{min-width:100%;flex-shrink:0}
+.carousel-slide img{width:100%;height:280px;object-fit:cover;display:block;border-radius:6px}
+.carousel-dots{display:flex;justify-content:center;gap:8px;padding:12px 0 4px}
+.carousel-dot{width:6px;height:6px;border-radius:50%;background:var(--border);cursor:pointer;transition:background 0.2s}
+.carousel-dot.active{background:var(--terra)}
+@media(max-width:768px){.carousel-slide img{height:220px}}
+
+/* ── 5-PHOTO GRID ────────────────────────────── */
+.photo-grid-5{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.photo-grid-5 img{width:100%;height:260px;object-fit:cover;border-radius:4px;display:block}
+.photo-grid-5 img:nth-child(4){grid-column:1/span 1;margin-left:calc(50% + 6px)}
+.photo-grid-5 img:nth-child(5){grid-column:2/span 1}
+@media(max-width:768px){.photo-grid-5{grid-template-columns:1fr}.photo-grid-5 img{height:220px}.photo-grid-5 img:nth-child(4),.photo-grid-5 img:nth-child(5){margin-left:0;grid-column:1}}
+
 /* ── REVIEWS ─────────────────────────────────── */
 .reviews{background:var(--charcoal)}
 .reviews *{color:inherit}
@@ -237,7 +254,22 @@ ml('account', '2176117');
       <div class="eyebrow">Free AI Skin Analysis</div>
       <h1 class="hero-h1">Your skin is lying<br>about its <em>age.</em></h1>
       <p class="hero-sub">Upload a selfie. Get your Glow Score and skin age in 60 seconds. No account. No credit card.</p>
-      <img src="pdf-photo1.png" alt="Before and after results" style="width:100%;border-radius:4px;box-shadow:0 16px 48px rgba(37,35,32,0.15);margin-bottom:20px;display:block">
+      <div class="hero-carousel" id="heroCarousel" style="box-shadow:0 16px 48px rgba(37,35,32,0.15);margin-bottom:20px">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide"><img src="pdf-photo1.png" alt="Before and after skin results" loading="lazy"></div>
+          <div class="carousel-slide"><img src="pdf-photo2.png" alt="Before and after skin results" loading="lazy"></div>
+          <div class="carousel-slide"><img src="pdf-photo3.png" alt="Before and after skin results" loading="lazy"></div>
+          <div class="carousel-slide"><img src="pdf-photo4.png" alt="Before and after skin results" loading="lazy"></div>
+          <div class="carousel-slide"><img src="pdf-photo5.png" alt="Before and after skin results" loading="lazy"></div>
+        </div>
+        <div class="carousel-dots" id="carouselDots">
+          <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+          <span class="carousel-dot" onclick="goToSlide(1)"></span>
+          <span class="carousel-dot" onclick="goToSlide(2)"></span>
+          <span class="carousel-dot" onclick="goToSlide(3)"></span>
+          <span class="carousel-dot" onclick="goToSlide(4)"></span>
+        </div>
+      </div>
       <a href="glowscan-v2.html" class="btn-primary btn-terra" style="width:100%;font-size:15px;padding:20px 24px;justify-content:center;display:flex">
         Scan My Skin — It's Free →
       </a>
@@ -318,10 +350,12 @@ ml('account', '2176117');
       <h2>What the right routine <em>actually does.</em></h2>
       <p class="photos-sub">Consistent routine use over 6-8 weeks. Real people, real skin.</p>
     </div>
-    <div class="photo-grid reveal">
-      <img src="pdf-photo1.png" alt="Before and after skin results">
-      <img src="pdf-photo2.png" alt="Skin transformation results">
-      <img src="pdf-photo3.png" alt="Skincare routine results">
+    <div class="photo-grid-5 reveal">
+      <img src="pdf-photo1.png" alt="Skin results">
+      <img src="pdf-photo2.png" alt="Skin results">
+      <img src="pdf-photo3.png" alt="Skin results">
+      <img src="pdf-photo4.png" alt="Skin results">
+      <img src="pdf-photo5.png" alt="Skin results">
     </div>
     <p class="photo-disclaimer">Results shown are from 6-8 weeks of consistent routine use — your skin's timeline may vary, but the path is the same.</p>
   </div>
@@ -432,6 +466,44 @@ const revealObserver=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
 },{threshold:0.1})
 document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el))
+
+// ── HERO CAROUSEL ─────────────────────────────
+let currentSlide = 0;
+let carouselInterval;
+let touchStartX = 0;
+let touchEndX = 0;
+
+function goToSlide(n) {
+  currentSlide = n;
+  document.getElementById('carouselTrack').style.transform = `translateX(-${n * 100}%)`;
+  document.querySelectorAll('.carousel-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === n);
+  });
+}
+
+function nextSlide() {
+  goToSlide((currentSlide + 1) % 5);
+}
+
+function startCarousel() {
+  carouselInterval = setInterval(nextSlide, 3500);
+}
+
+function resetCarousel() {
+  clearInterval(carouselInterval);
+  startCarousel();
+}
+
+const carousel = document.getElementById('heroCarousel');
+if (carousel) {
+  carousel.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+  carousel.addEventListener('touchend', e => {
+    touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) { goToSlide((currentSlide + 1) % 5); resetCarousel(); }
+    if (touchEndX - touchStartX > 50) { goToSlide((currentSlide + 4) % 5); resetCarousel(); }
+  }, {passive:true});
+  startCarousel();
+}
 </script>
 </body>
 </html>
