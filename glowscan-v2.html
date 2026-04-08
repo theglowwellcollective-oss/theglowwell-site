@@ -591,7 +591,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
         </div>
         <div class="score-track"><div class="score-fill radiance" id="radianceBar"></div></div>
       </div>
-      <div class="score-card-brand">Free Glow Scan · theglowwell.com</div>
+      <div class="score-card-brand">FREE GLOW SCAN · THEGLOWWELL.COM</div>
     </div>
 
     <!-- Glow total -->
@@ -1294,9 +1294,13 @@ async function shareScore() {
     canvas.toBlob(async (blob) => {
       const file = new File([blob], 'glowscan-score.png', { type: 'image/png' });
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        const ageDiff = scanResults.ageDiff || (scanResults.skinAge - (parseInt(userData.age) || 30));
+        const shareText = ageDiff > 0
+          ? `just found out my skin is ${ageDiff} years older than it should be 😭 got my free Glow Score at theglowwell.com — it's free and slightly terrifying`
+          : `just found out my skin is ${Math.abs(ageDiff)} years younger than my actual age ✨ got my free Glow Scan at theglowwell.com`;
         await navigator.share({
           title: 'My Glow Scan Score',
-          text: 'Got my skin score from The Glow Well Glow Scan. Try it free 👇',
+          text: shareText,
           files: [file]
         });
       } else {
