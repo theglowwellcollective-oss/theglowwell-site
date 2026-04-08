@@ -1412,9 +1412,24 @@ async function showConfirmationAndReport() {
   }
 
   await callClaudeForFullReport();
+  await new Promise(resolve => setTimeout(resolve, 2000));
 
-  // Restore ready state
+  // Restore ready state with score URL param as backup
   if (reportLink) {
+    try {
+      const scoreParam = encodeURIComponent(JSON.stringify({
+        hydration: scanResults.scores?.hydration || 0,
+        barrier: scanResults.scores?.barrier || 0,
+        texture: scanResults.scores?.texture || 0,
+        radiance: scanResults.scores?.radiance || 0,
+        glowScore: scanResults.glowScore || 0,
+        skinAge: scanResults.skinAge || 0,
+        actualAge: scanResults.actualAge || 0
+      }));
+      reportLink.href = 'report.html?scores=' + scoreParam;
+    } catch(e) {
+      reportLink.href = 'report.html';
+    }
     reportLink.innerHTML = 'View Your Full Report →';
     reportLink.style.color = 'var(--sage-dark)';
     reportLink.style.cursor = 'pointer';

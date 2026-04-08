@@ -281,9 +281,12 @@ function populateReport(data) {
   var profilePanel = document.getElementById('profilePanel');
   if (data.profileSummary) {
     var paras = data.profileSummary.split('\n').filter(function(p){ return p.trim(); });
+    if (paras.length === 0) paras = [data.profileSummary];
     profilePanel.innerHTML = paras.map(function(p){
       return '<p class="profile-para">' + esc(p) + '</p>';
     }).join('');
+  } else {
+    profilePanel.innerHTML = '<p class="profile-para" style="opacity:0.4">Profile summary not yet available.</p>';
   }
 
   // ── Photo findings ──
@@ -320,6 +323,17 @@ function populateReport(data) {
       }
     }
   } catch(e) {}
+
+  if (!scores) {
+    try {
+      var urlParams = new URLSearchParams(window.location.search);
+      var scoresParam = urlParams.get('scores');
+      if (scoresParam) {
+        scores = JSON.parse(decodeURIComponent(scoresParam));
+      }
+    } catch(e) {}
+  }
+
   scores = scores || {};
   var barDefs = [
     { key: 'hydration', label: 'Hydration', cls: 'hydration' },
