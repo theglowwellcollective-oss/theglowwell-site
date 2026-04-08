@@ -821,7 +821,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     <div class="confirm-card" id="playbookConfirmCard" style="display:none">
       <div class="confirm-card-label">The Glow Well Playbook</div>
       <div class="confirm-card-title">96-page anti-aging system</div>
-      <a href="#" class="confirm-card-link">Download your PDF →</a>
+      <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" class="confirm-card-link">Access your Playbook download →</a>
     </div>
 
     <!-- Dupe detector upsell -->
@@ -1093,6 +1093,18 @@ Return ONLY this JSON, no other text, no markdown:
     scanResults.ageDiff = scanResults.skinAge - scanResults.actualAge;
 
     try {
+      sessionStorage.setItem('glowScores', JSON.stringify({
+        hydration: data.scores?.hydration || 0,
+        barrier: data.scores?.barrier || 0,
+        texture: data.scores?.texture || 0,
+        radiance: data.scores?.radiance || 0,
+        glowScore: data.glowScore || 0,
+        skinAge: data.skinAge || 0,
+        actualAge: parseInt(userData.age) || 0
+      }));
+    } catch(e) {}
+
+    try {
       localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
       localStorage.setItem('glowscan_quizAnswers', JSON.stringify(userData));
       localStorage.setItem('glowscan_timestamp', Date.now().toString());
@@ -1352,6 +1364,17 @@ async function showConfirmationAndReport() {
         sessionStorage.setItem('glowReportData', JSON.stringify(data.reportData));
       }
       Object.assign(scanResults, data);
+      if (data.scores) {
+        sessionStorage.setItem('glowScores', JSON.stringify({
+          hydration: data.scores.hydration || 0,
+          barrier: data.scores.barrier || 0,
+          texture: data.scores.texture || 0,
+          radiance: data.scores.radiance || 0,
+          glowScore: data.glowScore || 0,
+          skinAge: data.skinAge || 0,
+          actualAge: data.actualAge || 0
+        }));
+      }
     } catch(e) {}
   }
 

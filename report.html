@@ -245,30 +245,35 @@ h2.section-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weig
 window.addEventListener('DOMContentLoaded', function() {
   document.getElementById('reportDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
 
-  let raw = sessionStorage.getItem('glowReportData');
+  let raw = null;
+
+  try { raw = sessionStorage.getItem('glowReportData'); } catch(e) {}
+
   if (!raw) {
-    const lsData = localStorage.getItem('glowscan_reportData');
-    if (lsData) {
-      try {
+    try {
+      const lsData = localStorage.getItem('glowscan_reportData');
+      if (lsData) {
         const parsed = JSON.parse(lsData);
-        if (parsed.reportData) { raw = JSON.stringify(parsed.reportData); }
-      } catch(e) {}
-    }
+        if (parsed.reportData) {
+          raw = JSON.stringify(parsed.reportData);
+        } else if (parsed.profileSummary) {
+          raw = JSON.stringify(parsed);
+        }
+      }
+    } catch(e) {}
   }
+
   if (!raw) {
-    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:\'DM Sans\',sans-serif;max-width:480px;margin:0 auto"><p style="color:#6B6458;margin-bottom:20px;line-height:1.6">Report not found. Please complete the Glow Scan first to generate your personalized report.</p><a href="glowscan-v2.html" style="display:inline-block;padding:12px 28px;background:#252320;color:#F7F3EE;font-family:\'DM Sans\',sans-serif;font-size:13px;border-radius:3px;text-decoration:none">← Back to Glow Scan</a></div>';
+    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:DM Sans,sans-serif;background:#F7F3EE;min-height:100vh"><p style="font-family:Cormorant Garamond,serif;font-size:28px;font-weight:300;color:#252320;margin-bottom:16px">Report not found</p><p style="font-size:14px;color:#6B6458;font-weight:300;margin-bottom:24px">Please complete the Glow Scan on the same device and browser.</p><a href="glowscan-v2.html" style="background:#C4845A;color:white;padding:14px 28px;text-decoration:none;font-size:13px;font-family:DM Sans,sans-serif;border-radius:3px">← Back to Glow Scan</a></div>';
     return;
   }
 
-  let data;
   try {
-    data = JSON.parse(raw);
+    const data = JSON.parse(raw);
+    populateReport(data);
   } catch(e) {
-    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center;font-family:\'DM Sans\',sans-serif"><p>Could not load report data.</p><a href="glowscan-v2.html">← Back to Glow Scan</a></div>';
-    return;
+    document.body.innerHTML = '<div style="padding:60px 24px;text-align:center">Error loading report. Please try again.</div>';
   }
-
-  populateReport(data);
 });
 
 function populateReport(data) {
@@ -292,7 +297,30 @@ function populateReport(data) {
   // ── Score bars ──
   var scoreBars = document.getElementById('scoreBars');
   var expl = data.scoreExplanations || {};
-  var scores = JSON.parse(sessionStorage.getItem('glowScores') || 'null') || {};
+  var scores = null;
+  try {
+    var glowScores = sessionStorage.getItem('glowScores');
+    if (glowScores) {
+      scores = JSON.parse(glowScores);
+    } else {
+      var reportRaw = localStorage.getItem('glowscan_reportData');
+      if (reportRaw) {
+        var reportParsed = JSON.parse(reportRaw);
+        if (reportParsed.scores) {
+          scores = {
+            hydration: reportParsed.scores.hydration || 0,
+            barrier: reportParsed.scores.barrier || 0,
+            texture: reportParsed.scores.texture || 0,
+            radiance: reportParsed.scores.radiance || 0,
+            glowScore: reportParsed.glowScore || 0,
+            skinAge: reportParsed.skinAge || 0,
+            actualAge: reportParsed.actualAge || 0
+          };
+        }
+      }
+    }
+  } catch(e) {}
+  scores = scores || {};
   var barDefs = [
     { key: 'hydration', label: 'Hydration', cls: 'hydration' },
     { key: 'barrier',   label: 'Barrier Health', cls: 'barrier' },
