@@ -49,6 +49,28 @@ export default {
       return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400, headers: corsHeaders });
     }
 
+    // ── MailerLite subscribe route ─────────────
+    if (body.callType === 'subscribe') {
+      try {
+        const payload = {
+          email: body.email,
+          groups: ['184223623974750017'],
+          fields: body.fields || {}
+        };
+        await fetch('https://connect.mailerlite.com/api/subscribers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${env.MAILERLITE_KEY}`
+          },
+          body: JSON.stringify(payload)
+        });
+      } catch(e) {
+        console.error('MailerLite subscribe error:', e);
+      }
+      return new Response(JSON.stringify({ ok: true }), { headers: corsHeaders });
+    }
+
     const url = new URL(request.url);
     const isFreeCall = url.pathname === '/free' || body.callType === 'free';
     const isPaidCall = url.pathname === '/report' || body.callType === 'report';

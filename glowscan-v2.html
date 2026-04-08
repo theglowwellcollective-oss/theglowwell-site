@@ -967,6 +967,7 @@ function submitQuiz() {
     return;
   }
   userData.email = email;
+  subscribeToMailerLite(); // initial capture — no scan data yet
   goToScreen(3);
 }
 
@@ -998,6 +999,29 @@ function startLoading() {
   Promise.all([apiPromise, timerPromise]).then(() => {
     goToScreen(4);
   });
+}
+
+// ── MAILERLITE SUBSCRIBE ──────────────────────
+async function subscribeToMailerLite(extraFields) {
+  if (!userData.email) return;
+  try {
+    const fields = {
+      age: userData.age || '',
+      skin_concern: userData.concern || '',
+      routine: userData.routine || '',
+      budget: userData.budget || '',
+      shopping: userData.shopping || '',
+      skin_feel: userData.skinFeel || ''
+    };
+    if (extraFields) Object.assign(fields, extraFields);
+    await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ callType: 'subscribe', email: userData.email, fields })
+    });
+  } catch(e) {
+    // fire-and-forget, never block the scan flow
+  }
 }
 
 // ── CLAUDE API CALLS ──────────────────────────
@@ -1113,6 +1137,12 @@ Return ONLY this JSON, no other text, no markdown:
       localStorage.setItem('glowscan_quizAnswers', JSON.stringify(userData));
       localStorage.setItem('glowscan_timestamp', Date.now().toString());
     } catch(e) {}
+
+    // Update subscriber with scan results
+    subscribeToMailerLite({
+      glow_score: String(data.glowScore || 0),
+      skin_age: String(data.skinAge || 0)
+    });
 
   } catch(err) {
     console.error('Free scan failed:', err);
