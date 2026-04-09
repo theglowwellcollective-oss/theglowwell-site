@@ -1154,50 +1154,33 @@ async function callClaudeForFullReport() {
   const actualAge = parseInt(userData.age) || 30;
   const freeData = scanResults;
 
-  const reportPrompt = `You are generating a paid personalized skin report for Glow Scan.
+  const reportPrompt = `You are generating a personalized skin report. Be concise — 1-2 sentences per field maximum.
 
-PHOTO ANALYSIS ALREADY COMPLETED:
+SCAN DATA:
 - Skin age: ${freeData.skinAge}, Actual age: ${actualAge}
 - Glow score: ${freeData.glowScore}/100
-- Hydration: ${freeData.scores?.hydration}, Barrier: ${freeData.scores?.barrier}, Texture: ${freeData.scores?.texture}, Radiance: ${freeData.scores?.radiance}
+- Scores: Hydration ${freeData.scores?.hydration}, Barrier ${freeData.scores?.barrier}, Texture ${freeData.scores?.texture}, Radiance ${freeData.scores?.radiance}
 - Photo callouts: ${JSON.stringify(freeData.callouts)}
 
-USER PROFILE:
-- Age: ${actualAge}, Concern: ${userData.concern}
-- Routine complexity: ${userData.routine}
-- Budget: ${userData.budget}, Shops at: ${userData.shopping}
-- Skin feel: ${userData.skinFeel}
+USER: Age ${actualAge}, concern: ${userData.concern}, routine: ${userData.routine}, budget: ${userData.budget}, shops at: ${userData.shopping}
 
-Generate the full personalized report. Return ONLY valid JSON:
+Return ONLY valid JSON, no markdown, no extra text:
 {
-  "profileSummary": "<3 short paragraphs combining their photo analysis + age + concern + routine — specific not generic>",
-  "photoFindings": ["<specific finding 1>", "<specific finding 2>", "<specific finding 3>", "<specific finding 4>"],
-  "scoreExplanations": {
-    "hydration": "<one line tied to what was visible in their photo>",
-    "barrier": "<one line tied to what was visible>",
-    "texture": "<one line tied to what was visible>",
-    "radiance": "<one line tied to what was visible>"
-  },
-  "top3priorities": ["<priority 1 with why for their specific profile>", "<priority 2>", "<priority 3>"],
-  "amRoutine": [
-    {"step": "step name", "product": "<specific budget product available at ${userData.shopping}>", "why": "<why for their specific skin>"}
-  ],
-  "pmRoutine": [
-    {"step": "step name", "product": "<specific budget product>", "why": "<why for their specific skin>"}
-  ],
-  "seekIngredients": [{"ingredient": "name", "why": "<specific to their profile>"}],
-  "avoidIngredients": [{"ingredient": "name", "why": "<specific to their profile>"}],
-  "shelfAudit": {"keep": "<what to keep>", "pause": "<what to pause>", "watch": "<what to watch>"},
-  "sixWeekPlan": [
-    {"week": "1-2", "focus": "...", "goal": "...", "watchFor": "..."},
-    {"week": "3-4", "focus": "...", "goal": "...", "watchFor": "..."},
-    {"week": "5-6", "focus": "...", "goal": "...", "watchFor": "..."}
-  ],
-  "shoppingList": {
-    "store1": {"name": "${userData.shopping?.split('/')[0] || 'Target'}", "items": [{"product": "...", "price": "$X"}]},
-    "store2": {"name": "Amazon", "items": [{"product": "...", "price": "$X"}]}
-  }
+  "profileSummary": "2-3 sentences about their specific skin situation",
+  "photoFindings": ["finding 1", "finding 2", "finding 3"],
+  "scoreExplanations": {"hydration": "1 sentence", "barrier": "1 sentence", "texture": "1 sentence", "radiance": "1 sentence"},
+  "top3priorities": ["priority 1", "priority 2", "priority 3"],
+  "amRoutine": [{"step": "name", "product": "specific product at ${userData.shopping}", "why": "1 sentence"}],
+  "pmRoutine": [{"step": "name", "product": "specific product", "why": "1 sentence"}],
+  "seekIngredients": [{"ingredient": "name", "why": "1 sentence"}],
+  "avoidIngredients": [{"ingredient": "name", "why": "1 sentence"}],
+  "shelfAudit": {"keep": "1 sentence", "pause": "1 sentence", "watch": "1 sentence"},
+  "sixWeekPlan": [{"week": "1-2", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}, {"week": "3-4", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}, {"week": "5-6", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}],
+  "shoppingList": {"store1": {"name": "${userData.shopping?.split('/')[0] || 'Target'}", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}, "store2": {"name": "Amazon", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}}
 }`;
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
 
   try {
     const response = await fetch(WORKER_URL, {
@@ -1206,8 +1189,10 @@ Generate the full personalized report. Return ONLY valid JSON:
       body: JSON.stringify({
         messages: [{ role: 'user', content: reportPrompt }],
         callType: 'report'
-      })
+      }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
 
     const data = await response.json();
     console.log('Full report received:', JSON.stringify(data).slice(0, 200));
@@ -1227,7 +1212,21 @@ Generate the full personalized report. Return ONLY valid JSON:
     } catch(e) {}
 
   } catch(err) {
-    console.error('Full report generation failed:', err);
+    clearTimeout(timeout);
+    if (err.name === 'AbortError') {
+      console.error('Full report timed out after 25 seconds');
+      const reportLink = document.getElementById('reportLink');
+      if (reportLink) {
+        reportLink.textContent = 'Report timed out — tap to retry';
+        reportLink.style.color = 'var(--terra)';
+        reportLink.style.opacity = '1';
+        reportLink.style.pointerEvents = 'auto';
+        reportLink.style.cursor = 'pointer';
+        reportLink.onclick = function() { callClaudeForFullReport(); };
+      }
+    } else {
+      console.error('Full report generation failed:', err);
+    }
   }
 }
 
@@ -1460,11 +1459,29 @@ async function showConfirmationAndReport() {
     } catch(e) {
       reportLink.href = 'report.html';
     }
-    reportLink.innerHTML = 'View Your Full Report →';
-    reportLink.style.color = 'var(--sage-dark)';
-    reportLink.style.cursor = 'pointer';
-    reportLink.style.opacity = '1';
-    reportLink.style.pointerEvents = '';
+
+    if (!scanResults.reportData) {
+      reportLink.textContent = 'Tap to generate your report';
+      reportLink.style.color = 'var(--terra-dark)';
+      reportLink.style.opacity = '1';
+      reportLink.style.pointerEvents = 'auto';
+      reportLink.style.cursor = 'pointer';
+      reportLink.onclick = async function() {
+        reportLink.textContent = 'Generating...';
+        reportLink.style.pointerEvents = 'none';
+        await callClaudeForFullReport();
+        reportLink.textContent = 'View Your Full Report →';
+        reportLink.style.color = 'var(--sage-dark)';
+        reportLink.style.pointerEvents = 'auto';
+        reportLink.onclick = null;
+      };
+    } else {
+      reportLink.innerHTML = 'View Your Full Report →';
+      reportLink.style.color = 'var(--sage-dark)';
+      reportLink.style.cursor = 'pointer';
+      reportLink.style.opacity = '1';
+      reportLink.style.pointerEvents = '';
+    }
   }
 }
 
