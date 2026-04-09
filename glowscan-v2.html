@@ -1082,12 +1082,17 @@ Return ONLY this JSON, no other text, no markdown:
     messages.push({ role: 'user', content: freePrompt });
   }
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 20000);
+
   try {
     const response = await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ messages: messages, callType: 'free' })
+      body: JSON.stringify({ messages: messages, callType: 'free' }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
 
     console.log('Free scan response status:', response.status);
     const data = await response.json();
@@ -1095,24 +1100,19 @@ Return ONLY this JSON, no other text, no markdown:
 
     if (!response.ok || data.error) {
       console.error('Free scan API error:', data);
-      useFallbackResults();
+      showScanError('Analysis failed. Please try again.');
       return;
     }
 
     const responseText = JSON.stringify(data);
     if (
-      responseText.includes("not able to identify") ||
-      responseText.includes("cannot identify") ||
-      responseText.includes("I can't") ||
-      responseText.includes("unable to analyze") ||
+      responseText.includes('not able to identify') ||
+      responseText.includes('cannot identify') ||
+      responseText.includes("can't analyze") ||
       !data.skinAge ||
       data.skinAge === 0
     ) {
-      document.getElementById('loadingScreen')?.style && (document.getElementById('loadingScreen').style.display = 'none');
-      goToScreen(2);
-      setTimeout(() => {
-        alert('We couldn\'t analyze this photo clearly. Please try a selfie in natural light with your face fully visible and centered.');
-      }, 300);
+      showScanError('We need to see your face clearly. Please retake with your face centered in frame and good lighting.');
       return;
     }
 
@@ -1130,9 +1130,6 @@ Return ONLY this JSON, no other text, no markdown:
         skinAge: data.skinAge || 0,
         actualAge: parseInt(userData.age) || 0
       }));
-    } catch(e) {}
-
-    try {
       localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
       localStorage.setItem('glowscan_quizAnswers', JSON.stringify(userData));
       localStorage.setItem('glowscan_timestamp', Date.now().toString());
@@ -1145,9 +1142,29 @@ Return ONLY this JSON, no other text, no markdown:
     });
 
   } catch(err) {
+    clearTimeout(timeout);
+    if (err.name === 'AbortError') {
+      showScanError('Analysis is taking too long. Please check your connection and try again.');
+    } else {
+      showScanError('Something went wrong. Please try again.');
+    }
     console.error('Free scan failed:', err);
-    useFallbackResults();
+    return;
   }
+}
+
+function showScanError(message) {
+  goToScreen(2);
+  setTimeout(() => {
+    const uploadBox = document.querySelector('.upload-box') || document.querySelector('#screen2');
+    const errorDiv = document.createElement('div');
+    errorDiv.style.cssText = 'background:rgba(196,132,90,0.1);border:1px solid rgba(196,132,90,0.3);border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#A06840;font-family:DM Sans,sans-serif;line-height:1.5;text-align:center';
+    errorDiv.textContent = message;
+    if (uploadBox && uploadBox.parentNode) {
+      uploadBox.parentNode.insertBefore(errorDiv, uploadBox);
+      setTimeout(() => errorDiv.remove(), 8000);
+    }
+  }, 300);
 }
 
 async function callClaudeForFullReport() {
