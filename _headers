@@ -1,3 +1,15 @@
+/*.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
 /glowscan-v2.html
   Cache-Control: no-cache, no-store, must-revalidate
   Pragma: no-cache
