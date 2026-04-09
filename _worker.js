@@ -72,14 +72,9 @@ export default {
     }
 
     const url = new URL(request.url);
-    const isFreeCall = url.pathname === '/free' || body.callType === 'free';
-    const isPaidCall = url.pathname === '/report' || body.callType === 'report';
+    const isPaid = url.pathname === '/report' || body.callType === 'report';
 
-    let maxTokens = 800;
-
-    if (isPaidCall) {
-      maxTokens = 4000;
-    }
+    const maxTokens = isPaid ? 4000 : 800;
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
@@ -89,7 +84,7 @@ export default {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-opus-4-5',
+        model: isPaid ? 'claude-opus-4-5' : 'claude-haiku-4-5-20251001',
         max_tokens: maxTokens,
         temperature: 0,
         messages: body.messages
