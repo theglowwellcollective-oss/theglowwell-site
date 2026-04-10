@@ -511,13 +511,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     </div>
     <h2 class="loading-title">Analyzing your skin...</h2>
 
-    <div class="video-placeholder">
-      <video autoplay muted playsinline loop src="" id="loadingVideo" style="display:none"></video>
-      <div id="videoFallback">
-        <div class="video-placeholder-label">[ Short-form video plays here ]</div>
-        <div class="video-placeholder-sub">15-second Reel while AI processes</div>
-      </div>
-    </div>
+    <video
+      id="loadingVideo"
+      src="loadingvideo.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      style="width:100%;max-height:300px;object-fit:cover;border-radius:8px;display:block"
+    ></video>
 
     <ul class="status-list" id="statusList">
       <li class="status-item" id="s1"><div class="status-dot"></div> Scanning sebaceous density patterns</li>
