@@ -838,20 +838,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
     <!-- Playbook card — only shows if add-on checked -->
     <div class="confirm-card" id="playbookConfirmCard" style="display:none">
       <div class="confirm-card-label">The Glow Well Playbook</div>
-      <div class="confirm-card-title">96-page anti-aging system</div>
-      <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" class="confirm-card-link">Access your Playbook download →</a>
+      <div class="confirm-card-title">Your receipt email has your download link. Also at app.lemonsqueezy.com/my-orders</div>
+      <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" class="confirm-card-link">Download your Playbook — check your email for the link →</a>
     </div>
 
-    <!-- Dupe detector upsell -->
-    <div class="dupe-card">
-      <div class="dupe-pill">One-time offer</div>
-      <h3 class="dupe-title serif">Got an expensive product?</h3>
-      <p class="dupe-desc">Tell us what you're using. We'll find the budget version that does the same job.</p>
-      <button class="btn btn-terra btn-full" style="font-size:14px;padding:15px 24px;">
-        Find My Budget Dupe — $2.99
-      </button>
-      <p class="dupe-fine">Instant result · One-time · No subscription</p>
-    </div>
 
   </div>
 </section>
@@ -1563,6 +1553,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Detect ?paid=1 on load ──
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('paid') === '1') {
+    const isBundle = urlParams.get('bundle') === '1';
+    addonChecked = isBundle;
     const raw = localStorage.getItem('glowscan_reportData');
     if (raw) {
       try {
