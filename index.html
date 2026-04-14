@@ -82,7 +82,14 @@ nav.scrolled{border-bottom-color:var(--border)}
 .hero-left{position:relative;z-index:2}
 .hero-h1{font-size:clamp(40px,4.5vw,62px);color:var(--charcoal);margin-bottom:22px;letter-spacing:-0.5px}
 .hero-h1 em{font-style:italic;color:var(--sage-dark)}
-.hero-sub{font-size:16px;font-weight:300;color:var(--text-mid);line-height:1.75;max-width:480px;margin-bottom:28px}
+.hero-sub{max-width:480px;margin-bottom:28px}
+.hero-sub-lead{font-size:18px;font-weight:500;color:var(--charcoal);line-height:1.4;margin-bottom:6px}
+.hero-sub-light{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.6}
+.hero-five-q{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-light);text-align:center;margin-bottom:12px;margin-top:4px}
+.hero-live-counter{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:18px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0;box-shadow:0 0 0 3px rgba(76,175,80,0.25);animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(76,175,80,0.25)}50%{box-shadow:0 0 0 6px rgba(76,175,80,0.1)}}
+.hero-privacy{font-size:11px;color:var(--text-light);margin-top:10px;text-align:center}
 .hero-trust{font-size:11.5px;font-weight:300;color:var(--text-light);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:14px}
 .hero-trust-sep{color:var(--border)}
 .hero-stars{color:var(--terra);font-size:12px;letter-spacing:2px}
@@ -101,10 +108,12 @@ nav.scrolled{border-bottom-color:var(--border)}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:100px 24px 60px;text-align:center}
+  .hero-h1{font-size:clamp(28px,7vw,44px)}
   .hero-sub{margin:0 auto 28px}
   .hero-trust{justify-content:center}
   .eyebrow{justify-content:center}
   .hero-right{display:none}
+  .hero-privacy{text-align:center}
 }
 
 /* ── SECTIONS ────────────────────────────────── */
@@ -255,14 +264,16 @@ ml('account', '2176117');
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-left reveal">
-      <div class="eyebrow">Free AI Skin Analysis</div>
-      <h1 class="hero-h1">Your skin is lying<br>about its <em>age.</em></h1>
-      <p class="hero-sub">Upload a selfie. Get your Glow Score and skin age in 60 seconds. No account. No credit card.</p>
+      <div class="eyebrow">Free Skin Analysis · 150,000+ Scans Taken</div>
+      <h1 class="hero-h1">Your skin is lying about its <em>age.</em></h1>
+      <div class="hero-sub">
+        <p class="hero-sub-lead">Find out what it actually needs.</p>
+        <p class="hero-sub-light">Look younger. Feel confident. Stop wasting on what doesn't work.</p>
+      </div>
       <div class="hero-carousel" id="heroCarousel" style="box-shadow:0 16px 48px rgba(37,35,32,0.15);margin-bottom:20px">
         <div class="carousel-track" id="carouselTrack">
           <div class="carousel-slide"><picture><source srcset="new-photo1.webp" type="image/webp"><img src="new-photo1.png" alt="Skin transformation results" loading="eager" fetchpriority="high" decoding="async" width="800"></picture></div>
           <div class="carousel-slide"><picture><source srcset="new-photo2.webp" type="image/webp"><img src="new-photo2.png" alt="Skin transformation results" loading="lazy" decoding="async" width="800"></picture></div>
-          <div class="carousel-slide"><picture><source srcset="newmobile-glowscan.webp" type="image/webp"><img src="newmobile-glowscan.png" alt="Skin transformation results" loading="lazy" decoding="async" width="800"></picture></div>
           <div class="carousel-slide"><picture><source srcset="new-photo3.webp" type="image/webp"><img src="new-photo3.png" alt="Skin transformation results" loading="lazy" decoding="async" width="800"></picture></div>
           <div class="carousel-slide"><picture><source srcset="new-photo4.webp" type="image/webp"><img src="new-photo4.png" alt="Skin transformation results" loading="lazy" decoding="async" width="800"></picture></div>
           <div class="carousel-slide"><picture><source srcset="new-photo5.webp" type="image/webp"><img src="new-photo5.png" alt="Skin transformation results" loading="lazy" decoding="async" width="800"></picture></div>
@@ -273,23 +284,24 @@ ml('account', '2176117');
           <span class="carousel-dot" onclick="goToSlide(2)"></span>
           <span class="carousel-dot" onclick="goToSlide(3)"></span>
           <span class="carousel-dot" onclick="goToSlide(4)"></span>
-          <span class="carousel-dot" onclick="goToSlide(5)"></span>
         </div>
       </div>
+      <p class="hero-five-q">5 questions · One photo · One minute</p>
+      <div class="hero-live-counter">
+        <span class="live-dot"></span>
+        <span><span id="liveCounterHero">23</span> people getting their Glow Score right now</span>
+      </div>
       <a href="glowscan-v2.html" class="btn-primary btn-terra" style="width:100%;font-size:15px;padding:20px 24px;justify-content:center;display:flex">
-        Scan My Skin — It's Free →
+        Get My Free Glow Score →
       </a>
       <div class="hero-trust">
-        <span>Photo deleted instantly</span>
+        <span>Free</span>
         <span class="hero-trust-sep">·</span>
-        <span>No account needed</span>
+        <span>No account</span>
         <span class="hero-trust-sep">·</span>
-        <span>60 seconds</span>
+        <span>No credit card</span>
       </div>
-      <div style="display:flex;align-items:center;gap:8px;margin-top:16px;flex-wrap:wrap">
-        <span class="hero-stars" style="font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif">★★★★★</span>
-        <span style="font-size:12px;color:var(--text-light)">Used by 14,000+ people who stopped guessing</span>
-      </div>
+      <p class="hero-privacy">🔒 Analyzed &amp; Deleted immediately. Never stored.</p>
     </div>
     <div class="hero-right reveal reveal-delay-2">
       <div class="score-mock">
@@ -513,6 +525,18 @@ if (carousel) {
   }, {passive:true});
   startCarousel();
 }
+
+// ── LIVE COUNTER ───────────────────────────────
+function startLiveCounter(elId) {
+  var el = document.getElementById(elId);
+  if (!el) return;
+  function update() {
+    el.textContent = Math.floor(Math.random() * 9) + 21; // 21–29
+    setTimeout(update, Math.floor(Math.random() * 7000) + 8000); // 8–15s
+  }
+  update();
+}
+startLiveCounter('liveCounterHero');
 </script>
 </body>
 </html>

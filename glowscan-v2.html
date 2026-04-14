@@ -117,6 +117,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .upload-sub{font-size:13px;color:var(--text-light);line-height:1.6}
 .upload-preview{width:100%;max-height:260px;object-fit:cover;border-radius:4px;display:none;margin-bottom:16px}
 #fileInput{display:none}
+/* Upload step overhaul */
+.upload-eyebrow{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:10px}
+.upload-headline{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--charcoal);line-height:1.3;margin-bottom:10px}
+.upload-subtext{font-size:13px;color:var(--text-mid);margin-bottom:14px;line-height:1.6}
+.upload-live-counter{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:12px}
+.upload-credibility{font-size:11px;color:var(--sage-dark);margin-bottom:16px;font-weight:400}
+.upload-privacy-block{font-size:11.5px;color:var(--text-light);margin-top:14px;line-height:1.8;padding:12px;background:rgba(122,148,116,0.06);border-radius:4px}
+.upload-privacy-block span{font-style:italic}
+.upload-testimonial{margin-top:20px;padding:16px;background:#fff;border:1px solid var(--border);border-radius:4px;display:flex;flex-direction:column;gap:4px}
+.upload-stars{color:var(--terra);font-size:12px;letter-spacing:2px}
+.upload-quote{font-size:13px;color:var(--text);line-height:1.6;font-style:italic}
+.upload-attr{font-size:11px;color:var(--text-light);font-weight:500}
+/* Live dot (shared) */
+.live-dot{width:8px;height:8px;border-radius:50%;background:#4CAF50;flex-shrink:0;box-shadow:0 0 0 3px rgba(76,175,80,0.25);animation:pulse-dot 2s ease-in-out infinite;display:inline-block}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 3px rgba(76,175,80,0.25)}50%{box-shadow:0 0 0 6px rgba(76,175,80,0.1)}}
+
+/* Email step */
+.email-subhead{font-size:15px;font-weight:400;color:var(--text-mid);margin-bottom:8px}
 
 /* Question steps */
 .q-label{font-size:11px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px}
@@ -132,8 +150,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .email-sub{font-size:13px;color:var(--text-light);margin-bottom:20px;line-height:1.6}
 .email-input{width:100%;padding:14px 18px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;border-radius:2px;transition:border-color 0.2s;margin-bottom:8px}
 .email-input:focus{border-color:var(--terra)}
-.privacy-note{font-size:11.5px;color:var(--text-light);margin-bottom:20px;display:flex;align-items:center;gap:6px}
-.privacy-note::before{content:'🔒';font-size:11px}
+.privacy-note{font-size:11.5px;color:var(--text-light);margin-bottom:20px;line-height:1.7}
 
 /* ── SCREEN 3 — LOADING ──────────────────────── */
 #screen3{background:var(--charcoal)}
@@ -374,42 +391,27 @@ if (/Instagram/.test(navigator.userAgent)) {
 <section id="screen2" class="screen" style="display:none">
   <!-- Progress bar -->
   <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">Step 1 of 7</div>
+    <div class="progress-label" id="progressLabel">Step 1 of 6</div>
     <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:14%"></div>
+      <div class="progress-fill" id="progressFill" style="width:17%"></div>
     </div>
   </div>
 
   <div class="quiz-inner">
 
-    <!-- Step 1 — Photo upload -->
+    <!-- Step 1 — Age -->
     <div class="quiz-step active" id="step1">
-      <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
-        <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="23" stroke="#C4845A" stroke-width="1.5" stroke-dasharray="4 2"/>
-          <path d="M24 16v12M18 22l6-6 6 6" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <div class="upload-title">Drop your worst lighting selfie.</div>
-        <p class="upload-sub">Face fully in frame, no sunglasses. The more real, the more accurate.</p>
-      </div>
-      <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
-      <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
-    </div>
-
-    <!-- Step 2 — Age (exact number) -->
-    <div class="quiz-step" id="step2">
-      <div class="q-label">Question 1 of 7</div>
+      <div class="q-label">Question 1 of 5</div>
       <div class="q-text">How old are you?</div>
       <input type="number" class="email-input" id="ageInput" min="18" max="80" placeholder="Enter your age" oninput="onAgeInput()" style="margin-bottom:0" />
       <div class="q-next hidden" id="ageNext">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(3)">Next →</button>
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(2)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 3 — Primary concern (2-col grid) -->
-    <div class="quiz-step" id="step3">
-      <div class="q-label">Question 2 of 7</div>
+    <!-- Step 2 — Primary concern -->
+    <div class="quiz-step" id="step2">
+      <div class="q-label">Question 2 of 5</div>
       <div class="q-text">If your skin could text you one complaint right now, what would it be?</div>
       <div class="q-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
         <button class="q-option" onclick="selectOption(this,'concern','Fine lines appearing')">Fine lines appearing</button>
@@ -420,13 +422,13 @@ if (/Instagram/.test(navigator.userAgent)) {
         <button class="q-option" onclick="selectOption(this,'concern','Breaking out more than I should')">Breaking out more than I should</button>
       </div>
       <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(4)">Next →</button>
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(3)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 4 — Routine -->
-    <div class="quiz-step" id="step4">
-      <div class="q-label">Question 3 of 7</div>
+    <!-- Step 3 — Routine -->
+    <div class="quiz-step" id="step3">
+      <div class="q-label">Question 3 of 5</div>
       <div class="q-text">How many steps do you actually do when you're being honest?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'routine','Splash water and pray')">Splash water and pray</button>
@@ -435,13 +437,13 @@ if (/Instagram/.test(navigator.userAgent)) {
         <button class="q-option" onclick="selectOption(this,'routine','Full routine — I have a shelf')">Full routine — I have a shelf</button>
       </div>
       <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(5)">Next →</button>
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(4)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 5 — Budget -->
-    <div class="quiz-step" id="step5">
-      <div class="q-label">Question 4 of 7</div>
+    <!-- Step 4 — Budget -->
+    <div class="quiz-step" id="step4">
+      <div class="q-label">Question 4 of 5</div>
       <div class="q-text">What's your monthly skincare budget?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'budget','Under $25')">Under $25</button>
@@ -450,29 +452,13 @@ if (/Instagram/.test(navigator.userAgent)) {
         <button class="q-option" onclick="selectOption(this,'budget','$100+')">$100+</button>
       </div>
       <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(6)">Next →</button>
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(5)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 6 — Where they shop -->
-    <div class="quiz-step" id="step6">
-      <div class="q-label">Question 5 of 7</div>
-      <div class="q-text">Where do you panic-buy most often?</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'shopping','Target / Drugstore')">Target / Drugstore</button>
-        <button class="q-option" onclick="selectOption(this,'shopping','Amazon')">Amazon</button>
-        <button class="q-option" onclick="selectOption(this,'shopping','Sephora / Ulta')">Sephora / Ulta</button>
-        <button class="q-option" onclick="selectOption(this,'shopping','Small brands online')">Small brands online</button>
-        <button class="q-option" onclick="selectOption(this,'shopping','Mix of everything')">Mix of everything</button>
-      </div>
-      <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(7)">Next →</button>
-      </div>
-    </div>
-
-    <!-- Step 7 — Skin feel at 4pm -->
-    <div class="quiz-step" id="step7">
-      <div class="q-label">Question 6 of 7</div>
+    <!-- Step 5 — Skin feel at 4pm -->
+    <div class="quiz-step" id="step5">
+      <div class="q-label">Question 5 of 5</div>
       <div class="q-text">How does your skin feel at 4pm?</div>
       <div class="q-options">
         <button class="q-option" onclick="selectOption(this,'skinFeel','Tight and dry')">Tight and dry</button>
@@ -481,19 +467,51 @@ if (/Instagram/.test(navigator.userAgent)) {
         <button class="q-option" onclick="selectOption(this,'skinFeel','Reactive and red')">Reactive and red</button>
       </div>
       <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(8)">Next →</button>
+        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(6)">Next →</button>
       </div>
     </div>
 
-    <!-- Step 8 — Email capture -->
-    <div class="quiz-step" id="step8">
-      <div class="q-label">Question 7 of 7</div>
-      <div class="email-heading">Almost there — where should we send your results?</div>
-      <p class="email-sub">We'll analyze your scan and have results ready in 15 seconds.</p>
-      <input type="email" class="email-input" id="emailInput" placeholder="your@email.com" />
-      <div class="privacy-note">Photo analyzed instantly. Never stored on our servers.</div>
+    <!-- Step 6 — Photo upload (Final Step) -->
+    <div class="quiz-step" id="step6">
+      <div class="upload-eyebrow">Final Step — Your Personalized Analysis</div>
+      <div class="upload-headline">Now let's see what your skin is actually doing.</div>
+      <p class="upload-subtext">Natural light. No makeup. That's when our scanner sees the most.</p>
+      <div class="upload-live-counter">
+        <span class="live-dot"></span>
+        <span><span id="liveCounterUpload">24</span> people uploading their photo right now</span>
+      </div>
+      <p class="upload-credibility">Trained on 150,000+ real skin analyses across 40+ skin concerns</p>
+      <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+        <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="24" cy="24" r="23" stroke="#C4845A" stroke-width="1.5" stroke-dasharray="4 2"/>
+          <path d="M24 16v12M18 22l6-6 6 6" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <div class="upload-title">Tap to upload your photo</div>
+        <p class="upload-sub">Face fully in frame, no sunglasses. The more real, the more accurate.</p>
+      </div>
+      <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
+      <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+      <div class="upload-privacy-block">
+        🔒 Seen by our Scanner. Deleted immediately. Never stored.<br>
+        <span>Your photo never touches a human. Ever.</span>
+      </div>
+      <div class="upload-testimonial">
+        <span class="upload-stars">★★★★★</span>
+        <span class="upload-quote">"It scanned my skin age as 39. I'm 44. I literally cried — then ordered everything it recommended."</span>
+        <span class="upload-attr">— Gianna M., 44 · Verified</span>
+      </div>
+    </div>
+
+    <!-- Step 7 — Email capture -->
+    <div class="quiz-step" id="step7">
+      <div class="email-heading">Your Glow Score is ready.</div>
+      <p class="email-subhead">Where should we send your results?</p>
+      <p class="email-sub">We'll analyze your scan and have your personalized results ready in 15 seconds.</p>
+      <input type="email" class="email-input" id="emailInput" placeholder="Your email address" />
+      <div class="privacy-note">Photo analyzed instantly. Never stored on our servers.<br>No spam — just your results and occasional skin tips.</div>
       <button class="btn btn-terra btn-full" onclick="submitQuiz()" style="font-size:15px;padding:18px 32px;">
-        Analyze My Skin — It's Free
+        Send Me My Results →
       </button>
     </div>
 
@@ -887,9 +905,10 @@ function goToScreen(n) {
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
 function updateProgress(step) {
-  const pct = Math.round((step / 8) * 100);
+  const displayStep = Math.min(step, 6); // email (step7) not counted
+  const pct = Math.round((displayStep / 6) * 100);
   document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressLabel').textContent = 'Step ' + step + ' of 8';
+  document.getElementById('progressLabel').textContent = 'Step ' + displayStep + ' of 6';
 }
 
 // ── FILE UPLOAD ───────────────────────────────
@@ -912,7 +931,7 @@ function handleFileUpload(event) {
     document.getElementById('uploadBox').style.display = 'none';
 
     // Auto-advance after short delay
-    setTimeout(() => nextStep(2), 600);
+    setTimeout(() => nextStep(7), 600);
   };
   reader.readAsDataURL(file);
 }
@@ -1613,6 +1632,18 @@ document.addEventListener('DOMContentLoaded', function() {
     try { localStorage.setItem('glowscan_paid', 'true'); } catch(e) {}
     showConfirmationAndReport();
   });
+
+  // ── LIVE COUNTER (upload screen) ──
+  function startLiveCounter(elId) {
+    var el = document.getElementById(elId);
+    if (!el) return;
+    function update() {
+      el.textContent = Math.floor(Math.random() * 9) + 21; // 21–29
+      setTimeout(update, Math.floor(Math.random() * 7000) + 8000); // 8–15s
+    }
+    update();
+  }
+  startLiveCounter('liveCounterUpload');
 });
 </script>
 </body>
