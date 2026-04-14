@@ -138,18 +138,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 /* ── SCREEN 3 — LOADING ──────────────────────── */
 #screen3{background:var(--charcoal)}
 .loading-inner{max-width:480px;margin:0 auto;padding:48px 24px 60px;text-align:center}
-.loading-title{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;font-style:italic;color:var(--cream);margin-bottom:32px}
-.loading-bar-track{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-bottom:36px}
+.loading-bar-track{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-bottom:28px}
 .loading-bar-fill{height:100%;background:var(--terra);border-radius:2px;width:0;transition:width 0.5s linear}
-.status-list{list-style:none;text-align:left;margin-bottom:36px;display:flex;flex-direction:column;gap:14px}
-.status-item{display:flex;align-items:center;gap:10px;font-size:11px;color:rgba(247,243,238,0.4);transition:color 0.5s;padding:5px 0}
-.status-item.done{color:var(--sage)}
-.status-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.15);flex-shrink:0;transition:background 0.5s}
-.status-item.done .status-dot{background:var(--sage)}
-.video-placeholder{width:100%;aspect-ratio:9/16;max-height:320px;background:rgba(255,255,255,0.04);border:0.5px solid rgba(255,255,255,0.07);border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin-bottom:24px;overflow:hidden}
-.video-placeholder video{width:100%;height:100%;object-fit:cover;border-radius:4px}
-.video-placeholder-label{font-size:12px;color:rgba(247,243,238,0.4);letter-spacing:1px}
-.video-placeholder-sub{font-size:11px;color:rgba(247,243,238,0.25)}
+.scan-text{font-size:13px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:rgba(247,243,238,0.7);margin-bottom:24px;min-height:20px;transition:opacity 0.4s ease;font-family:'DM Sans',sans-serif}
+.scan-text.fade{opacity:0}
 .loading-footnote{font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic;color:rgba(247,243,238,0.4);margin-top:20px}
 
 /* ── SCREEN 4 — RESULTS ──────────────────────── */
@@ -516,8 +508,7 @@ if (/Instagram/.test(navigator.userAgent)) {
     <div class="loading-bar-track">
       <div class="loading-bar-fill" id="loadingBar"></div>
     </div>
-    <h2 class="loading-title">Analyzing your skin...</h2>
-
+    <div class="scan-text" id="scanText">Scanning sebaceous activity...</div>
     <video
       id="loadingVideo"
       src="loadingvideo.mp4"
@@ -525,17 +516,8 @@ if (/Instagram/.test(navigator.userAgent)) {
       muted
       loop
       playsinline
-      style="width:100%;max-height:220px;object-fit:contain;background:#1a1a1a;border-radius:8px;display:block"
+      style="width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;display:block"
     ></video>
-
-    <ul class="status-list" id="statusList">
-      <li class="status-item" id="s1"><div class="status-dot"></div> Scanning sebaceous density patterns</li>
-      <li class="status-item" id="s2"><div class="status-dot"></div> Mapping inflammation markers</li>
-      <li class="status-item" id="s3"><div class="status-dot"></div> Checking barrier integrity</li>
-      <li class="status-item" id="s4"><div class="status-dot"></div> Detecting dehydration patterns</li>
-      <li class="status-item" id="s5"><div class="status-dot"></div> Crunching your biological age</li>
-    </ul>
-
     <p class="loading-footnote">More detailed than any quiz you've taken.</p>
   </div>
 </section>
@@ -985,8 +967,16 @@ function submitQuiz() {
 // ── LOADING SCREEN ────────────────────────────
 function startLoading() {
   const bar = document.getElementById('loadingBar');
-  const statuses = ['s1','s2','s3','s4','s5'];
+  const scanTextEl = document.getElementById('scanText');
+  const scanPhrases = [
+    'Scanning sebaceous activity...',
+    'Mapping inflammation zones...',
+    'Checking hydration levels...',
+    'Detecting pigmentation patterns...',
+    'Crunching your Glow Score...'
+  ];
   let elapsed = 0;
+  let phraseIndex = 0;
 
   // Fill bar over 15 seconds
   const barInterval = setInterval(() => {
@@ -996,18 +986,23 @@ function startLoading() {
     if (elapsed >= 15000) clearInterval(barInterval);
   }, 100);
 
-  // Activate status items every 3s
-  statuses.forEach((id, i) => {
+  // Cycle scan text with fade every 1.5s
+  const cycleText = () => {
+    scanTextEl.classList.add('fade');
     setTimeout(() => {
-      document.getElementById(id).classList.add('done');
-    }, (i + 1) * 3000);
-  });
+      phraseIndex = (phraseIndex + 1) % scanPhrases.length;
+      scanTextEl.textContent = scanPhrases[phraseIndex];
+      scanTextEl.classList.remove('fade');
+    }, 400);
+  };
+  const textInterval = setInterval(cycleText, 1500);
 
   // Make API call (starts immediately, but we show loading for min 15s)
   const apiPromise = callClaudeForFreeResults();
   const timerPromise = new Promise(resolve => setTimeout(resolve, 15000));
 
   Promise.all([apiPromise, timerPromise]).then(() => {
+    clearInterval(textInterval);
     goToScreen(4);
   });
 }
