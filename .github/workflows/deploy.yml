@@ -7,6 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx wrangler pages deploy public --project-name theglowwell --commit-dirty=true
+      - name: Build public folder
+        run: |
+          mkdir -p public
+          rsync -av --exclude='public' --exclude='.git' --exclude='.github' --exclude='node_modules' --exclude='.DS_Store' . public/
+      - name: Deploy to Cloudflare Pages
+        run: npx wrangler pages deploy public --project-name theglowwell --commit-dirty=true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
