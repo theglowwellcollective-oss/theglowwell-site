@@ -1616,11 +1616,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const checkoutBtn = document.getElementById('checkoutBtn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', function() {
+      const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
       try {
         localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
         localStorage.setItem('glowscan_timestamp', Date.now().toString());
       } catch(e) {}
-      const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
       window.location.href = url;
     });
   }
