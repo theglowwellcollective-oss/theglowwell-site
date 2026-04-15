@@ -845,7 +845,7 @@ if (/Instagram/.test(navigator.userAgent)) {
     <div class="confirm-card" id="playbookConfirmCard" style="display:none">
       <div class="confirm-card-label">The Glow Well Playbook</div>
       <div class="confirm-card-title">Your receipt email has your download link. Also at app.lemonsqueezy.com/my-orders</div>
-      <a href="https://app.lemonsqueezy.com/my-orders" target="_blank" class="confirm-card-link">Download your Playbook — check your email for the link →</a>
+      <a href="https://app.lemonsqueezy.com/my-orders" class="confirm-card-link">Download your Playbook — check your email for the link →</a>
     </div>
 
 
@@ -1621,11 +1621,7 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('glowscan_timestamp', Date.now().toString());
       } catch(e) {}
       const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
-      if (window.LemonSqueezy && window.LemonSqueezy.Url) {
-        window.LemonSqueezy.Url.Open(url);
-      } else {
-        window.open(url, '_blank');
-      }
+      window.location.href = url;
     });
   }
 
