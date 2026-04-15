@@ -1236,7 +1236,7 @@ Return ONLY valid JSON, no markdown, no extra text:
 }`;
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 25000);
+  const timeout = setTimeout(() => controller.abort(), 40000);
 
   try {
     const response = await fetch(WORKER_URL, {
@@ -1255,6 +1255,17 @@ Return ONLY valid JSON, no markdown, no extra text:
 
     if (!response.ok || data.error) {
       console.error('Full report error:', data);
+      const reportLink = document.getElementById('reportLink');
+      if (reportLink) {
+        reportLink.textContent = 'Tap to generate your report';
+        reportLink.style.color = 'var(--terra-dark)';
+        reportLink.style.pointerEvents = 'auto';
+        reportLink.onclick = function() {
+          reportLink.textContent = 'Generating...';
+          reportLink.style.pointerEvents = 'none';
+          callClaudeForFullReport();
+        };
+      }
       return;
     }
 
