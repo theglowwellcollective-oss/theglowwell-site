@@ -614,31 +614,10 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Glow Tier -->
     <div id="glowTierBlock" style="text-align:center;margin:12px 0 20px;padding:16px 20px;background:var(--off-white,#F0EBE3);border:1px solid var(--border,#DDD6CC);">
+      <div style="font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark,#4E6B49);margin-bottom:10px;">Your Glow Stage</div>
       <div id="tierName" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:300;color:var(--charcoal,#252320);letter-spacing:0.3px;margin-bottom:6px;"></div>
       <div id="tierLine" style="font-size:13px;font-weight:300;color:var(--text-mid,#6B6458);margin-bottom:8px;"></div>
       <div id="tierPercentile" style="font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark,#4E6B49);"></div>
-    </div>
-
-    <!-- Share block -->
-    <div id="shareBlock" style="margin:20px 0;text-align:center;">
-      <button id="shareBtn" onclick="handleShare()" style="display:inline-flex;align-items:center;gap:8px;background:var(--charcoal,#252320);color:white;border:none;padding:14px 28px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;cursor:pointer;margin-bottom:10px;width:100%;">
-        See how you compare →
-      </button>
-      <div id="shareLoading" style="display:none;font-size:12px;color:var(--text-light,#9A9088);margin-top:6px;">Generating your share message...</div>
-    </div>
-
-    <!-- Story card -->
-    <div id="storyCardWrap" style="margin:20px 0;">
-      <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light,#9A9088);text-align:center;margin-bottom:10px;">Press and hold image to save to camera roll</div>
-      <div id="storyCard" style="width:100%;aspect-ratio:9/16;max-height:420px;background:var(--charcoal,#252320);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 28px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 50% 30%,rgba(122,148,116,0.15) 0%,transparent 60%);pointer-events:none;"></div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:14px;font-weight:300;color:rgba(247,243,238,0.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:32px;position:relative;z-index:2;">The Glow Well</div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:72px;font-weight:300;color:white;line-height:1;position:relative;z-index:2;" id="storyScore"></div>
-        <div style="font-size:11px;font-weight:300;color:rgba(247,243,238,0.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;position:relative;z-index:2;">GLOW SCORE</div>
-        <div style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:300;color:var(--sage-light,#A8BFA3);margin-bottom:8px;position:relative;z-index:2;" id="storyTier"></div>
-        <div style="font-size:12px;font-weight:300;color:rgba(247,243,238,0.6);text-align:center;margin-bottom:32px;position:relative;z-index:2;" id="storySkinAge"></div>
-        <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,238,0.3);position:relative;z-index:2;">theglowwell.com</div>
-      </div>
     </div>
 
     <!-- Teasers -->
@@ -663,7 +642,7 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Share -->
     <div class="share-wrap">
-      <button onclick="shareScore()" style="background:#F7F3EE;color:#252320;border:1px solid #DDD6CC;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Score</button>
+      <button onclick="shareScore()" style="background:#F7F3EE;color:#252320;border:1px solid #DDD6CC;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
     </div>
 
     <!-- Blur split -->
@@ -686,7 +665,8 @@ if (/Instagram/.test(navigator.userAgent)) {
     <div class="unlock-banner">
       <p class="unlock-title">One routine change away from this.</p>
       <p class="unlock-sub">Full breakdown, routine gaps, and your next-step plan.</p>
-      <button class="btn btn-sage-outline btn-full" onclick="goToScreen(5)">Unlock My Full Report</button>
+      <button onclick="goToScreen(5)" style="width:100%;background:var(--terra,#C4845A);color:white;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Unlock My Full Report</button>
+      <p style="font-size:11px;color:var(--text-light,#9A9088);text-align:center;margin-top:8px;font-weight:300;">Full routine · Ingredient breakdown · What to fix first</p>
     </div>
 
   </div>
@@ -1461,101 +1441,6 @@ function populateResults() {
 function setScore(labelId, barId, value) {
   document.getElementById(labelId).textContent = value + ' / 100';
   document.getElementById(barId).style.width = value + '%';
-}
-
-// ── GENERATE SHARE TEXT ───────────────────────
-async function generateShareText() {
-  const tier = GLOW_TIERS.getTier(scanResults.glowScore);
-  const skinAge = scanResults.skinAge || '';
-  const actualAge = scanResults.actualAge || parseInt(userData.age) || '';
-  const score = scanResults.glowScore;
-
-  const prompt = `Generate a casual, natural share message for Instagram or text for someone who just got their Glow Score from The Glow Well skin scanner.
-
-Their results:
-- Glow Score: ${score}/100
-- Tier: ${tier.name}
-- Skin age: ${skinAge}
-- Actual age: ${actualAge}
-
-Requirements:
-- Max 3 lines
-- Sounds like something a real woman 25-42 would actually text a friend
-- Casual tone, light humor where appropriate
-- Not branded or salesy
-- End with: theglowwell.com
-- If skin age is lower than actual age, make that the highlight
-- If score is below 60, frame positively as a journey/starting point
-- Use emojis sparingly — max 1-2
-
-Return only the message text, nothing else.`;
-
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
-    const response = await fetch(WORKER_URL, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        messages: [{ role: 'user', content: prompt }],
-        callType: 'share'
-      }),
-      signal: controller.signal
-    });
-    clearTimeout(timeout);
-    const data = await response.json();
-    if (data && data.content && data.content[0]) {
-      return data.content[0].text;
-    }
-  } catch(e) {
-    const skinAgePart = skinAge && actualAge && skinAge < actualAge
-      ? `my skin is apparently ${actualAge - skinAge} years younger than me 👀`
-      : `scored ${score}/100`;
-    return `just got my glow score — ${score}/100. ${tier.name.toLowerCase()}. ${skinAgePart}\nfind out yours → theglowwell.com`;
-  }
-}
-
-// ── HANDLE SHARE ──────────────────────────────
-async function handleShare() {
-  const shareBtn = document.getElementById('shareBtn');
-  const shareLoading = document.getElementById('shareLoading');
-
-  shareBtn.disabled = true;
-  shareBtn.textContent = 'Crafting your message...';
-  if (shareLoading) shareLoading.style.display = 'block';
-
-  const shareText = await generateShareText();
-
-  shareBtn.disabled = false;
-  shareBtn.textContent = 'See how you compare →';
-  if (shareLoading) shareLoading.style.display = 'none';
-
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: 'My Glow Score',
-        text: shareText,
-        url: 'https://theglowwell.com'
-      });
-    } catch(e) {
-      fallbackShare(shareText);
-    }
-  } else {
-    fallbackShare(shareText);
-  }
-}
-
-function fallbackShare(text) {
-  const fullText = text + '\n\nhttps://theglowwell.com';
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(fullText).then(() => {
-      const shareBtn = document.getElementById('shareBtn');
-      if (shareBtn) {
-        shareBtn.textContent = 'Copied to clipboard ✓';
-        setTimeout(() => { shareBtn.textContent = 'See how you compare →'; }, 2500);
-      }
-    });
-  }
 }
 
 // ── SHARE SCORE ───────────────────────────────
