@@ -475,11 +475,6 @@ if (/Instagram/.test(navigator.userAgent)) {
     <div class="quiz-step" id="step6">
       <div class="upload-eyebrow">Final Step — Your Personalized Analysis</div>
       <div class="upload-headline">Now let's see what your skin is actually doing.</div>
-      <p class="upload-subtext">Natural light. No makeup. That's when our scanner sees the most.</p>
-      <div class="upload-live-counter">
-        <span class="live-dot"></span>
-        <span><span id="liveCounterUpload">24</span> people uploading their photo right now</span>
-      </div>
       <p class="upload-credibility">Trained on 150,000+ real skin analyses across 40+ skin concerns</p>
       <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
         <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -492,13 +487,17 @@ if (/Instagram/.test(navigator.userAgent)) {
       </div>
       <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
       <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+      <div class="upload-live-counter">
+        <span class="live-dot"></span>
+        <span><span id="liveCounterUpload">24</span> people uploading their photo right now</span>
+      </div>
       <div class="upload-privacy-block">
         🔒 Seen by our Scanner. Deleted immediately. Never stored.<br>
         <span>Your photo never touches a human. Ever.</span>
       </div>
       <div class="upload-testimonial">
         <span class="upload-stars">★★★★★</span>
-        <span class="upload-quote">"It scanned my skin age as 39. I'm 44. I literally cried — then ordered everything it recommended."</span>
+        <span class="upload-quote">"It scanned my skin age as 39. I'm 44. I literally cried — absolutely love the AM/PM routine it recommended."</span>
         <span class="upload-attr">— Gianna M., 44 · Verified</span>
       </div>
     </div>
@@ -1587,6 +1586,12 @@ document.addEventListener('DOMContentLoaded', function() {
     localStorage.setItem('glowscan_paid', 'true');
     window.history.replaceState({}, document.title, window.location.pathname);
     showConfirmationAndReport();
+    return;
+  }
+
+  // ── ?start=quiz param — skip hero, go straight to quiz ──
+  if (new URLSearchParams(location.search).get('start') === 'quiz') {
+    goToScreen(2);
     return;
   }
 

@@ -80,10 +80,10 @@ nav.scrolled{border-bottom-color:var(--border)}
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:100px 80px 80px;gap:60px;position:relative;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 65% 40%,rgba(122,148,116,0.07) 0%,transparent 60%),radial-gradient(ellipse 40% 50% at 20% 80%,rgba(196,132,90,0.05) 0%,transparent 60%);pointer-events:none}
 .hero-left{position:relative;z-index:2}
-.hero-h1{font-size:clamp(40px,4.5vw,62px);color:var(--charcoal);margin-bottom:22px;letter-spacing:-0.5px}
+.hero-h1{font-size:clamp(40px,4.5vw,62px);color:var(--charcoal);margin-bottom:12px;letter-spacing:-0.5px}
 .hero-h1 em{font-style:italic;color:var(--sage-dark)}
 .hero-sub{max-width:480px;margin-bottom:28px}
-.hero-sub-lead{font-size:18px;font-weight:500;color:var(--charcoal);line-height:1.4;margin-bottom:6px}
+.hero-sub-lead{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.6;margin-bottom:4px}
 .hero-sub-light{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.6}
 .hero-five-q{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--text-light);text-align:center;margin-bottom:12px;margin-top:4px}
 .hero-live-counter{display:flex;align-items:center;justify-content:center;gap:8px;font-size:13px;color:var(--text-mid);margin-bottom:18px}
@@ -254,9 +254,9 @@ ml('account', '2176117');
     <li><a href="resources.html">Free Resources</a></li>
     <li><a href="index.html#about">About</a></li>
     <li><a href="playbook.html" class="nav-cta-playbook">Get the Playbook</a></li>
-    <li><a href="glowscan-v2.html" class="nav-cta-scan">Scan My Skin — Free</a></li>
+    <li><a href="glowscan-v2.html?start=quiz" class="nav-cta-scan">Scan My Skin — Free</a></li>
   </ul>
-  <a href="glowscan-v2.html" class="nav-mobile-cta">Scan Free →</a>
+  <a href="glowscan-v2.html?start=quiz" class="nav-mobile-cta">Scan Free →</a>
 </nav>
 
 <!-- ══ HERO ══════════════════════════════════════ -->
@@ -264,11 +264,11 @@ ml('account', '2176117');
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-left reveal">
-      <div class="eyebrow">Free Skin Analysis · 150,000+ Scans Taken</div>
+      <div class="eyebrow" style="letter-spacing:1.5px;font-size:10.5px;white-space:nowrap">Free Skin Analysis · 150,000+ Scans Taken</div>
       <h1 class="hero-h1">Your skin is lying about its <em>age.</em></h1>
       <div class="hero-sub">
         <p class="hero-sub-lead">Find out what it actually needs.</p>
-        <p class="hero-sub-light">Look younger. Feel confident. Stop wasting on what doesn't work.</p>
+        <p class="hero-sub-light"><span style="color:var(--text-mid)">Look </span><span style="color:var(--sage-dark)">Younger</span><span style="color:var(--text-mid)">. Feel </span><span style="color:var(--sage-dark)">Confident</span><span style="color:var(--text-mid)">. Work </span><span style="color:var(--sage-dark)">Smarter</span><span style="color:var(--text-mid)">.</span></p>
       </div>
       <div class="hero-carousel" id="heroCarousel" style="box-shadow:0 16px 48px rgba(37,35,32,0.15);margin-bottom:20px">
         <div class="carousel-track" id="carouselTrack">
@@ -291,7 +291,7 @@ ml('account', '2176117');
         <span class="live-dot"></span>
         <span><span id="liveCounterHero">23</span> people getting their Glow Score right now</span>
       </div>
-      <a href="glowscan-v2.html" class="btn-primary btn-terra" style="width:100%;font-size:15px;padding:20px 24px;justify-content:center;display:flex">
+      <a href="glowscan-v2.html?start=quiz" class="btn-primary btn-terra" style="width:100%;font-size:15px;padding:20px 24px;justify-content:center;display:flex">
         Get My Free Glow Score →
       </a>
       <div class="hero-trust">
@@ -335,18 +335,18 @@ ml('account', '2176117');
     <div class="reveal">
       <div class="eyebrow" style="color:var(--sage-light)"><span style="background:var(--sage);width:28px;height:1.5px;display:block;flex-shrink:0"></span>How it works</div>
       <h2>Three steps. <em>60 seconds.</em></h2>
-      <p class="how-sub">No account. No credit card. Just your selfie and 6 quick questions.</p>
+      <p class="how-sub">No account. No credit card. Just your selfie and 5 questions.</p>
     </div>
     <div class="how-steps reveal">
       <div class="how-step">
         <div class="how-step-num">1</div>
-        <div class="how-step-title">Upload your selfie</div>
-        <div class="how-step-desc">Drop a photo. Natural light, no makeup — that's when AI sees the most.</div>
+        <div class="how-step-title">Answer 5 questions</div>
+        <div class="how-step-desc">Skin concern, budget, routine, and how your skin feels. 30 seconds.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">2</div>
-        <div class="how-step-title">Answer 6 questions</div>
-        <div class="how-step-desc">Skin concern, budget, routine, where you shop. Takes 30 seconds.</div>
+        <div class="how-step-title">Upload your selfie</div>
+        <div class="how-step-desc">Our trained scanner does the rest.</div>
       </div>
       <div class="how-step">
         <div class="how-step-num">3</div>
@@ -355,7 +355,7 @@ ml('account', '2176117');
       </div>
     </div>
     <div class="how-cta reveal">
-      <a href="glowscan-v2.html" class="btn-primary btn-terra" style="font-size:15px;padding:20px 52px">Start Your Free Scan →</a>
+      <a href="glowscan-v2.html?start=quiz" class="btn-primary btn-terra" style="font-size:15px;padding:20px 52px">Start Your Free Scan →</a>
     </div>
   </div>
 </section>
@@ -410,7 +410,7 @@ ml('account', '2176117');
       </div>
     </div>
     <div class="reviews-cta reveal">
-      <a href="glowscan-v2.html" class="btn-primary btn-terra" style="font-size:15px;padding:20px 48px">See What Your Skin Says →</a>
+      <a href="glowscan-v2.html?start=quiz" class="btn-primary btn-terra" style="font-size:15px;padding:20px 48px">See What Your Skin Says →</a>
     </div>
   </div>
 </section>
@@ -447,7 +447,7 @@ ml('account', '2176117');
       <div class="eyebrow" style="color:var(--sage-light);justify-content:center"><span style="background:var(--sage);width:28px;height:1.5px;display:block;flex-shrink:0"></span>Find out for free</div>
       <h2>Your skin has something<br>to tell you.</h2>
       <p>Find out what it is. Free. In 60 seconds.</p>
-      <a href="glowscan-v2.html" class="btn-primary btn-terra" style="font-size:16px;padding:22px 60px;display:inline-flex">
+      <a href="glowscan-v2.html?start=quiz" class="btn-primary btn-terra" style="font-size:16px;padding:22px 60px;display:inline-flex">
         Scan My Skin — It's Free
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:10px"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
