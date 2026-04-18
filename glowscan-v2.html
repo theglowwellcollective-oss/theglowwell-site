@@ -630,12 +630,21 @@ if (/Instagram/.test(navigator.userAgent)) {
       <span class="glow-total-score" id="glowScoreDisplay">— / 100</span>
     </div>
 
+    <div style="padding:10px 0 6px;text-align:center;">
+      <p style="font-size:13px;font-weight:300;color:var(--text-mid,#6B6458);font-style:italic;line-height:1.6;">Skin age isn't permanent. Your full report shows exactly how to lower it.</p>
+    </div>
+
     <!-- Glow Tier -->
     <div id="glowTierBlock" style="text-align:center;margin:12px 0 20px;padding:16px 20px;background:var(--off-white,#F0EBE3);border:1px solid var(--border,#DDD6CC);">
       <div style="font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark,#4E6B49);margin-bottom:10px;">Your Glow Stage</div>
       <div id="tierName" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:300;color:var(--charcoal,#252320);letter-spacing:0.3px;margin-bottom:6px;"></div>
       <div id="tierLine" style="font-size:13px;font-weight:300;color:var(--text-mid,#6B6458);margin-bottom:8px;"></div>
       <div id="tierPercentile" style="font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark,#4E6B49);"></div>
+    </div>
+
+    <!-- Share -->
+    <div class="share-wrap">
+      <button onclick="shareScore()" style="background:transparent;color:var(--text-mid,#6B6458);border:1px solid var(--border,#DDD6CC);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
     </div>
 
     <div style="padding:12px 0 16px;">
@@ -659,19 +668,6 @@ if (/Instagram/.test(navigator.userAgent)) {
       <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
         Unlock My Full Report 🔒
       </button>
-    </div>
-
-    <!-- Affiliate recommendation -->
-    <div id="affiliateRec" style="background:white;border:1px solid var(--border);border-radius:6px;padding:20px;margin-top:20px;display:none">
-      <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px">Based on your scan</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--charcoal);margin-bottom:6px" id="affiliateProductName"></div>
-      <div style="font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.6;margin-bottom:14px" id="affiliateProductWhy"></div>
-      <a id="affiliateLink" href="#" target="_blank" style="display:none"></a>
-    </div>
-
-    <!-- Share -->
-    <div class="share-wrap">
-      <button onclick="shareScore()" style="background:transparent;color:var(--text-mid,#6B6458);border:1px solid var(--border,#DDD6CC);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
     </div>
 
     <!-- Blur split -->
