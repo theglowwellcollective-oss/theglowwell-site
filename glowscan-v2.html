@@ -553,6 +553,11 @@ if (/Instagram/.test(navigator.userAgent)) {
 ══════════════════════════════════════════════ -->
 <section id="screen4" class="screen" style="display:none">
   <div class="results-inner">
+    <div style="padding:16px 0 8px;">
+      <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:transparent;border:2px solid var(--terra,#C4845A);color:var(--terra,#C4845A);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
+        See What's In Your Full Report →
+      </button>
+    </div>
     <div class="eyebrow">Your Glow Scan Results</div>
 
     <!-- Age banner -->
@@ -567,6 +572,10 @@ if (/Instagram/.test(navigator.userAgent)) {
         <div class="age-gap" id="ageGapDisplay">—</div>
         <div class="age-gap-label" id="ageGapLabel">vs. your actual age</div>
       </div>
+    </div>
+
+    <div style="text-align:center;padding:12px 0 4px;">
+      <p style="font-size:13px;font-weight:300;color:var(--text-mid,#6B6458);font-style:italic;">Skin age isn't permanent. Your full report shows exactly how to lower it.</p>
     </div>
 
     <!-- Photo with callouts -->
@@ -629,12 +638,27 @@ if (/Instagram/.test(navigator.userAgent)) {
       <div id="tierPercentile" style="font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-dark,#4E6B49);"></div>
     </div>
 
+    <div style="padding:12px 0 16px;">
+      <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
+        Unlock My Full Report 🔒
+      </button>
+    </div>
+
     <!-- Teasers -->
     <div class="teasers-section">
+      <div style="padding:8px 0 16px;border-top:1px solid rgba(255,255,255,0.08);margin-top:16px;">
+        <p style="font-size:12px;font-weight:400;color:var(--sage-light,#A8BFA3);letter-spacing:0.3px;">This is your overview. Your full report goes 10x deeper.</p>
+      </div>
       <div class="teasers-title">What we're seeing</div>
       <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser1"></p></div>
       <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser2"></p></div>
       <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser3"></p></div>
+    </div>
+
+    <div style="padding:16px 0;">
+      <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
+        Unlock My Full Report 🔒
+      </button>
     </div>
 
     <!-- Affiliate recommendation -->
@@ -642,16 +666,12 @@ if (/Instagram/.test(navigator.userAgent)) {
       <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px">Based on your scan</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;color:var(--charcoal);margin-bottom:6px" id="affiliateProductName"></div>
       <div style="font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.6;margin-bottom:14px" id="affiliateProductWhy"></div>
-      <a id="affiliateLink" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:6px;background:var(--charcoal);color:var(--cream);padding:10px 20px;font-size:12px;font-weight:500;font-family:'DM Sans',sans-serif;border-radius:3px;text-decoration:none">
-        Find on Amazon
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H4M10 2v6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </a>
-      <div style="font-size:10px;color:var(--text-light);margin-top:8px">Affiliate link — we may earn a small commission at no cost to you</div>
+      <a id="affiliateLink" href="#" target="_blank" style="display:none"></a>
     </div>
 
     <!-- Share -->
     <div class="share-wrap">
-      <button onclick="shareScore()" style="background:#F7F3EE;color:#252320;border:1px solid #DDD6CC;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
+      <button onclick="shareScore()" style="background:transparent;color:var(--text-mid,#6B6458);border:1px solid var(--border,#DDD6CC);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
     </div>
 
     <!-- Blur split -->
@@ -694,27 +714,34 @@ if (/Instagram/.test(navigator.userAgent)) {
       <p style="font-size:13px;font-weight:300;color:#6B6458;line-height:1.65;margin-bottom:24px" id="reportSummaryText">That skin age number isn't permanent. This is exactly how you change it.</p>
     </div>
 
-    <!-- Section 2 — 3 visual benefit cards -->
+    <!-- Section 2 — 4 locked benefit cards -->
     <div style="padding:0 28px;display:flex;flex-direction:column;gap:10px;margin-bottom:24px">
-      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
-        <div style="width:8px;height:8px;border-radius:50%;background:#7A9474;margin-top:6px;flex-shrink:0"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fff;border:1px solid #DDD6CC;border-radius:8px;">
+        <span style="font-size:16px;">🔒</span>
         <div>
-          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">See what your mirror won't tell you</div>
-          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">The patterns making your skin look tired — explained and ranked by what to fix first</div>
+          <div style="font-size:14px;font-weight:500;color:#252320;">Your personalized AM/PM routine</div>
+          <div style="font-size:12px;font-weight:300;color:#6B6458;margin-top:3px;">Morning and evening steps built for your exact skin</div>
         </div>
       </div>
-      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
-        <div style="width:8px;height:8px;border-radius:50%;background:#7A9474;margin-top:6px;flex-shrink:0"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fff;border:1px solid #DDD6CC;border-radius:8px;">
+        <span style="font-size:16px;">🔒</span>
         <div>
-          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">A routine that finally makes sense</div>
-          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">Morning and evening steps, with products you can grab at your stores this week</div>
+          <div style="font-size:14px;font-weight:500;color:#252320;">The 2-3 products working against you right now</div>
+          <div style="font-size:12px;font-weight:300;color:#6B6458;margin-top:3px;">What's on your shelf sabotaging your results</div>
         </div>
       </div>
-      <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start">
-        <div style="width:8px;height:8px;border-radius:50%;background:#7A9474;margin-top:6px;flex-shrink:0"></div>
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fff;border:1px solid #DDD6CC;border-radius:8px;">
+        <span style="font-size:16px;">🔒</span>
         <div>
-          <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">Stop the products working against you</div>
-          <div style="font-size:12px;color:#6B6458;font-weight:300;line-height:1.5">The 2-3 things on your shelf sabotaging your skin — and the $8-12 swaps that fix it</div>
+          <div style="font-size:14px;font-weight:500;color:#252320;">Ingredient guide for your skin type</div>
+          <div style="font-size:12px;font-weight:300;color:#6B6458;margin-top:3px;">What actually works for your concerns — no guessing</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 18px;background:#fff;border:1px solid #DDD6CC;border-radius:8px;">
+        <span style="font-size:16px;">🔒</span>
+        <div>
+          <div style="font-size:14px;font-weight:500;color:#252320;">What to buy this week — and what to stop buying</div>
+          <div style="font-size:12px;font-weight:300;color:#6B6458;margin-top:3px;">Budget-smart picks based on your scan results</div>
         </div>
       </div>
     </div>
@@ -774,7 +801,7 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Section 7 — CTA -->
     <div style="padding:0 28px 32px">
-      <button type="button" id="getReportBtn" onclick="goToScreen(6)" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Get My Reset — $7.99</button>
+      <button type="button" id="getReportBtn" onclick="goToScreen(6)" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Unlock My Full Report — $7.99</button>
       <div style="font-size:11px;color:#9A9088;text-align:center;margin-top:10px;font-weight:300;line-height:1.6">Instant access · Built from your scan · One-time payment<br>7-day refund if it doesn't help</div>
     </div>
 
