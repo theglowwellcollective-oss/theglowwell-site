@@ -983,6 +983,20 @@ function goToScreen(n) {
     target.style.display = 'block';
     window.scrollTo(0, 0);
     currentScreen = n;
+    // GA4 funnel tracking
+    if (typeof gtag !== 'undefined') {
+      const screenNames = {
+        1: 'hero', 2: 'quiz', 3: 'scanning', 4: 'free_results',
+        5: 'value_prop', 6: 'checkout_screen', 7: 'confirmation'
+      };
+      gtag('event', 'screen_view', { screen_name: screenNames[n] || 'screen_' + n });
+      if (n === 2) gtag('event', 'quiz_started');
+      if (n === 3) gtag('event', 'photo_submitted');
+      if (n === 4) gtag('event', 'free_results_viewed');
+      if (n === 5) gtag('event', 'value_prop_viewed');
+      if (n === 6) gtag('event', 'checkout_screen_viewed');
+      if (n === 7) gtag('event', 'purchase_confirmed');
+    }
     if (n === 3) startLoading();
     if (n === 4) populateResults();
     if (n === 7) showConfirmation();
@@ -1002,6 +1016,7 @@ function handleFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
   userData.photo = file;
+  if (typeof gtag !== 'undefined') gtag('event', 'photo_uploaded');
   userData.photoMimeType = file.type || 'image/jpeg';
 
   const reader = new FileReader();
@@ -1065,6 +1080,7 @@ function submitQuiz() {
     return;
   }
   userData.email = email;
+  if (typeof gtag !== 'undefined') gtag('event', 'email_submitted');
   subscribeToMailerLite(); // initial capture — no scan data yet
   goToScreen(3);
 }
@@ -1729,6 +1745,7 @@ document.addEventListener('DOMContentLoaded', function() {
   if (getReportBtn) {
     getReportBtn.addEventListener('click', function() {
       console.log('getReportBtn clicked');
+      if (typeof gtag !== 'undefined') gtag('event', 'unlock_report_clicked');
       goToScreen(6);
     });
   }
@@ -1742,6 +1759,13 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
         localStorage.setItem('glowscan_timestamp', Date.now().toString());
       } catch(e) {}
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'begin_checkout', {
+          value: addonChecked ? 22.98 : 7.99,
+          currency: 'USD',
+          items: [{ item_name: addonChecked ? 'Bundle' : 'Full Report' }]
+        });
+      }
       window.location.href = url;
     });
   }
