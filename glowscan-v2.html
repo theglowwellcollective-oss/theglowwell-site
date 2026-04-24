@@ -937,7 +937,7 @@ if (/Instagram/.test(navigator.userAgent)) {
       </div>
 
       <div id="orderTotalBar" style="background:#252320;padding:16px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:10px;color:rgba(247,243,238,0.38);letter-spacing:1.5px;text-transform:uppercase">Total today</div>
+        <div id="orderTotalLabel" style="font-size:10px;color:rgba(247,243,238,0.38);letter-spacing:1.5px;text-transform:uppercase">Total today</div>
         <div id="orderTotalNum" style="font-family:'Cormorant Garamond',serif;font-size:30px;color:#F7F3EE;font-weight:300">$22.98</div>
       </div>
       <div style="text-align:center;padding:8px 0 4px;">
@@ -1072,7 +1072,7 @@ function goToScreen(n) {
 function updateStickyBtn(screenNum) {
   const btn = document.getElementById('stickyUnlockBtn');
   if (!btn) return;
-  if (screenNum === 4 || screenNum === 5) {
+  if (screenNum === 5) {
     btn.style.display = 'block';
   } else {
     btn.style.display = 'none';
@@ -1096,10 +1096,13 @@ function getPrices() {
 
 function applyPricingToCheckout() {
   const prices = getPrices();
+  const tier = getPricingTier();
   const totalEl = document.getElementById('orderTotalNum');
+  const totalLabelEl = document.getElementById('orderTotalLabel');
   const stickyBtn = document.getElementById('stickyUnlockBtn');
   const screen5Price = document.getElementById('screen5PriceBig');
   if (totalEl) totalEl.textContent = addonChecked ? prices.bundleDisplay : prices.reportDisplay;
+  if (totalLabelEl) totalLabelEl.textContent = (tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today';
   if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + prices.reportDisplay + ' →';
   if (screen5Price) screen5Price.textContent = prices.reportDisplay;
 }
