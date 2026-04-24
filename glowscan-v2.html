@@ -1696,7 +1696,10 @@ function toggleAddon() {
 
 // ── CHECKOUT HANDLER ──────────────────────────
 function handleCheckout() {
-  const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
+  let url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
+  const tier = getPricingTier();
+  if (tier === 'tier3') url += '&checkout[discount_code]=ASIA';
+  else if (tier === 'tier2') url += '&checkout[discount_code]=GLOBAL';
   try {
     localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
     localStorage.setItem('glowscan_timestamp', Date.now().toString());
