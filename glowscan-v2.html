@@ -345,6 +345,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 .mt-8{margin-top:8px}
 .text-center{text-align:center}
 .hidden{display:none!important}
+
+/* ── STICKY UNLOCK BUTTON ───────────────────── */
+.sticky-unlock{position:fixed;bottom:0;left:0;right:0;z-index:300;background:var(--terra);color:white;padding:16px 24px;text-align:center;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;letter-spacing:0.3px;cursor:pointer;border:none;display:none;box-shadow:0 -4px 20px rgba(196,132,90,0.3);transition:background 0.2s}
+.sticky-unlock:hover{background:var(--terra-dark)}
 </style>
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G0CP35KCPJ"></script>
@@ -364,6 +368,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 </script>
 </head>
 <body>
+
+<!-- ── STICKY UNLOCK BUTTON ───────────────────── -->
+<button class="sticky-unlock" id="stickyUnlockBtn" onclick="goToScreen(5)">
+  Unlock My Full Report — $7.99 →
+</button>
 
 <!-- ── INSTAGRAM IN-APP BROWSER BANNER ──────── -->
 <script>
@@ -388,13 +397,13 @@ if (/Instagram/.test(navigator.userAgent)) {
 <section id="screen1" class="screen" style="display:block">
   <div class="hero-inner">
     <div class="eyebrow">Free AI Skin Analysis</div>
-    <h1 class="hero-h1">Your skin is older than your birth certificate.</h1>
-    <p class="hero-sub">Upload a selfie. Answer 5 questions. Find out what's really going on — and how to fix it.</p>
+    <h1 class="hero-h1">Your skin has been sending signals. It's time to listen.</h1>
+    <p class="hero-sub">Upload a selfie. Answer 3 quick questions. Find out exactly what your skin needs — and how to give it to you.</p>
 
     <picture><source srcset="pdf-photo1.webp" type="image/webp"><img src="pdf-photo1.png" alt="Skin transformation results" style="width:100%;border-radius:6px;object-fit:cover;max-height:220px;display:block;margin-bottom:28px" loading="eager" fetchpriority="high" decoding="async" width="800"></picture>
 
     <button type="button" id="scanBtn" class="btn btn-terra btn-full" style="font-size:15px;padding:18px 32px;">
-      Scan My Skin — It's Free
+      Reveal My Glow Score — Free
     </button>
 
     <div class="hero-trust">
@@ -402,143 +411,138 @@ if (/Instagram/.test(navigator.userAgent)) {
       <span class="trust-item">No credit card</span>
       <span class="trust-item">60 seconds</span>
     </div>
+    <p style="text-align:center;font-size:13px;font-weight:400;color:var(--text-mid);letter-spacing:0.5px;margin-top:16px">Look younger. Feel confident. Stop guessing.</p>
 
     <div class="hero-social-proof">
       <span class="stars">★★★★★</span>
-      <span class="social-text">Used by 14,000+ women who stopped guessing</span>
+      <span class="social-text">Used by 14,000+ women who finally stopped guessing</span>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     SCREEN 2 — QUIZ + UPLOAD
+     SCREEN 2 — 3-QUESTION QUIZ (SINGLE PAGE)
 ══════════════════════════════════════════════ -->
 <section id="screen2" class="screen" style="display:none">
-  <!-- Progress bar -->
   <div class="progress-wrap">
-    <div class="progress-label" id="progressLabel">Step 1 of 6</div>
+    <div class="progress-label" id="progressLabel">Step 1 of 4</div>
     <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:17%"></div>
+      <div class="progress-fill" id="progressFill" style="width:25%"></div>
     </div>
   </div>
-
   <div class="quiz-inner">
+    <div style="margin-bottom:28px;padding-top:8px">
+      <p style="font-size:13px;font-weight:300;color:var(--text-light);font-style:italic;text-align:center;line-height:1.6">Your skin is trying to tell you something. Every day.<br>These 3 questions help us hear it.</p>
+    </div>
 
-    <!-- Step 1 — Age -->
-    <div class="quiz-step active" id="step1">
-      <div class="q-label">Question 1 of 5</div>
-      <div class="q-text">How old are you?</div>
+    <!-- Q1: Age -->
+    <div style="margin-bottom:32px">
+      <div class="q-label">Question 1</div>
+      <div class="q-text">How old are you? <span style="font-size:18px;color:var(--text-light);font-weight:300;font-style:italic">(Your skin age might be a very different number.)</span></div>
       <input type="number" class="email-input" id="ageInput" min="18" max="80" placeholder="Enter your age" oninput="onAgeInput()" style="margin-bottom:0" />
-      <div class="q-next hidden" id="ageNext">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(2)">Next →</button>
-      </div>
     </div>
 
-    <!-- Step 2 — Primary concern -->
-    <div class="quiz-step" id="step2">
-      <div class="q-label">Question 2 of 5</div>
-      <div class="q-text">If your skin could text you one complaint right now, what would it be?</div>
+    <!-- Q2: Skin concern -->
+    <div style="margin-bottom:32px">
+      <div class="q-label">Question 2</div>
+      <div class="q-text">Every skin type has a signature. Yours is already talking — <em>what's it saying?</em></div>
       <div class="q-options" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <button class="q-option" onclick="selectOption(this,'concern','Fine lines appearing')">Fine lines appearing</button>
-        <button class="q-option" onclick="selectOption(this,'concern','Dull no matter what')">Dull no matter what</button>
-        <button class="q-option" onclick="selectOption(this,'concern','Red and reactive')">Red and reactive</button>
-        <button class="q-option" onclick="selectOption(this,'concern','Shiny by 2pm, tight after washing')">Shiny by 2pm, tight after washing</button>
-        <button class="q-option" onclick="selectOption(this,'concern','Texture makeup can\'t fix')">Texture makeup can't fix</button>
-        <button class="q-option" onclick="selectOption(this,'concern','Breaking out more than I should')">Breaking out more than I should</button>
-      </div>
-      <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(3)">Next →</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Fine lines that weren\'t there last year')">Fine lines that weren't there last year</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Dull and tired, even when I\'m not')">Dull and tired, even when I'm not</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Reactive — my skin has opinions about everything')">Reactive — my skin has opinions about everything</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Oily by noon, tight by morning — make it make sense')">Oily by noon, tight by morning — make it make sense</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Texture that foundation can\'t hide')">Texture that foundation can't hide</button>
+        <button class="q-option" onclick="selectOption(this,'concern','Breaking out at an age I shouldn\'t be')">Breaking out at an age I shouldn't be</button>
       </div>
     </div>
 
-    <!-- Step 3 — Routine -->
-    <div class="quiz-step" id="step3">
-      <div class="q-label">Question 3 of 5</div>
-      <div class="q-text">How many steps do you actually do when you're being honest?</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'routine','Splash water and pray')">Splash water and pray</button>
-        <button class="q-option" onclick="selectOption(this,'routine','Cleanser and moisturizer')">Cleanser and moisturizer</button>
-        <button class="q-option" onclick="selectOption(this,'routine','3-4 things TikTok told me to buy')">3-4 things TikTok told me to buy</button>
-        <button class="q-option" onclick="selectOption(this,'routine','Full routine — I have a shelf')">Full routine — I have a shelf</button>
-      </div>
-      <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(4)">Next →</button>
-      </div>
-    </div>
-
-    <!-- Step 4 — Budget -->
-    <div class="quiz-step" id="step4">
-      <div class="q-label">Question 4 of 5</div>
-      <div class="q-text">What's your monthly skincare budget?</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'budget','Under $25')">Under $25</button>
-        <button class="q-option" onclick="selectOption(this,'budget','$25-50')">$25–50</button>
-        <button class="q-option" onclick="selectOption(this,'budget','$50-100')">$50–100</button>
-        <button class="q-option" onclick="selectOption(this,'budget','$100+')">$100+</button>
-      </div>
-      <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(5)">Next →</button>
+    <!-- Q3: Country/Region -->
+    <div style="margin-bottom:32px">
+      <div class="q-label">Question 3</div>
+      <div class="q-text">Where are you based? <span style="font-size:18px;color:var(--text-light);font-weight:300;font-style:italic">(This helps us match UV exposure, climate, and environmental stress to your skin.)</span></div>
+      <div class="q-options" style="display:flex;flex-direction:column;gap:10px">
+        <button class="q-option" onclick="selectOption(this,'country','North America')" data-region="tier1">🇺🇸 North America (US, Canada)</button>
+        <button class="q-option" onclick="selectOption(this,'country','UK & Ireland')" data-region="tier1">🇬🇧 UK & Ireland</button>
+        <button class="q-option" onclick="selectOption(this,'country','Europe')" data-region="tier1">🌍 Europe (France, Germany, Spain, Netherlands + more)</button>
+        <button class="q-option" onclick="selectOption(this,'country','Australia & NZ')" data-region="tier1">🇦🇺 Australia & New Zealand</button>
+        <button class="q-option" onclick="selectOption(this,'country','Asia & Pacific')" data-region="tier3">🌏 Asia & Pacific</button>
+        <button class="q-option" onclick="selectOption(this,'country','Other')" data-region="tier2">🌎 Other / Prefer not to say</button>
       </div>
     </div>
 
-    <!-- Step 5 — Skin feel at 4pm -->
-    <div class="quiz-step" id="step5">
-      <div class="q-label">Question 5 of 5</div>
-      <div class="q-text">How does your skin feel at 4pm?</div>
-      <div class="q-options">
-        <button class="q-option" onclick="selectOption(this,'skinFeel','Tight and dry')">Tight and dry</button>
-        <button class="q-option" onclick="selectOption(this,'skinFeel','Shiny and oily')">Shiny and oily</button>
-        <button class="q-option" onclick="selectOption(this,'skinFeel','Pretty balanced')">Pretty balanced</button>
-        <button class="q-option" onclick="selectOption(this,'skinFeel','Reactive and red')">Reactive and red</button>
-      </div>
-      <div class="q-next hidden">
-        <button class="btn btn-terra btn-full mt-16" onclick="nextStep(6)">Next →</button>
-      </div>
+    <!-- Single CTA to advance to photo upload -->
+    <div id="quizNextBtn" style="display:none">
+      <button class="btn btn-terra btn-full" style="font-size:15px;padding:18px 32px" onclick="advanceToPhotoUpload()">Next — Upload Your Photo →</button>
     </div>
-
-    <!-- Step 6 — Photo upload (Final Step) -->
-    <div class="quiz-step" id="step6">
-      <div class="upload-eyebrow">Final Step — Your Personalized Analysis</div>
-      <div class="upload-headline">Now let's see what your skin is actually doing.</div>
-      <p class="upload-credibility">Trained on 150,000+ real skin analyses across 40+ skin concerns</p>
-      <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
-        <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="24" cy="24" r="23" stroke="#C4845A" stroke-width="1.5" stroke-dasharray="4 2"/>
-          <path d="M24 16v12M18 22l6-6 6 6" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <div class="upload-title">Tap to upload your photo</div>
-        <p class="upload-sub">Face fully in frame, no sunglasses. The more real, the more accurate.</p>
-      </div>
-      <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
-      <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
-      <div class="upload-live-counter">
-        <span class="live-dot"></span>
-        <span><span id="liveCounterUpload">24</span> people uploading their photo right now</span>
-      </div>
-      <div class="upload-privacy-block">
-        🔒 Seen by our Scanner. Deleted immediately. Never stored.<br>
-        <span>Your photo never touches a human. Ever.</span>
-      </div>
-      <div class="upload-testimonial">
-        <span class="upload-stars">★★★★★</span>
-        <span class="upload-quote">"It scanned my skin age as 39. I'm 44. I literally cried — absolutely love the AM/PM routine it recommended."</span>
-        <span class="upload-attr">— Gianna M., 44 · Verified</span>
-      </div>
+    <div id="quizInProgress" style="text-align:center;margin-top:8px">
+      <p style="font-size:12px;color:var(--text-light);font-weight:300">Answer all 3 questions to continue</p>
     </div>
+  </div>
+</section>
 
-    <!-- Step 7 — Email capture -->
-    <div class="quiz-step" id="step7">
-      <div class="email-heading">Your Glow Score is ready.</div>
-      <p class="email-subhead">Where should we send your results?</p>
-      <p class="email-sub">We'll analyze your scan and have your personalized results ready in 15 seconds.</p>
-      <input type="email" class="email-input" id="emailInput" placeholder="Your email address" />
-      <div class="privacy-note">Photo analyzed instantly. Never stored on our servers.<br>No spam — just your results and occasional skin tips.</div>
-      <button class="btn btn-terra btn-full" onclick="submitQuiz()" style="font-size:15px;padding:18px 32px;">
-        Send Me My Results →
-      </button>
+<!-- ══════════════════════════════════════════════
+     SCREEN 2B — PHOTO UPLOAD
+══════════════════════════════════════════════ -->
+<section id="screen2b" class="screen" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-label">Step 2 of 4</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:50%"></div>
     </div>
+  </div>
+  <div class="quiz-inner">
+    <div style="margin-bottom:20px;padding-top:8px">
+      <div class="upload-eyebrow">Final step before your results</div>
+      <div class="upload-headline">Now the scan sees what the questions can't.</div>
+      <p class="upload-subtext">Trained on 150,000+ real skin analyses. It takes 15 seconds. Your photo is deleted the moment it's done.</p>
+      <p class="upload-credibility">Built on peer-reviewed dermatology research — not TikTok trends.</p>
+    </div>
+    <div class="upload-box" id="uploadBox" onclick="document.getElementById('fileInput').click()">
+      <svg class="upload-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="24" cy="24" r="23" stroke="#C4845A" stroke-width="1.5" stroke-dasharray="4 2"/>
+        <path d="M24 16v12M18 22l6-6 6 6" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 32h16" stroke="#C4845A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <div class="upload-title">Tap to upload your photo</div>
+      <p class="upload-sub">Face fully in frame, no sunglasses. The more real, the more accurate.</p>
+    </div>
+    <img id="uploadPreview" class="upload-preview" alt="Your selfie" />
+    <input type="file" id="fileInput" accept="image/*" onchange="handleFileUpload(event)">
+    <div class="upload-live-counter">
+      <span class="live-dot"></span>
+      <span><span id="liveCounterUpload">24</span> women uploading their photo right now</span>
+    </div>
+    <div class="upload-privacy-block">
+      🔒 Analyzed by AI. Never seen by a human. Deleted instantly. Not stored — ever.<br>
+      <span>Your photo never touches a human. Ever.</span>
+    </div>
+    <div class="upload-testimonial">
+      <span class="upload-stars">★★★★★</span>
+      <span class="upload-quote">"It scanned my skin age as 39. I'm 44. I literally cried — absolutely love the AM/PM routine it recommended."</span>
+      <span class="upload-attr">— Gianna M., 44 · Verified</span>
+    </div>
+  </div>
+</section>
 
+<!-- ══════════════════════════════════════════════
+     SCREEN 2C — EMAIL CAPTURE
+══════════════════════════════════════════════ -->
+<section id="screen2c" class="screen" style="display:none">
+  <div class="progress-wrap">
+    <div class="progress-label">Step 3 of 4</div>
+    <div class="progress-track">
+      <div class="progress-fill" style="width:75%"></div>
+    </div>
+  </div>
+  <div class="quiz-inner" style="padding-top:40px">
+    <div class="email-heading">Your Glow Score is ready.</div>
+    <p class="email-subhead">Where should we send your results?</p>
+    <p class="email-sub">We'll analyze your scan and have your personalized results ready in 15 seconds.</p>
+    <input type="email" class="email-input" id="emailInput" placeholder="Your email address" />
+    <div class="privacy-note">Photo analyzed instantly. Never stored on our servers.<br>No spam — just your results and occasional skin tips.</div>
+    <button class="btn btn-terra btn-full" onclick="submitQuiz()" style="font-size:15px;padding:18px 32px;">
+      Send Me My Results →
+    </button>
   </div>
 </section>
 
@@ -560,7 +564,7 @@ if (/Instagram/.test(navigator.userAgent)) {
       playsinline
       style="width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:8px;display:block"
     ></video>
-    <p class="loading-footnote">More detailed than any quiz you've taken.</p>
+    <p class="loading-footnote">14,000+ women have seen results they didn't expect.</p>
   </div>
 </section>
 
@@ -680,6 +684,41 @@ if (/Instagram/.test(navigator.userAgent)) {
       <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser3"></p></div>
     </div>
 
+    <!-- Additional blurred preview sections -->
+    <div style="margin-bottom:20px">
+      <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px">Locked in your full report</div>
+
+      <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:10px;overflow:hidden">
+        <div style="filter:blur(5px);pointer-events:none;user-select:none">
+          <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">Your Morning Routine</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:1.8">Step 1: Gentle cleanser — [personalized pick]<br>Step 2: Vitamin C serum — [matched to your skin age]<br>Step 3: Moisturizer — [barrier-matched formula]<br>Step 4: SPF — [your skin type specific]</div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(247,243,238,0.7)">
+          <span style="font-size:12px;font-weight:500;color:var(--terra-dark);letter-spacing:1px">🔒 UNLOCK TO REVEAL</span>
+        </div>
+      </div>
+
+      <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:10px;overflow:hidden">
+        <div style="filter:blur(5px);pointer-events:none;user-select:none">
+          <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">Ingredients Your Skin Needs</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:1.8">✓ [Active #1 matched to your concern]<br>✓ [Active #2 for your skin age]<br>✓ [Barrier ingredient personalized to you]<br>✗ [Ingredient currently working against you]</div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(247,243,238,0.7)">
+          <span style="font-size:12px;font-weight:500;color:var(--terra-dark);letter-spacing:1px">🔒 UNLOCK TO REVEAL</span>
+        </div>
+      </div>
+
+      <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;overflow:hidden">
+        <div style="filter:blur(5px);pointer-events:none;user-select:none">
+          <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">What To Stop Using This Week</div>
+          <div style="font-size:12px;color:var(--text-light);line-height:1.8">⚠️ [Product type working against your barrier]<br>⚠️ [Ingredient pairing cancelling each other out]<br>⚠️ [Timing issue in your current routine]</div>
+        </div>
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(247,243,238,0.7)">
+          <span style="font-size:12px;font-weight:500;color:var(--terra-dark);letter-spacing:1px">🔒 UNLOCK TO REVEAL</span>
+        </div>
+      </div>
+    </div>
+
     <div style="padding:16px 0;display:none;">
       <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
         Unlock My Full Report 🔒
@@ -704,9 +743,9 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Unlock banner -->
     <div class="unlock-banner">
-      <p class="unlock-title">One routine change away from this.</p>
-      <p class="unlock-sub">Full breakdown, routine gaps, and your next-step plan.</p>
-      <button onclick="goToScreen(5)" style="width:100%;background:var(--terra,#C4845A);color:white;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Unlock My Full Report</button>
+      <p class="unlock-title">This is what your skin looks like when you know exactly what it needs.</p>
+      <p class="unlock-sub">Full breakdown, routine gaps, ingredient matches, and your next-step plan.</p>
+      <button onclick="goToScreen(5)" style="width:100%;background:var(--terra,#C4845A);color:white;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Show Me My Full Glow Analysis →</button>
       <p style="font-size:11px;color:var(--text-light,#9A9088);text-align:center;margin-top:8px;font-weight:300;">Full routine · Ingredient breakdown · What to fix first</p>
     </div>
 
@@ -728,8 +767,35 @@ if (/Instagram/.test(navigator.userAgent)) {
     <!-- Section 1 — Bridge headline -->
     <div style="padding:28px 28px 0">
       <div style="font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:#4E6B49;margin-bottom:12px">Your full report is ready</div>
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#252320;line-height:1.1;margin-bottom:10px">Your skin doesn't need more <span style="color:#E24B4A;font-style:italic">expensive</span> products.<br>It needs the <span style="color:#4E6B49;font-style:italic">right ones.</span></h2>
-      <p style="font-size:13px;font-weight:300;color:#6B6458;line-height:1.65;margin-bottom:24px" id="reportSummaryText">That skin age number isn't permanent. This is exactly how you change it.</p>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#252320;line-height:1.1;margin-bottom:10px">Built from <span style="color:#4E6B49;font-style:italic">your face.</span> Not someone else's routine.</h2>
+      <p style="font-size:13px;font-weight:300;color:#6B6458;line-height:1.65;margin-bottom:24px" id="reportSummaryText">That skin age number isn't permanent. Here's exactly how you change it — for your skin, your budget, your life.</p>
+    </div>
+
+    <!-- Old Way / New Way -->
+    <div style="padding:0 28px 24px">
+      <div style="font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:16px;text-align:center">Why this is different</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px">
+          <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px">The old way</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:12px;color:var(--text-mid);display:flex;gap:8px;align-items:flex-start"><span style="color:#ccc">✗</span> Buy what TikTok recommends</div>
+            <div style="font-size:12px;color:var(--text-mid);display:flex;gap:8px;align-items:flex-start"><span style="color:#ccc">✗</span> Trial and error products</div>
+            <div style="font-size:12px;color:var(--text-mid);display:flex;gap:8px;align-items:flex-start"><span style="color:#ccc">✗</span> Generic routines for everyone</div>
+            <div style="font-size:12px;color:var(--text-mid);display:flex;gap:8px;align-items:flex-start"><span style="color:#ccc">✗</span> Waste $600+ per year</div>
+            <div style="font-size:12px;color:var(--text-mid);display:flex;gap:8px;align-items:flex-start"><span style="color:#ccc">✗</span> Look the same or worse</div>
+          </div>
+        </div>
+        <div style="background:rgba(78,107,73,0.06);border:1.5px solid var(--sage);border-radius:8px;padding:16px">
+          <div style="font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:12px">The Glow Well way</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--sage-dark)">✓</span> Know what YOUR skin needs</div>
+            <div style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--sage-dark)">✓</span> Built from your face scan</div>
+            <div style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--sage-dark)">✓</span> Personalized to your skin</div>
+            <div style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--sage-dark)">✓</span> One scan. One plan. Zero guessing.</div>
+            <div style="font-size:12px;color:var(--text);display:flex;gap:8px;align-items:flex-start"><span style="color:var(--sage-dark)">✓</span> Look younger. Feel confident.</div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Section 2 — 4 locked benefit cards -->
@@ -812,14 +878,15 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Section 5 — Price reveal -->
     <div style="padding:20px 28px;text-align:center;border-top:0.5px solid #DDD6CC;margin-bottom:20px">
+      <div style="font-size:13px;color:#9A9088;font-weight:300;margin-bottom:8px;font-style:italic">Less than your morning coffee. More useful than your last three serums.</div>
       <div style="font-size:13px;color:#9A9088;text-decoration:line-through;font-weight:300;margin-bottom:4px">Originally $29</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:#252320;line-height:1">$7.99</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:54px;font-weight:300;color:#252320;line-height:1" id="screen5PriceBig">$7.99</div>
       <span style="display:inline-block;background:rgba(196,132,90,0.1);color:#A06840;font-size:10px;font-weight:500;padding:4px 12px;border-radius:2px;margin-top:8px;letter-spacing:0.5px">Today only — intro price</span>
     </div>
 
     <!-- Section 7 — CTA -->
     <div style="padding:0 28px 32px">
-      <button type="button" id="getReportBtn" onclick="goToScreen(6)" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Unlock My Full Report — $7.99</button>
+      <button type="button" id="getReportBtn" onclick="goToScreen(6)" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Show Me My Full Glow Analysis →</button>
       <div style="font-size:11px;color:#9A9088;text-align:center;margin-top:10px;font-weight:300;line-height:1.6">Instant access · Built from your scan · One-time payment<br>7-day refund if it doesn't help</div>
     </div>
 
@@ -877,7 +944,7 @@ if (/Instagram/.test(navigator.userAgent)) {
         <p style="font-size:11px;font-weight:300;color:var(--sage-light,#A8BFA3);letter-spacing:0.3px;">vs. $200+ for a dermatologist visit</p>
       </div>
 
-      <button type="button" id="checkoutBtn" onclick="window.location.href=addonChecked?'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7?variant=bundle':'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7?variant=report-only'" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Pay Securely — Unlock My Report</button>
+      <button type="button" id="checkoutBtn" onclick="handleCheckout()" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Pay Securely — Unlock My Report</button>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;color:#9A9088;margin-top:10px;font-weight:300">
         <div style="width:3px;height:3px;border-radius:50%;background:#DDD6CC"></div>
@@ -953,10 +1020,7 @@ const userData = {
   photoMimeType: null,
   age: null,
   concern: null,
-  routine: null,
-  budget: null,
-  shopping: null,
-  skinFeel: null,
+  country: null,
   email: null
 };
 
@@ -983,14 +1047,15 @@ function goToScreen(n) {
     target.style.display = 'block';
     window.scrollTo(0, 0);
     currentScreen = n;
+    updateStickyBtn(n);
+    applyPricingToCheckout();
     // GA4 funnel tracking
     if (typeof gtag !== 'undefined') {
-      const screenNames = {
-        1: 'hero', 2: 'quiz', 3: 'scanning', 4: 'free_results',
-        5: 'value_prop', 6: 'checkout_screen', 7: 'confirmation'
-      };
-      gtag('event', 'screen_view', { screen_name: screenNames[n] || 'screen_' + n });
-      if (n === 2) gtag('event', 'quiz_started');
+      const screenNames = { 1:'hero', 2:'quiz', '2':'quiz', '2b':'photo_upload', '2c':'email_capture', 3:'scanning', 4:'free_results', 5:'value_prop', 6:'checkout_screen', 7:'confirmation' };
+      gtag('event', 'screen_view', { screen_name: screenNames[n] || ('screen_' + n) });
+      if (n === 2 || n === '2') gtag('event', 'quiz_started');
+      if (n === '2b') gtag('event', 'quiz_completed');
+      if (n === '2c') gtag('event', 'photo_uploaded');
       if (n === 3) gtag('event', 'photo_submitted');
       if (n === 4) gtag('event', 'free_results_viewed');
       if (n === 5) gtag('event', 'value_prop_viewed');
@@ -1001,6 +1066,42 @@ function goToScreen(n) {
     if (n === 4) populateResults();
     if (n === 7) showConfirmation();
   }
+}
+
+// ── STICKY UNLOCK BUTTON ──────────────────────
+function updateStickyBtn(screenNum) {
+  const btn = document.getElementById('stickyUnlockBtn');
+  if (!btn) return;
+  if (screenNum === 4 || screenNum === 5) {
+    btn.style.display = 'block';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+// ── COUNTRY-BASED PRICING TIERS ───────────────
+function getPricingTier() {
+  const country = userData.country || '';
+  if (country === 'Asia & Pacific') return 'tier3';
+  if (country === 'Other') return 'tier2';
+  return 'tier1';
+}
+
+function getPrices() {
+  const tier = getPricingTier();
+  if (tier === 'tier3') return { report: 1.99, bundle: 4.99, reportDisplay: '$1.99', bundleDisplay: '$4.99' };
+  if (tier === 'tier2') return { report: 3.99, bundle: 9.99, reportDisplay: '$3.99', bundleDisplay: '$9.99' };
+  return { report: 7.99, bundle: 22.98, reportDisplay: '$7.99', bundleDisplay: '$22.98' };
+}
+
+function applyPricingToCheckout() {
+  const prices = getPrices();
+  const totalEl = document.getElementById('orderTotalNum');
+  const stickyBtn = document.getElementById('stickyUnlockBtn');
+  const screen5Price = document.getElementById('screen5PriceBig');
+  if (totalEl) totalEl.textContent = addonChecked ? prices.bundleDisplay : prices.reportDisplay;
+  if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + prices.reportDisplay + ' →';
+  if (screen5Price) screen5Price.textContent = prices.reportDisplay;
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
@@ -1031,10 +1132,23 @@ function handleFileUpload(event) {
     preview.style.display = 'block';
     document.getElementById('uploadBox').style.display = 'none';
 
-    // Auto-advance after short delay
-    setTimeout(() => nextStep(7), 600);
+    // Auto-advance to email capture
+    setTimeout(() => goToScreen('2c'), 600);
   };
   reader.readAsDataURL(file);
+}
+
+// ── ADVANCE QUIZ → PHOTO UPLOAD ───────────────
+function advanceToPhotoUpload() {
+  const age = parseInt(document.getElementById('ageInput').value);
+  if (!age || age < 18 || age > 80) {
+    const input = document.getElementById('ageInput');
+    if (input) { input.style.borderColor = 'var(--terra)'; input.focus(); }
+    return;
+  }
+  if (!userData.concern) return;
+  if (!userData.country) return;
+  goToScreen('2b');
 }
 
 // ── QUIZ STEP NAVIGATION ──────────────────────
@@ -1049,25 +1163,27 @@ function nextStep(step) {
 }
 
 function selectOption(el, field, value) {
-  // Deselect siblings
   el.closest('.q-options').querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
   userData[field] = value;
-
-  // Show next button
-  const nextWrap = el.closest('.quiz-step').querySelector('.q-next');
-  if (nextWrap) nextWrap.classList.remove('hidden');
+  const ageVal = parseInt(document.getElementById('ageInput')?.value);
+  const allAnswered = ageVal >= 18 && userData.concern && userData.country;
+  const nextBtn = document.getElementById('quizNextBtn');
+  const inProgress = document.getElementById('quizInProgress');
+  if (nextBtn) nextBtn.style.display = allAnswered ? 'block' : 'none';
+  if (inProgress) inProgress.style.display = allAnswered ? 'none' : 'block';
 }
 
 // ── AGE INPUT HANDLER ─────────────────────────
 function onAgeInput() {
   const val = parseInt(document.getElementById('ageInput').value);
-  const nextEl = document.getElementById('ageNext');
   if (val >= 18 && val <= 80) {
     userData.age = val;
-    nextEl.classList.remove('hidden');
-  } else {
-    nextEl.classList.add('hidden');
+    const allAnswered = userData.concern && userData.country;
+    const nextBtn = document.getElementById('quizNextBtn');
+    const inProgress = document.getElementById('quizInProgress');
+    if (nextBtn) nextBtn.style.display = allAnswered ? 'block' : 'none';
+    if (inProgress) inProgress.style.display = allAnswered ? 'none' : 'block';
   }
 }
 
@@ -1090,11 +1206,11 @@ function startLoading() {
   const bar = document.getElementById('loadingBar');
   const scanTextEl = document.getElementById('scanText');
   const scanPhrases = [
-    'Scanning sebaceous activity...',
-    'Mapping inflammation zones...',
-    'Checking hydration levels...',
-    'Detecting pigmentation patterns...',
-    'Crunching your Glow Score...'
+    'Reading your barrier health signals...',
+    'Mapping your hydration patterns across zones...',
+    'Matching ingredients to your skin profile...',
+    'Identifying what your current routine is missing...',
+    'Calculating your Glow Score...'
   ];
   let elapsed = 0;
   let phraseIndex = 0;
@@ -1135,10 +1251,9 @@ async function subscribeToMailerLite(extraFields) {
     const fields = {
       age: userData.age || '',
       skin_concern: userData.concern || '',
-      routine: userData.routine || '',
-      budget: userData.budget || '',
-      shopping: userData.shopping || '',
-      skin_feel: userData.skinFeel || ''
+      country: userData.country || '',
+      glow_score: '',
+      skin_age: ''
     };
     if (extraFields) Object.assign(fields, extraFields);
     await fetch(WORKER_URL, {
@@ -1160,10 +1275,7 @@ async function callClaudeForFreeResults() {
 USER QUIZ ANSWERS:
 - Age: ${actualAge}
 - Primary skin concern: ${userData.concern}
-- Current routine: ${userData.routine}
-- Monthly budget: ${userData.budget}
-- Where they shop: ${userData.shopping}
-- Skin feel at 4pm: ${userData.skinFeel}
+- Region/Country: ${userData.country}
 
 Look carefully at the photo. Analyze visible skin markers: texture, shine, pores, redness, fine lines, tone evenness, under-eye area.
 
@@ -1296,9 +1408,12 @@ Return ONLY this JSON, no other text, no markdown:
 }
 
 function showScanError(message) {
-  goToScreen(2);
+  goToScreen('2b');
   setTimeout(() => {
-    const uploadBox = document.querySelector('.upload-box') || document.querySelector('#screen2');
+    const uploadBox = document.querySelector('#screen2b .upload-box') || document.querySelector('.upload-box');
+    const previewEl = document.getElementById('uploadPreview');
+    if (uploadBox) uploadBox.style.display = 'block';
+    if (previewEl) { previewEl.style.display = 'none'; previewEl.src = ''; }
     const errorDiv = document.createElement('div');
     errorDiv.style.cssText = 'background:rgba(196,132,90,0.1);border:1px solid rgba(196,132,90,0.3);border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#A06840;font-family:DM Sans,sans-serif;line-height:1.5;text-align:center';
     errorDiv.textContent = message;
@@ -1321,21 +1436,21 @@ SCAN DATA:
 - Scores: Hydration ${freeData.scores?.hydration}, Barrier ${freeData.scores?.barrier}, Texture ${freeData.scores?.texture}, Radiance ${freeData.scores?.radiance}
 - Photo callouts: ${JSON.stringify(freeData.callouts)}
 
-USER: Age ${actualAge}, concern: ${userData.concern}, routine: ${userData.routine}, budget: ${userData.budget}, shops at: ${userData.shopping}
+USER: Age ${actualAge}, primary skin concern: ${userData.concern}, region: ${userData.country}
 
-Return ONLY valid JSON, no markdown, no extra text:
+Tailor product/routine suggestions to what's realistically available in the user's region. Return ONLY valid JSON, no markdown, no extra text:
 {
   "profileSummary": "2-3 sentences about their specific skin situation",
   "photoFindings": ["finding 1", "finding 2", "finding 3"],
   "scoreExplanations": {"hydration": "1 sentence", "barrier": "1 sentence", "texture": "1 sentence", "radiance": "1 sentence"},
   "top3priorities": ["priority 1", "priority 2", "priority 3"],
-  "amRoutine": [{"step": "name", "product": "specific product at ${userData.shopping}", "why": "1 sentence"}],
-  "pmRoutine": [{"step": "name", "product": "specific product", "why": "1 sentence"}],
+  "amRoutine": [{"step": "name", "product": "specific product available in ${userData.country}", "why": "1 sentence"}],
+  "pmRoutine": [{"step": "name", "product": "specific product available in ${userData.country}", "why": "1 sentence"}],
   "seekIngredients": [{"ingredient": "name", "why": "1 sentence"}],
   "avoidIngredients": [{"ingredient": "name", "why": "1 sentence"}],
   "shelfAudit": {"keep": "1 sentence", "pause": "1 sentence", "watch": "1 sentence"},
   "sixWeekPlan": [{"week": "1-2", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}, {"week": "3-4", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}, {"week": "5-6", "focus": "1 sentence", "goal": "1 sentence", "watchFor": "1 sentence"}],
-  "shoppingList": {"store1": {"name": "${userData.shopping?.split('/')[0] || 'Target'}", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}, "store2": {"name": "Amazon", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}}
+  "shoppingList": {"store1": {"name": "mainstream retailer available in ${userData.country}", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}, "store2": {"name": "Amazon", "items": [{"product": "name", "price": "$X"}, {"product": "name", "price": "$X"}]}}
 }`;
 
   const controller = new AbortController();
@@ -1565,18 +1680,36 @@ const LS_BUNDLE_URL = 'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a
 function toggleAddon() {
   addonChecked = !addonChecked;
   const cb = document.getElementById('addonCheckbox');
-  const total = document.getElementById('orderTotalNum');
-  if (addonChecked) {
-    cb.style.background = '#4E6B49';
-    cb.style.border = 'none';
-    cb.innerHTML = '<svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 3l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    if (total) total.textContent = '$22.98';
-  } else {
-    cb.style.background = 'white';
-    cb.style.border = '1.5px solid #DDD6CC';
-    cb.innerHTML = '';
-    if (total) total.textContent = '$7.99';
+  if (cb) {
+    if (addonChecked) {
+      cb.style.background = '#4E6B49';
+      cb.style.border = 'none';
+      cb.innerHTML = '<svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 3l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    } else {
+      cb.style.background = 'white';
+      cb.style.border = '1.5px solid #DDD6CC';
+      cb.innerHTML = '';
+    }
   }
+  applyPricingToCheckout();
+}
+
+// ── CHECKOUT HANDLER ──────────────────────────
+function handleCheckout() {
+  const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
+  try {
+    localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+    localStorage.setItem('glowscan_timestamp', Date.now().toString());
+  } catch(e) {}
+  if (typeof gtag !== 'undefined') {
+    const prices = getPrices();
+    gtag('event', 'begin_checkout', {
+      value: addonChecked ? prices.bundle : prices.report,
+      currency: 'USD',
+      items: [{ item_name: addonChecked ? 'Bundle' : 'Full Report' }]
+    });
+  }
+  window.location.href = url;
 }
 
 // ── CONFIRMATION ──────────────────────────────
@@ -1747,26 +1880,6 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('getReportBtn clicked');
       if (typeof gtag !== 'undefined') gtag('event', 'unlock_report_clicked');
       goToScreen(6);
-    });
-  }
-
-  // ── Checkout button ──
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', function() {
-      const url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
-      try {
-        localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
-        localStorage.setItem('glowscan_timestamp', Date.now().toString());
-      } catch(e) {}
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'begin_checkout', {
-          value: addonChecked ? 22.98 : 7.99,
-          currency: 'USD',
-          items: [{ item_name: addonChecked ? 'Bundle' : 'Full Report' }]
-        });
-      }
-      window.location.href = url;
     });
   }
 
