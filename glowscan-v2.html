@@ -1279,9 +1279,9 @@ USER DATA:
 - Chronological age: ${actualAge}
 - Primary skin concern: ${userData.concern}
 - Region/Country: ${userData.country}
-- Honest routine: ${userData.routine}
-- Monthly budget: ${userData.budget}
-- Skin feel at 4pm: ${userData.skinFeel}
+- Honest routine: ${userData.routine || 'not provided'}
+- Monthly budget: ${userData.budget || 'not provided'}
+- Skin feel at 4pm: ${userData.skinFeel || 'not provided'}
 
 STEP 1 — PHOTO VALIDATION:
 First determine if this is a usable photo. Check:
