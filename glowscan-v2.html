@@ -1273,36 +1273,103 @@ async function subscribeToMailerLite(extraFields) {
 async function callClaudeForFreeResults() {
   const actualAge = parseInt(userData.age) || 30;
 
-  const freePrompt = `You are analyzing a real selfie photo for a skin analysis tool called Glow Scan.
+  const freePrompt = `You are a clinical skin analysis AI for Glow Scan by The Glow Well. You have deep expertise in dermatological visual assessment. Analyze the uploaded selfie photo with precision and clinical accuracy.
 
-USER QUIZ ANSWERS:
-- Age: ${actualAge}
+USER DATA:
+- Chronological age: ${actualAge}
 - Primary skin concern: ${userData.concern}
 - Region/Country: ${userData.country}
+- Honest routine: ${userData.routine}
+- Monthly budget: ${userData.budget}
+- Skin feel at 4pm: ${userData.skinFeel}
 
-Look carefully at the photo. Analyze visible skin markers: texture, shine, pores, redness, fine lines, tone evenness, under-eye area.
+STEP 1 — PHOTO VALIDATION:
+First determine if this is a usable photo. Check:
+- Is this clearly a human face? If not, set "invalidPhoto": true and "invalidReason": "no face detected"
+- Is lighting adequate (not too dark or overexposed)? If not, set "invalidPhoto": true and "invalidReason": "poor lighting"
+- Is the face at least 40% of the frame? If not, set "invalidPhoto": true and "invalidReason": "face too small or far away"
+- Is there heavy makeup, filter effects, or sunglasses obscuring skin? If yes, set "invalidPhoto": true and "invalidReason": "makeup or filter detected"
+If invalidPhoto is true, return ONLY: {"invalidPhoto": true, "invalidReason": "<reason>"}
+
+STEP 2 — SKIN TONE ASSESSMENT:
+Estimate Fitzpatrick skin type (1=very light, 2=light, 3=medium, 4=olive, 5=brown, 6=deep brown/black). This affects how you interpret all findings:
+- Types 1-2: redness appears pink/red, hyperpigmentation appears as darker spots
+- Types 3-4: redness may appear as uneven warmth, post-inflammatory marks appear tan/brown
+- Types 5-6: redness rarely visible, hyperpigmentation appears as dark patches, barrier damage shows as ashy or grey undertone, dullness manifests as loss of natural sheen
+
+STEP 3 — FOUR-ZONE CLINICAL ANALYSIS:
+Examine these specific zones and biomarkers:
+
+PERIORBITAL ZONE (eyes/under-eye):
+- Fine lines and crow's feet depth and density
+- Under-eye darkness, puffiness, or hollowing
+- Skin texture around orbital bone
+- This zone is the PRIMARY predictor of biological skin age
+
+FOREHEAD ZONE:
+- Horizontal line depth and count
+- Vertical frown lines between brows
+- Surface texture and pore visibility
+- Shine pattern indicating sebum activity
+
+CHEEK ZONE:
+- Overall texture and smoothness
+- Pore size and visibility
+- Redness, uneven tone, or hyperpigmentation
+- Plumpness or volume loss indicating elasticity
+
+T-ZONE (nose/chin):
+- Sebum activity and shine
+- Pore congestion and enlarged pores
+- Blackhead indicators
+- Skin texture roughness
+
+STEP 4 — CROSS-REFERENCE WITH USER DATA:
+Weight your visual findings against user answers:
+- If they report oily at 4pm AND you see enlarged pores and T-zone shine → confirm sebum overproduction, elevated barrier concern score
+- If they report tight/dry at 4pm AND you see dullness and fine lines → confirm dehydration pattern, lower hydration score
+- If their routine is splash water and pray → factor in likely product deficiencies affecting barrier score
+- If budget is under $25 → note barrier and hydration are most impactful areas for limited spend
+- Region context: tropical/humid regions → more sebum and congestion likely; cold/dry regions → more barrier damage likely; high UV regions → more pigmentation and photoaging likely
+- Primary concern stated: if visual findings align with stated concern → high confidence finding. If visual findings contradict stated concern → note the discrepancy, visual findings take priority
+
+STEP 5 — SKIN AGE ESTIMATION:
+Base biological skin age on periorbital zone (40% weight), wrinkle extent and depth (25% weight), overall texture quality (20% weight), redness and tone evenness (15% weight).
+Do not constrain skin age to a narrow range around chronological age. Someone with exceptional skin at 40 may have biological age of 28. Someone with heavily damaged skin at 25 may show 35. Be accurate not artificially kind.
+
+STEP 6 — SCORING:
+Glow Score 0-100: Overall skin health. Do not artificially constrain. Scores below 40 are valid for significantly damaged skin. Scores above 85 are valid for exceptional skin.
+Sub-scores 0-100 each: Score each dimension based purely on what you observe.
+- Hydration: surface plumpness, fine dehydration lines, dullness vs luminosity
+- Barrier Health: redness, sensitivity indicators, flakiness, tight or reactive appearance
+- Texture Clarity: smoothness, pore size, surface evenness
+- Radiance: overall glow, luminosity, vibrancy vs dullness
+
+STEP 7 — TEASERS:
+Write 3 specific honest observations. Reference actual visible zones. Connect to their stated concern. Make the third one forward-looking. Keep each under 20 words. Be like a knowledgeable friend who looked carefully at their face. Do not be vague. Do not be alarming.
 
 Return ONLY this JSON, no other text, no markdown:
 {
-  "skinAge": <number between ${actualAge - 5} and ${actualAge + 8} based on visible skin markers>,
-  "glowScore": <number 40-85 based on visible skin health>,
+  "invalidPhoto": false,
+  "fitzpatrick": <1-6>,
+  "skinAge": <number based on clinical assessment with no artificial range>,
+  "glowScore": <number 0-100 based on honest assessment>,
   "scores": {
-    "hydration": <number 30-85>,
-    "barrier": <number 30-85>,
-    "texture": <number 30-85>,
-    "radiance": <number 30-85>
+    "hydration": <number 0-100>,
+    "barrier": <number 0-100>,
+    "texture": <number 0-100>,
+    "radiance": <number 0-100>
   },
   "callouts": [
-    {"label": "<2-4 words describing something VISIBLE in this specific photo>", "zone": "forehead"},
-    {"label": "<2-4 words describing something VISIBLE in this specific photo>", "zone": "cheek"},
-    {"label": "<2-4 words describing something VISIBLE in this specific photo>", "zone": "tzone"}
+    {"label": "<2-4 words describing something VISIBLE>", "zone": "forehead"},
+    {"label": "<2-4 words describing something VISIBLE>", "zone": "cheek"},
+    {"label": "<2-4 words describing something VISIBLE>", "zone": "tzone"}
   ],
   "teasers": [
-    "<Specific pattern you actually see in this photo — mention a real visible zone or feature, max 20 words>",
-    "<Second observation connecting their stated concern '${userData.concern}' to what you see, max 20 words>",
-    "<Third insight about what could improve if they addressed the main pattern, max 20 words>"
-  ],
-  "topProduct": {"name": "specific drugstore product name under $20", "why": "one sentence why this for their specific scan findings", "searchTerm": "exact amazon search term to find this product"}
+    "<Specific observation about a visible zone, honest and precise, max 20 words>",
+    "<Connect stated concern to what you visually see, max 20 words>",
+    "<What improvement is realistically possible if main pattern is addressed, max 20 words>"
+  ]
 }`;
 
   const messages = [];
@@ -1538,6 +1605,21 @@ function useFallbackResults() {
 
 // ── POPULATE RESULTS (Screen 4) ───────────────
 function populateResults() {
+  if (scanResults.invalidPhoto) {
+    document.querySelectorAll('.screen').forEach(s => s.style.display = 'none');
+    const screen = document.getElementById('screen4');
+    screen.style.display = 'block';
+    screen.innerHTML = `
+      <div style="padding:60px 28px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:20px;">📷</div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;font-weight:300;color:var(--charcoal,#252320);margin-bottom:16px;">We couldn't read your skin clearly.</h2>
+        <p style="font-size:14px;font-weight:300;color:var(--text-mid,#6B6458);line-height:1.7;margin-bottom:8px;">${scanResults.invalidReason === 'no face detected' ? 'No face was detected in your photo.' : scanResults.invalidReason === 'poor lighting' ? 'Your photo lighting is too dark or overexposed.' : scanResults.invalidReason === 'makeup or filter detected' ? 'Heavy makeup or filters make accurate analysis difficult.' : 'Your face needs to be closer and fully in frame.'}</p>
+        <p style="font-size:13px;font-weight:300;color:var(--text-light,#9A9088);margin-bottom:32px;">For best results: natural light · no makeup · face fully in frame · no filters or sunglasses</p>
+        <button onclick="goToScreen(2)" style="background:var(--terra,#C4845A);color:white;border:none;padding:16px 36px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;">Try Again →</button>
+      </div>
+    `;
+    return;
+  }
   const r = scanResults;
   const actualAge = parseInt(userData.age) || 30;
   const ageDiff = r.skinAge - actualAge;
