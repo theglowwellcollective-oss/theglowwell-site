@@ -1248,13 +1248,20 @@ function startLoading() {
 }
 
 // ── MAILERLITE SUBSCRIBE ──────────────────────
+function mapCountryToTier(country) {
+  const c = country || '';
+  if (c.includes('Asia')) return 'Tier3';
+  if (c.includes('Other')) return 'Tier2';
+  if (c.includes('North America') || c.includes('UK') || c.includes('Europe') || c.includes('Australia')) return 'Tier1';
+  return '';
+}
 async function subscribeToMailerLite(extraFields) {
   if (!userData.email) return;
   try {
     const fields = {
       age: userData.age || '',
       skin_concern: userData.concern || '',
-      country: userData.country || '',
+      country: mapCountryToTier(userData.country),
       glow_score: '',
       skin_age: ''
     };
