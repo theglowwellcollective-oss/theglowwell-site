@@ -1250,9 +1250,12 @@ function startLoading() {
 // ── MAILERLITE SUBSCRIBE ──────────────────────
 function mapCountryToTier(country) {
   const c = country || '';
-  if (c.includes('Asia')) return 'Tier3';
-  if (c.includes('Other')) return 'Tier2';
-  if (c.includes('North America') || c.includes('UK') || c.includes('Europe') || c.includes('Australia')) return 'Tier1';
+  if (c.includes('North America')) return 'North America';
+  if (c.includes('UK')) return 'UK';
+  if (c.includes('Europe')) return 'Europe';
+  if (c.includes('Australia')) return 'Australia';
+  if (c.includes('Asia')) return 'Asia';
+  if (c.includes('Other')) return 'Other';
   return '';
 }
 async function subscribeToMailerLite(extraFields) {
