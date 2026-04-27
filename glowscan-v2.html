@@ -461,12 +461,13 @@ if (/Instagram/.test(navigator.userAgent)) {
       <div class="q-label">Question 3</div>
       <div class="q-text">Where are you based? <span style="font-size:18px;color:var(--text-light);font-weight:300;font-style:italic">(This helps us match UV exposure, climate, and environmental stress to your skin.)</span></div>
       <div class="q-options" style="display:flex;flex-direction:column;gap:10px">
-        <button class="q-option" onclick="selectOption(this,'country','North America')" data-region="tier1">🇺🇸 North America (US, Canada)</button>
-        <button class="q-option" onclick="selectOption(this,'country','UK & Ireland')" data-region="tier1">🇬🇧 UK & Ireland</button>
-        <button class="q-option" onclick="selectOption(this,'country','Europe')" data-region="tier1">🌍 Europe (France, Germany, Spain, Netherlands + more)</button>
-        <button class="q-option" onclick="selectOption(this,'country','Australia & NZ')" data-region="tier1">🇦🇺 Australia & New Zealand</button>
-        <button class="q-option" onclick="selectOption(this,'country','Asia & Pacific')" data-region="tier3">🌏 Asia & Pacific</button>
-        <button class="q-option" onclick="selectOption(this,'country','Other')" data-region="tier2">🌎 Other / Prefer not to say</button>
+        <button class="q-option" onclick="selectOption(this,'country','North America')" data-region="tier1">🌎 North America (US, Canada)</button>
+        <button class="q-option" onclick="selectOption(this,'country','Western Europe')" data-region="tier1">🌍 Western Europe (UK, France, Germany + EU)</button>
+        <button class="q-option" onclick="selectOption(this,'country','Australia & NZ')" data-region="tier1">🌏 Australia & New Zealand</button>
+        <button class="q-option" onclick="selectOption(this,'country','Middle East')" data-region="tier2">🕌 Middle East (UAE, Saudi Arabia, Gulf)</button>
+        <button class="q-option" onclick="selectOption(this,'country','East Asia')" data-region="tier2">🌐 East Asia (China, Japan, Korea, Southeast Asia)</button>
+        <button class="q-option" onclick="selectOption(this,'country','South Asia')" data-region="tier3">🌸 South Asia (India, Pakistan, Bangladesh)</button>
+        <button class="q-option" onclick="selectOption(this,'country','Africa & South America')" data-region="tier3">🌑 Africa & South America</button>
       </div>
     </div>
 
@@ -1082,8 +1083,10 @@ function updateStickyBtn(screenNum) {
 // ── COUNTRY-BASED PRICING TIERS ───────────────
 function getPricingTier() {
   const country = userData.country || '';
-  if (country === 'Asia & Pacific') return 'tier3';
-  if (country === 'Other') return 'tier2';
+  const tier3 = ['South Asia', 'Africa & South America'];
+  const tier2 = ['Middle East', 'East Asia'];
+  if (tier3.includes(country)) return 'tier3';
+  if (tier2.includes(country)) return 'tier2';
   return 'tier1';
 }
 
@@ -1250,12 +1253,13 @@ function startLoading() {
 // ── MAILERLITE SUBSCRIBE ──────────────────────
 function mapCountryToTier(country) {
   const c = country || '';
-  if (c.includes('North America')) return 'North America';
-  if (c.includes('UK')) return 'UK';
-  if (c.includes('Europe')) return 'Europe';
-  if (c.includes('Australia')) return 'Australia';
-  if (c.includes('Asia')) return 'Asia';
-  if (c.includes('Other')) return 'Other';
+  if (c === 'North America') return 'North America';
+  if (c === 'Western Europe') return 'Western Europe';
+  if (c === 'Australia & NZ') return 'Australia & NZ';
+  if (c === 'Middle East') return 'Middle East';
+  if (c === 'East Asia') return 'East Asia';
+  if (c === 'South Asia') return 'South Asia';
+  if (c === 'Africa & South America') return 'Africa & South America';
   return '';
 }
 async function subscribeToMailerLite(extraFields) {
@@ -1340,7 +1344,14 @@ Weight your visual findings against user answers:
 - If they report tight/dry at 4pm AND you see dullness and fine lines → confirm dehydration pattern, lower hydration score
 - If their routine is splash water and pray → factor in likely product deficiencies affecting barrier score
 - If budget is under $25 → note barrier and hydration are most impactful areas for limited spend
-- Region context: tropical/humid regions → more sebum and congestion likely; cold/dry regions → more barrier damage likely; high UV regions → more pigmentation and photoaging likely
+- Region context — apply the relevant note for ${userData.country}:
+  • South Asia: hyperpigmentation, uneven tone, high UV exposure, humidity
+  • East Asia: pollution exposure, dehydration, anti-aging focus
+  • Middle East: extreme UV, dryness, sensitive skin, sand/dust exposure
+  • Africa & South America: high UV, humidity, melanin-rich skin considerations
+  • Western Europe: pollution in cities, hard water, UV seasonal variation
+  • North America: seasonal climate changes, product-aware audience
+  • Australia & NZ: highest UV index globally, sun damage focus
 - Primary concern stated: if visual findings align with stated concern → high confidence finding. If visual findings contradict stated concern → note the discrepancy, visual findings take priority
 
 STEP 5 — SKIN AGE ESTIMATION:
@@ -1517,6 +1528,15 @@ SCAN DATA:
 - Photo callouts: ${JSON.stringify(freeData.callouts)}
 
 USER: Age ${actualAge}, primary skin concern: ${userData.concern}, region: ${userData.country}
+
+REGIONAL SKIN CONTEXT — apply the relevant note for ${userData.country}:
+- South Asia: hyperpigmentation, uneven tone, high UV exposure, humidity
+- East Asia: pollution exposure, dehydration, anti-aging focus
+- Middle East: extreme UV, dryness, sensitive skin, sand/dust exposure
+- Africa & South America: high UV, humidity, melanin-rich skin considerations
+- Western Europe: pollution in cities, hard water, UV seasonal variation
+- North America: seasonal climate changes, product-aware audience
+- Australia & NZ: highest UV index globally, sun damage focus
 
 Tailor product/routine suggestions to what's realistically available in the user's region. Return ONLY valid JSON, no markdown, no extra text:
 {
