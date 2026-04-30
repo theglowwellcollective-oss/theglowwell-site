@@ -1133,9 +1133,9 @@ function showValuePropPopup() {
 function claimDiscountPopup() {
   document.getElementById('valuePropPopup').style.display = 'none';
   gtag('event', 'discount_popup_claimed', { discount_code: 'FINAL25' });
-  const baseUrl = 'https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6';
+  const baseUrl = 'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7';
   gtag('event', 'begin_checkout', { value: getPrices().report * 0.75, currency: 'USD', coupon: 'FINAL25' });
-  window.location.href = baseUrl + '?checkout[discount_code]=FINAL25';
+  window.location.href = baseUrl + '?variant=report-only&checkout[discount_code]=FINAL25';
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
