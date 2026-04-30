@@ -669,7 +669,7 @@ if (/Instagram/.test(navigator.userAgent)) {
     </div>
 
     <div style="padding:12px 0 16px;">
-      <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
+      <button onclick="gtag('event','unlock_clicked',{screen_name:'free_results',button:'unlock_full_report'}); goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
         Unlock My Full Report 🔒
       </button>
     </div>
@@ -1059,7 +1059,7 @@ function goToScreen(n) {
       if (n === '2c') gtag('event', 'photo_uploaded');
       if (n === 3) gtag('event', 'photo_submitted');
       if (n === 4) gtag('event', 'free_results_viewed');
-      if (n === 5) gtag('event', 'value_prop_viewed');
+      if (n === 5) gtag('event', 'value_prop_viewed', { screen_name: 'screen5', funnel_step: 'cart_page' });
       if (n === 6) gtag('event', 'checkout_screen_viewed');
       if (n === 7) gtag('event', 'purchase_confirmed');
     }
