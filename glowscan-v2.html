@@ -930,7 +930,7 @@ if (/Instagram/.test(navigator.userAgent)) {
             <div style="font-size:11px;color:#4E6B49;font-weight:400;font-style:italic;margin-bottom:8px">Most people save $300–400/year on wrong products after reading this.</div>
             <div style="display:flex;align-items:baseline;gap:8px;padding-top:8px;border-top:0.5px solid #F0EBE3">
               <span style="font-size:11px;color:#9A9088;text-decoration:line-through">$40</span>
-              <span style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#C4845A">$14.99</span>
+              <span id="addonPriceDisplay" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#C4845A">$14.99</span>
               <span style="font-size:9px;font-weight:500;background:rgba(196,132,90,0.1);color:#A06840;padding:3px 8px;border-radius:2px">Glow Scan exclusive</span>
             </div>
           </div>
@@ -1108,14 +1108,17 @@ function applyPricingToCheckout() {
   const discountActive = window.popupDiscountActive === true;
   const reportDisplay = discountActive ? '$' + (prices.report * 0.75).toFixed(2) : prices.reportDisplay;
   const bundleDisplay = discountActive ? '$' + (prices.bundle * 0.75).toFixed(2) : prices.bundleDisplay;
+  const addonDisplay = discountActive ? '$' + (14.99 * 0.75).toFixed(2) : '$14.99';
   const totalEl = document.getElementById('orderTotalNum');
   const totalLabelEl = document.getElementById('orderTotalLabel');
   const stickyBtn = document.getElementById('stickyUnlockBtn');
   const screen5Price = document.getElementById('screen5PriceBig');
+  const addonPriceEl = document.getElementById('addonPriceDisplay');
   if (totalEl) totalEl.textContent = addonChecked ? bundleDisplay : reportDisplay;
   if (totalLabelEl) totalLabelEl.textContent = discountActive ? '25% off applied ✦' : ((tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today');
   if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + reportDisplay + ' →';
   if (screen5Price) screen5Price.textContent = reportDisplay;
+  if (addonPriceEl) addonPriceEl.textContent = addonDisplay;
 }
 
 // ── VALUE PROP DISCOUNT POPUP (8s timer, Tier 1 only) ──
