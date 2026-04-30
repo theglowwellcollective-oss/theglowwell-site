@@ -370,7 +370,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:fl
 <body>
 
 <!-- ── STICKY UNLOCK BUTTON ───────────────────── -->
-<button class="sticky-unlock" id="stickyUnlockBtn" onclick="goToScreen(5)">
+<button class="sticky-unlock" id="stickyUnlockBtn" onclick="goToScreen(6)">
   Unlock My Full Report — $7.99 →
 </button>
 
@@ -1130,7 +1130,25 @@ function showValuePropPopup() {
   document.getElementById('popupDiscountPrice').textContent = '$' + discountedPrice;
   document.getElementById('valuePropPopup').style.display = 'block';
   popupShown = true;
+  const stickyBtn = document.getElementById('stickyUnlockBtn');
+  if (stickyBtn) {
+    stickyBtn.textContent = 'Unlock My Report — 25% Off — $' + (getPrices().report * 0.75).toFixed(2) + ' →';
+    stickyBtn.setAttribute('onclick', 'claimDiscountPopup()');
+  }
   gtag('event', 'discount_popup_shown', { trigger: '8s_timer', tier: 'tier1' });
+}
+
+function resetStickyDefault() {
+  const stickyBtn = document.getElementById('stickyUnlockBtn');
+  if (stickyBtn) {
+    stickyBtn.textContent = 'Unlock My Full Report — ' + getPrices().reportDisplay + ' →';
+    stickyBtn.setAttribute('onclick', 'goToScreen(6)');
+  }
+}
+
+function dismissValuePropPopup() {
+  document.getElementById('valuePropPopup').style.display = 'none';
+  resetStickyDefault();
 }
 
 function claimDiscountPopup() {
@@ -1858,6 +1876,7 @@ function toggleAddon() {
 function handleCheckout() {
   clearTimeout(popupTimer);
   document.getElementById('valuePropPopup').style.display = 'none';
+  resetStickyDefault();
   let url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
   const tier = getPricingTier();
   if (window.popupDiscountActive) {
@@ -2080,7 +2099,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div style="font-size:17px;font-weight:500;margin-bottom:4px">Get 25% off your full report</div>
   <div style="font-size:13px;color:rgba(247,243,238,0.55);margin-bottom:16px">Look younger. Feel confident. Start today.</div>
   <button onclick="claimDiscountPopup()" style="background:#C4845A;color:white;border:none;padding:14px 0;font-size:14px;font-weight:500;cursor:pointer;width:100%;max-width:340px;display:block;margin:0 auto;border-radius:2px">Unlock My Report — <span id="popupDiscountPrice"></span> →</button>
-  <div onclick="document.getElementById('valuePropPopup').style.display='none'" style="font-size:11px;color:rgba(247,243,238,0.28);margin-top:12px;cursor:pointer">No thanks, I'll pay full price</div>
+  <div onclick="dismissValuePropPopup()" style="font-size:11px;color:rgba(247,243,238,0.28);margin-top:12px;cursor:pointer">No thanks, I'll pay full price</div>
 </div>
 <style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
 
