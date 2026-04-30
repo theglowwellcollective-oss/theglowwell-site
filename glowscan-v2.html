@@ -1105,14 +1105,17 @@ function getPrices() {
 function applyPricingToCheckout() {
   const prices = getPrices();
   const tier = getPricingTier();
+  const discountActive = window.popupDiscountActive === true;
+  const reportDisplay = discountActive ? '$' + (prices.report * 0.75).toFixed(2) : prices.reportDisplay;
+  const bundleDisplay = discountActive ? '$' + (prices.bundle * 0.75).toFixed(2) : prices.bundleDisplay;
   const totalEl = document.getElementById('orderTotalNum');
   const totalLabelEl = document.getElementById('orderTotalLabel');
   const stickyBtn = document.getElementById('stickyUnlockBtn');
   const screen5Price = document.getElementById('screen5PriceBig');
-  if (totalEl) totalEl.textContent = addonChecked ? prices.bundleDisplay : prices.reportDisplay;
-  if (totalLabelEl) totalLabelEl.textContent = (tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today';
-  if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + prices.reportDisplay + ' →';
-  if (screen5Price) screen5Price.textContent = prices.reportDisplay;
+  if (totalEl) totalEl.textContent = addonChecked ? bundleDisplay : reportDisplay;
+  if (totalLabelEl) totalLabelEl.textContent = discountActive ? '25% off applied ✦' : ((tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today');
+  if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + reportDisplay + ' →';
+  if (screen5Price) screen5Price.textContent = reportDisplay;
 }
 
 // ── VALUE PROP DISCOUNT POPUP (8s timer, Tier 1 only) ──
@@ -1131,11 +1134,11 @@ function showValuePropPopup() {
 }
 
 function claimDiscountPopup() {
+  window.popupDiscountActive = true;
+  window.popupDiscountCode = 'FINAL25';
   document.getElementById('valuePropPopup').style.display = 'none';
   gtag('event', 'discount_popup_claimed', { discount_code: 'FINAL25' });
-  const baseUrl = 'https://theglowwell.lemonsqueezy.com/checkout/buy/5644c7a3-9706-4003-bad5-f491b5c5efa7';
-  gtag('event', 'begin_checkout', { value: getPrices().report * 0.75, currency: 'USD', coupon: 'FINAL25' });
-  window.location.href = baseUrl + '?variant=report-only&checkout[discount_code]=FINAL25';
+  goToScreen(6);
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
@@ -1857,7 +1860,10 @@ function handleCheckout() {
   document.getElementById('valuePropPopup').style.display = 'none';
   let url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
   const tier = getPricingTier();
-  if (tier === 'tier3') url += '&checkout[discount_code]=ASIA';
+  if (window.popupDiscountActive) {
+    url += '&checkout[discount_code]=' + (window.popupDiscountCode || 'FINAL25');
+    window.popupDiscountActive = false;
+  } else if (tier === 'tier3') url += '&checkout[discount_code]=ASIA';
   else if (tier === 'tier2') url += '&checkout[discount_code]=GLOBAL';
   try {
     localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
