@@ -1135,7 +1135,7 @@ function claimDiscountPopup() {
   gtag('event', 'discount_popup_claimed', { discount_code: 'FINAL25' });
   const baseUrl = 'https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6';
   gtag('event', 'begin_checkout', { value: getPrices().report * 0.75, currency: 'USD', coupon: 'FINAL25' });
-  window.open(baseUrl + '?checkout[discount_code]=FINAL25', '_blank');
+  window.location.href = baseUrl + '?checkout[discount_code]=FINAL25';
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
