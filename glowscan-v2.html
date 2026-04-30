@@ -1065,6 +1065,11 @@ function goToScreen(n) {
     }
     if (n === 3) startLoading();
     if (n === 4) populateResults();
+    if (n === 5) {
+      popupShown = false;
+      clearTimeout(popupTimer);
+      popupTimer = setTimeout(showValuePropPopup, 8000);
+    }
     if (n === 7) showConfirmation();
   }
 }
@@ -1108,6 +1113,29 @@ function applyPricingToCheckout() {
   if (totalLabelEl) totalLabelEl.textContent = (tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today';
   if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + prices.reportDisplay + ' →';
   if (screen5Price) screen5Price.textContent = prices.reportDisplay;
+}
+
+// ── VALUE PROP DISCOUNT POPUP (8s timer, Tier 1 only) ──
+let popupShown = false;
+let popupTimer = null;
+
+function showValuePropPopup() {
+  if (popupShown) return;
+  if (currentScreen !== 5) return;
+  if (getPricingTier() !== 'tier1') return;
+  const discountedPrice = (getPrices().report * 0.75).toFixed(2);
+  document.getElementById('popupDiscountPrice').textContent = '$' + discountedPrice;
+  document.getElementById('valuePropPopup').style.display = 'block';
+  popupShown = true;
+  gtag('event', 'discount_popup_shown', { trigger: '8s_timer', tier: 'tier1' });
+}
+
+function claimDiscountPopup() {
+  document.getElementById('valuePropPopup').style.display = 'none';
+  gtag('event', 'discount_popup_claimed', { discount_code: 'FINAL25' });
+  const baseUrl = 'https://theglowwell.lemonsqueezy.com/checkout/buy/28b65d38-8b49-429e-8565-950693f1e2a6';
+  gtag('event', 'begin_checkout', { value: getPrices().report * 0.75, currency: 'USD', coupon: 'FINAL25' });
+  window.open(baseUrl + '?checkout[discount_code]=FINAL25', '_blank');
 }
 
 // ── PROGRESS BAR (Screen 2) ───────────────────
@@ -1811,6 +1839,8 @@ function toggleAddon() {
 
 // ── CHECKOUT HANDLER ──────────────────────────
 function handleCheckout() {
+  clearTimeout(popupTimer);
+  document.getElementById('valuePropPopup').style.display = 'none';
   let url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
   const tier = getPricingTier();
   if (tier === 'tier3') url += '&checkout[discount_code]=ASIA';
@@ -2023,5 +2053,16 @@ document.addEventListener('DOMContentLoaded', function() {
   startLiveCounter('liveCounterUpload');
 });
 </script>
+
+<!-- Value prop discount popup (8s timer, Tier 1 only) -->
+<div id="valuePropPopup" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#252320;color:#F7F3EE;padding:18px 20px 28px;z-index:9999;text-align:center;box-shadow:0 -4px 24px rgba(0,0,0,0.4);animation:slideUp 0.4s ease">
+  <div style="font-size:11px;color:rgba(247,243,238,0.5);margin-bottom:5px;letter-spacing:1.5px;text-transform:uppercase">Still deciding?</div>
+  <div style="font-size:17px;font-weight:500;margin-bottom:4px">Get 25% off your full report</div>
+  <div style="font-size:13px;color:rgba(247,243,238,0.55);margin-bottom:16px">Look younger. Feel confident. Start today.</div>
+  <button onclick="claimDiscountPopup()" style="background:#C4845A;color:white;border:none;padding:14px 0;font-size:14px;font-weight:500;cursor:pointer;width:100%;max-width:340px;display:block;margin:0 auto;border-radius:2px">Unlock My Report — <span id="popupDiscountPrice"></span> →</button>
+  <div onclick="document.getElementById('valuePropPopup').style.display='none'" style="font-size:11px;color:rgba(247,243,238,0.28);margin-top:12px;cursor:pointer">No thanks, I'll pay full price</div>
+</div>
+<style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
+
 </body>
 </html>
