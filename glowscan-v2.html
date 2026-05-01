@@ -668,7 +668,7 @@ if (/Instagram/.test(navigator.userAgent)) {
       <button onclick="shareScore()" style="background:transparent;color:var(--text-mid,#6B6458);border:1px solid var(--border,#DDD6CC);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-radius:3px;display:block;width:100%;margin-top:12px">Share Your Glow Score With a Friend</button>
     </div>
 
-    <div style="padding:12px 0 16px;">
+    <div style="padding:8px 0 0;">
       <button onclick="gtag('event','unlock_clicked',{screen_name:'free_results',button:'unlock_full_report'}); goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
         Unlock My Full Report 🔒
       </button>
@@ -676,8 +676,8 @@ if (/Instagram/.test(navigator.userAgent)) {
 
     <!-- Teasers -->
     <div class="teasers-section">
-      <div style="padding:8px 0 16px;border-top:1px solid rgba(255,255,255,0.08);margin-top:16px;">
-        <p style="font-size:14px;font-weight:400;color:var(--cream,#F7F3EE);padding:12px 0 8px;">This is your overview. Your full report goes 10x deeper.</p>
+      <div style="padding:0 0 4px;margin-top:12px;">
+        <p style="font-size:14px;font-weight:400;color:var(--cream,#F7F3EE);padding:0 0 6px;">This is your overview. Your full report goes 10x deeper.</p>
       </div>
       <div class="teasers-title">What we're seeing</div>
       <div class="teaser-item"><div class="teaser-dot"></div><p class="teaser-text" id="teaser1"></p></div>
@@ -689,6 +689,7 @@ if (/Instagram/.test(navigator.userAgent)) {
     <div style="margin-bottom:20px">
       <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:10px">Locked in your full report</div>
 
+      <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px">YOUR CUSTOM AM/PM ROUTINE</div>
       <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:10px;overflow:hidden">
         <div style="filter:blur(5px);pointer-events:none;user-select:none">
           <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">Your Morning Routine</div>
@@ -699,6 +700,7 @@ if (/Instagram/.test(navigator.userAgent)) {
         </div>
       </div>
 
+      <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px">INGREDIENT GUIDE FOR YOUR SKIN</div>
       <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;margin-bottom:10px;overflow:hidden">
         <div style="filter:blur(5px);pointer-events:none;user-select:none">
           <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">Ingredients Your Skin Needs</div>
@@ -709,6 +711,7 @@ if (/Instagram/.test(navigator.userAgent)) {
         </div>
       </div>
 
+      <div style="font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:8px">WHAT YOUR SKIN NEEDS THIS WEEK</div>
       <div style="position:relative;background:#fff;border:1px solid var(--border);border-radius:4px;padding:16px;overflow:hidden">
         <div style="filter:blur(5px);pointer-events:none;user-select:none">
           <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:8px">What To Stop Using This Week</div>
@@ -724,22 +727,6 @@ if (/Instagram/.test(navigator.userAgent)) {
       <button onclick="goToScreen(5)" style="width:100%;padding:16px;background:var(--terra,#C4845A);border:none;color:white;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;letter-spacing:0.5px;cursor:pointer;">
         Unlock My Full Report 🔒
       </button>
-    </div>
-
-    <!-- Blur split -->
-    <div class="blur-split" id="blurSplit" style="display:none;">
-      <div class="blur-left">
-        <img id="blurPhoto" src="" alt="Current habits" />
-        <span class="blur-left-label">Current habits</span>
-      </div>
-      <div style="position:relative;overflow:hidden;background:#252320">
-        <picture><source srcset="blur-face-routine.webp" type="image/webp"><img src="blur-face-routine.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(8px);transform:scale(1.05)" alt=""></picture>
-        <div style="position:absolute;inset:0;background:rgba(28,26,23,0.35)"></div>
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:12px">
-          <p style="font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;font-style:italic;color:#F7F3EE;line-height:1.4;text-align:center;background:rgba(28,26,23,0.6);padding:8px 14px;border-radius:2px">One routine change away from this.</p>
-        </div>
-        <div style="position:absolute;bottom:8px;right:8px;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(247,243,238,0.6)">Optimized routine</div>
-      </div>
     </div>
 
     <!-- Unlock banner -->
@@ -1770,12 +1757,9 @@ function populateResults() {
   if (userData.photoBase64) {
     const src = 'data:' + (userData.photoMimeType || 'image/jpeg') + ';base64,' + userData.photoBase64;
     document.getElementById('resultsPhoto').src = src;
-    document.getElementById('blurPhoto').src = src;
     document.getElementById('photoCalloutWrap').style.display = 'block';
-    document.getElementById('blurSplit').style.display = 'grid';
   } else {
     document.getElementById('photoCalloutWrap').style.display = 'none';
-    document.getElementById('blurSplit').style.display = 'none';
   }
 
   // Callout badges — map zone to badge position slots
