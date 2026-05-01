@@ -900,8 +900,8 @@ if (/Instagram/.test(navigator.userAgent)) {
 <section id="screen6" class="screen" style="display:none">
   <div style="max-width:480px;margin:0 auto;padding-bottom:40px">
     <div style="padding:28px">
-      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#252320;margin-bottom:6px">Complete your order</h2>
-      <p style="font-size:13px;color:#6B6458;font-weight:300;margin-bottom:20px">One-time payment. Instant access. No subscription.</p>
+      <div style="text-align:center;margin-bottom:8px;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--sage-dark)">Step 3 of 3</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--charcoal);text-align:center;margin-bottom:24px;line-height:1.2">Your Report Is Ready — Want to <em style="font-style:italic;color:var(--sage-dark)">Understand</em> Your Skin Too?</h2>
 
       <div style="background:#fff;border:0.5px solid #DDD6CC;border-radius:8px;padding:16px;margin-bottom:16px">
         <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0">
@@ -920,21 +920,40 @@ if (/Instagram/.test(navigator.userAgent)) {
         </div>
       </div>
 
-      <div id="playbookAddonCard" style="border:1.5px solid rgba(196,132,90,0.3);border-radius:8px;padding:16px;margin-bottom:16px;background:rgba(196,132,90,0.02)">
-        <div style="display:flex;gap:12px;align-items:flex-start">
-          <div id="addonCheckbox" onclick="toggleAddon()" style="width:19px;height:19px;border-radius:3px;background:#4E6B49;border:none;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="10" height="7" viewBox="0 0 10 7" fill="none"><path d="M1 3l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div id="addonBlock" style="border:2px solid var(--terra);border-radius:4px;padding:24px;margin:16px 0;background:rgba(196,132,90,0.04)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+          <div>
+            <div style="font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:2px">The Glow Well Anti-Aging Playbook</div>
+            <div style="font-size:11px;color:var(--sage-dark);letter-spacing:1px;text-transform:uppercase">Glow Scan Exclusive</div>
           </div>
-          <div style="flex:1">
-            <div style="font-size:13px;font-weight:500;color:#252320;margin-bottom:3px">Add The Glow Well Playbook</div>
-            <div style="font-size:11px;color:#6B6458;font-weight:300;line-height:1.55;margin-bottom:8px">96 pages. Ingredient decoder, 4 budget routine tiers, store shopping lists. The education behind your routine.</div>
-            <div style="font-size:11px;color:#4E6B49;font-weight:400;font-style:italic;margin-bottom:8px">Most people save $300–400/year on wrong products after reading this.</div>
-            <div style="display:flex;align-items:baseline;gap:8px;padding-top:8px;border-top:0.5px solid #F0EBE3">
-              <span style="font-size:11px;color:#9A9088;text-decoration:line-through">$40</span>
-              <span id="addonPriceDisplay" style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#C4845A">$14.99</span>
-              <span style="font-size:9px;font-weight:500;background:rgba(196,132,90,0.1);color:#A06840;padding:3px 8px;border-radius:2px">Glow Scan exclusive</span>
-            </div>
+          <div style="text-align:right">
+            <span style="font-size:13px;color:var(--text-light);text-decoration:line-through;margin-right:6px">$49</span>
+            <span id="addonPriceDisplay" style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;color:var(--terra)">$14.99</span>
           </div>
         </div>
+        <div style="font-size:12px;color:var(--text-mid);line-height:1.8;margin-bottom:14px">
+          ✓ 96 pages · Zero fluff<br>
+          ✓ Ingredient decoder — know exactly what works for your skin<br>
+          ✓ 4 budget routine tiers — from $40 to $200<br>
+          ✓ Shopping lists for Target, Sephora, Amazon & Walmart<br>
+          ✓ <strong style="color:var(--sage-dark)">Most women save $300–400/year</strong> on wrong products after reading this
+        </div>
+        <div style="font-size:11px;font-style:italic;color:var(--text-light);margin-bottom:16px">"The last skincare education purchase you'll ever need to make."</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:4px">
+          <div style="background:#F0EBE3;border-radius:16px 16px 16px 4px;padding:12px 14px;max-width:88%">
+            <div style="font-size:10px;font-weight:500;color:var(--text-mid);margin-bottom:4px">Sofia A.</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6">"ok wait I actually cried reading this. I've wasted SO much money on the wrong stuff. this fixed that 😭"</div>
+          </div>
+          <div style="background:#F0EBE3;border-radius:16px 16px 16px 4px;padding:12px 14px;max-width:88%;align-self:flex-end">
+            <div style="font-size:10px;font-weight:500;color:var(--text-mid);margin-bottom:4px">Nadia R.</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6">"built my whole routine from scratch using this. saved me like $200 easy. my skin has never looked this good honestly"</div>
+          </div>
+          <div style="background:#F0EBE3;border-radius:16px 16px 16px 4px;padding:12px 14px;max-width:88%">
+            <div style="font-size:10px;font-weight:500;color:var(--text-mid);margin-bottom:4px">Danielle W.</div>
+            <div style="font-size:12px;color:var(--text);line-height:1.6">"felt like myself again after following this for 3 weeks. no joke. send this to every woman you know 🌿"</div>
+          </div>
+        </div>
+        <input type="checkbox" id="addonCheckbox" style="display:none">
       </div>
 
       <div id="orderTotalBar" style="background:#252320;padding:16px;border-radius:6px;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
@@ -945,7 +964,15 @@ if (/Instagram/.test(navigator.userAgent)) {
         <p style="font-size:11px;font-weight:300;color:var(--sage-light,#A8BFA3);letter-spacing:0.3px;">vs. $200+ for a dermatologist visit</p>
       </div>
 
-      <button type="button" id="checkoutBtn" onclick="handleCheckout()" style="width:100%;background:#C4845A;color:#F7F3EE;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;border-radius:3px;display:block;letter-spacing:0.3px">Pay Securely — Unlock My Report</button>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+        <button id="checkoutBtnBundle" onclick="selectAddonAndCheckout(true)" style="background:var(--terra);color:white;border:none;padding:18px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;width:100%;border-radius:2px;transition:background 0.2s">
+          Yes — Add the Playbook for <span id="bundleBtnPrice">$14.99</span> more →
+        </button>
+        <button id="checkoutBtnReport" onclick="selectAddonAndCheckout(false)" style="background:transparent;color:var(--text-mid);border:1.5px solid var(--border);padding:14px;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;width:100%;border-radius:2px">
+          No thanks, just the report →
+        </button>
+      </div>
+      <div style="text-align:center;font-size:11px;color:var(--text-light);margin-top:14px">14,200+ women already know their real skin age</div>
 
       <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;color:#9A9088;margin-top:10px;font-weight:300">
         <div style="width:3px;height:3px;border-radius:50%;background:#DDD6CC"></div>
@@ -1114,11 +1141,13 @@ function applyPricingToCheckout() {
   const stickyBtn = document.getElementById('stickyUnlockBtn');
   const screen5Price = document.getElementById('screen5PriceBig');
   const addonPriceEl = document.getElementById('addonPriceDisplay');
+  const bundleBtnPriceEl = document.getElementById('bundleBtnPrice');
   if (totalEl) totalEl.textContent = addonChecked ? bundleDisplay : reportDisplay;
   if (totalLabelEl) totalLabelEl.textContent = discountActive ? '25% off applied ✦' : ((tier === 'tier2' || tier === 'tier3') ? 'Your rate today ✦' : 'Total today');
   if (stickyBtn) stickyBtn.textContent = 'Unlock My Full Report — ' + reportDisplay + ' →';
   if (screen5Price) screen5Price.textContent = reportDisplay;
   if (addonPriceEl) addonPriceEl.textContent = addonDisplay;
+  if (bundleBtnPriceEl) bundleBtnPriceEl.textContent = addonDisplay;
 }
 
 // ── VALUE PROP DISCOUNT POPUP (8s timer, Tier 1 only) ──
@@ -1873,6 +1902,14 @@ function toggleAddon() {
     }
   }
   applyPricingToCheckout();
+}
+
+// ── ADDON CHOICE → CHECKOUT ───────────────────
+function selectAddonAndCheckout(addAddon) {
+  const checkbox = document.getElementById('addonCheckbox');
+  if (checkbox) checkbox.checked = addAddon;
+  addonChecked = addAddon;
+  handleCheckout();
 }
 
 // ── CHECKOUT HANDLER ──────────────────────────
