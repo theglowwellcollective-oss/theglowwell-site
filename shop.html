@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Build Your Glow Routine — pre-selected skincare kits curated by budget and skin concern. Find your perfect routine from The Glow Well.">
+<title>Build Your Glow Routine — The Glow Well</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --cream:#F7F3EE;
+  --off-white:#F0EBE3;
+  --sage:#7A9474;
+  --sage-light:#A8BFA3;
+  --sage-dark:#4E6B49;
+  --terra:#C4845A;
+  --terra-dark:#A06840;
+  --charcoal:#252320;
+  --text:#3C3830;
+  --text-mid:#6B6458;
+  --text-light:#9A9088;
+  --border:#DDD6CC;
+  --blush:#E8D5CC;
+}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--charcoal);letter-spacing:0.3px;text-decoration:none;display:block}
+.nav-logo-text em{font-style:italic;color:var(--sage-dark)}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-size:12px;font-weight:400;color:var(--text-mid);transition:color 0.2s}
+.nav-links a:hover{color:var(--charcoal)}
+.nav-cta{background:var(--terra)!important;color:white!important;padding:10px 22px!important;font-weight:500!important;transition:background 0.2s!important}
+.nav-cta:hover{background:var(--terra-dark)!important}
+@media(max-width:768px){nav{padding:14px 20px}.nav-links{display:none}}
+
+/* PAGE HEADER */
+.page-header{padding:130px 48px 64px;max-width:860px;margin:0 auto;text-align:center}
+.page-eyebrow{font-size:10px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--sage-dark);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:20px}
+.page-eyebrow::before,.page-eyebrow::after{content:'';display:block;width:28px;height:1.5px;background:var(--sage)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:clamp(42px,5vw,68px);font-weight:300;color:var(--charcoal);line-height:1.05;margin-bottom:22px;letter-spacing:-0.5px}
+.page-title em{font-style:italic;color:var(--sage-dark)}
+.page-subtitle{font-size:15px;font-weight:300;color:var(--text-mid);line-height:1.8;max-width:620px;margin:0 auto}
+.page-subtitle a{color:var(--sage-dark);border-bottom:1px solid rgba(78,107,73,0.3);transition:border-color 0.2s}
+.page-subtitle a:hover{border-color:var(--sage-dark)}
+.page-subtitle strong{font-weight:500;color:var(--charcoal)}
+
+/* FILTER SECTION */
+.filter-section{padding:0 48px 80px;max-width:1100px;margin:0 auto}
+
+.filter-label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.filter-label span{display:flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--charcoal);color:var(--cream);font-size:10px;font-weight:500;flex-shrink:0}
+
+/* BUDGET TIER SELECTORS */
+.budget-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:48px}
+.budget-card{position:relative;padding:24px 22px;cursor:pointer;border:1.5px solid var(--border);transition:all 0.25s ease;overflow:hidden;user-select:none}
+.budget-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity 0.25s}
+.budget-card.affordable{background:var(--off-white)}
+.budget-card.affordable::before{background:rgba(122,148,116,0.06)}
+.budget-card.premium{background:rgba(122,148,116,0.12)}
+.budget-card.luxe{background:var(--charcoal)}
+.budget-card.sensitive{background:var(--blush)}
+.budget-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,35,32,0.1)}
+.budget-card.selected.affordable{border-color:var(--sage-dark);box-shadow:0 0 0 2px var(--sage-dark)}
+.budget-card.selected.premium{border-color:var(--sage-dark);box-shadow:0 0 0 2px var(--sage-dark)}
+.budget-card.selected.luxe{border-color:var(--terra);box-shadow:0 0 0 2px var(--terra)}
+.budget-card.selected.sensitive{border-color:var(--sage-dark);box-shadow:0 0 0 2px var(--sage-dark)}
+
+/* Decorative large letter behind card */
+.budget-card-bg-letter{position:absolute;bottom:-10px;right:-4px;font-family:'Cormorant Garamond',serif;font-size:100px;font-weight:300;font-style:italic;line-height:1;opacity:0.06;pointer-events:none;color:inherit}
+.budget-card.luxe .budget-card-bg-letter{opacity:0.12;color:white}
+
+.budget-card-check{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--border);margin-bottom:14px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0}
+.budget-card.affordable .budget-card-check{border-color:rgba(78,107,73,0.3)}
+.budget-card.premium .budget-card-check{border-color:rgba(78,107,73,0.4)}
+.budget-card.luxe .budget-card-check{border-color:rgba(247,243,238,0.25)}
+.budget-card.sensitive .budget-card-check{border-color:rgba(78,107,73,0.3)}
+.budget-card.selected .budget-card-check{background:var(--sage-dark);border-color:var(--sage-dark)}
+.budget-card.selected.luxe .budget-card-check{background:var(--terra);border-color:var(--terra)}
+.budget-card-check::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:white;opacity:0;transition:opacity 0.2s}
+.budget-card.selected .budget-card-check::after{opacity:1}
+
+.budget-card-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--charcoal);margin-bottom:6px;line-height:1.1;position:relative;z-index:1}
+.budget-card.luxe .budget-card-name{color:var(--cream)}
+.budget-card-desc{font-size:11.5px;font-weight:300;color:var(--text-mid);line-height:1.6;position:relative;z-index:1}
+.budget-card.luxe .budget-card-desc{color:rgba(247,243,238,0.55)}
+.budget-card.premium .budget-card-desc{color:var(--text)}
+
+/* KIT TIER SELECTORS */
+.kit-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:56px}
+.kit-card{position:relative;padding:22px 22px;cursor:pointer;border:1.5px solid var(--border);background:white;transition:all 0.25s ease;overflow:hidden;user-select:none}
+.kit-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,35,32,0.08)}
+.kit-card.selected{border-color:var(--terra);box-shadow:0 0 0 2px var(--terra);background:rgba(196,132,90,0.04)}
+.kit-card-number{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:400;color:var(--text-light);letter-spacing:2px;margin-bottom:10px;display:block}
+.kit-card-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:400;color:var(--charcoal);margin-bottom:6px;line-height:1.1}
+.kit-card-desc{font-size:11.5px;font-weight:300;color:var(--text-mid);line-height:1.6}
+.kit-card-items{font-size:10px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--terra);margin-top:10px}
+.kit-card-bg-num{position:absolute;bottom:-8px;right:8px;font-family:'Cormorant Garamond',serif;font-size:80px;font-weight:300;color:var(--charcoal);opacity:0.04;pointer-events:none;line-height:1}
+
+/* RESULTS */
+.results-section{margin-top:8px}
+.results-label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.results-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* SINGLE RESULT CARD */
+.result-card{display:none;animation:fadeUp 0.4s ease both}
+.result-card.visible{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+.result-inner{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);overflow:hidden}
+.result-left{padding:48px 44px;position:relative;overflow:hidden}
+.result-left.affordable{background:var(--off-white)}
+.result-left.premium{background:rgba(122,148,116,0.15)}
+.result-left.luxe{background:var(--charcoal)}
+.result-left.sensitive{background:var(--blush)}
+
+.result-bg-word{position:absolute;bottom:-20px;left:-10px;font-family:'Cormorant Garamond',serif;font-size:130px;font-weight:300;font-style:italic;opacity:0.05;line-height:1;pointer-events:none;color:var(--charcoal)}
+.result-left.luxe .result-bg-word{opacity:0.1;color:white}
+
+.result-tier-badge{display:inline-flex;align-items:center;gap:8px;font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:20px}
+.result-tier-badge::before{content:'';display:block;width:20px;height:1px;background:currentColor}
+.result-left.affordable .result-tier-badge{color:var(--sage-dark)}
+.result-left.premium .result-tier-badge{color:var(--sage-dark)}
+.result-left.luxe .result-tier-badge{color:var(--terra)}
+.result-left.sensitive .result-tier-badge{color:var(--sage-dark)}
+
+.result-name{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,40px);font-weight:300;line-height:1.1;margin-bottom:14px;position:relative;z-index:1}
+.result-name em{font-style:italic}
+.result-left.affordable .result-name{color:var(--charcoal)}
+.result-left.premium .result-name{color:var(--charcoal)}
+.result-left.luxe .result-name{color:var(--cream)}
+.result-left.sensitive .result-name{color:var(--charcoal)}
+
+.result-items-count{font-size:11px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:0;position:relative;z-index:1}
+.result-left.affordable .result-items-count{color:var(--text-light)}
+.result-left.premium .result-items-count{color:var(--sage-dark)}
+.result-left.luxe .result-items-count{color:rgba(247,243,238,0.35)}
+.result-left.sensitive .result-items-count{color:var(--text-light)}
+
+.result-right{padding:48px 44px;background:white;display:flex;flex-direction:column;justify-content:space-between}
+.result-desc{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.85;margin-bottom:28px;flex:1}
+.result-desc strong{color:var(--charcoal);font-weight:500}
+
+.result-divider{height:1px;background:var(--border);margin-bottom:28px}
+
+.result-cta-area{}
+.result-swap-note{font-size:11px;font-weight:300;color:var(--text-light);margin-bottom:16px;font-style:italic}
+.result-btn{display:inline-flex;align-items:center;gap:10px;background:var(--charcoal);color:var(--cream);padding:16px 32px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;letter-spacing:0.5px;border:none;cursor:pointer;transition:background 0.2s,transform 0.2s;text-decoration:none;width:100%;justify-content:center}
+.result-btn:hover{background:var(--sage-dark);transform:translateY(-1px)}
+.result-btn svg{flex-shrink:0}
+.result-btn.terra{background:var(--terra)}
+.result-btn.terra:hover{background:var(--terra-dark)}
+
+/* ALL KITS GRID */
+.all-kits-section{padding:80px 0 0}
+.all-kits-toggle{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:48px;cursor:pointer;font-size:12px;font-weight:400;color:var(--text-mid);letter-spacing:0.5px;transition:color 0.2s;background:none;border:none;font-family:'DM Sans',sans-serif}
+.all-kits-toggle:hover{color:var(--charcoal)}
+.all-kits-toggle-icon{width:28px;height:28px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;transition:transform 0.3s,border-color 0.2s}
+.all-kits-toggle:hover .all-kits-toggle-icon{border-color:var(--charcoal)}
+.all-kits-toggle.open .all-kits-toggle-icon{transform:rotate(45deg)}
+
+.all-kits-grid{display:none;grid-template-columns:repeat(3,1fr);gap:2px}
+.all-kits-grid.open{display:grid}
+
+.kit-mini-card{padding:28px 24px;position:relative;overflow:hidden;cursor:pointer;transition:filter 0.2s}
+.kit-mini-card:hover{filter:brightness(0.97)}
+.kit-mini-card.affordable{background:var(--off-white)}
+.kit-mini-card.premium{background:rgba(122,148,116,0.12)}
+.kit-mini-card.luxe{background:var(--charcoal)}
+.kit-mini-card.sensitive{background:var(--blush)}
+
+.kit-mini-eyebrow{font-size:9px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.kit-mini-card.affordable .kit-mini-eyebrow{color:var(--sage-dark)}
+.kit-mini-card.premium .kit-mini-eyebrow{color:var(--sage-dark)}
+.kit-mini-card.luxe .kit-mini-eyebrow{color:var(--terra)}
+.kit-mini-card.sensitive .kit-mini-eyebrow{color:var(--sage-dark)}
+
+.kit-mini-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:400;margin-bottom:6px;line-height:1.2}
+.kit-mini-card.luxe .kit-mini-name{color:var(--cream)}
+.kit-mini-card:not(.luxe) .kit-mini-name{color:var(--charcoal)}
+
+.kit-mini-desc{font-size:11.5px;font-weight:300;line-height:1.6;margin-bottom:14px}
+.kit-mini-card.luxe .kit-mini-desc{color:rgba(247,243,238,0.55)}
+.kit-mini-card:not(.luxe) .kit-mini-desc{color:var(--text-mid)}
+
+.kit-mini-count{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.kit-mini-card.affordable .kit-mini-count{color:var(--text-light)}
+.kit-mini-card.premium .kit-mini-count{color:var(--sage)}
+.kit-mini-card.luxe .kit-mini-count{color:rgba(247,243,238,0.3)}
+.kit-mini-card.sensitive .kit-mini-count{color:var(--text-light)}
+
+.kit-mini-btn{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;letter-spacing:0.5px;padding:9px 18px;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;text-decoration:none}
+.kit-mini-card.affordable .kit-mini-btn{background:var(--charcoal);color:var(--cream)}
+.kit-mini-card.premium .kit-mini-btn{background:var(--sage-dark);color:white}
+.kit-mini-card.luxe .kit-mini-btn{background:var(--terra);color:white}
+.kit-mini-card.sensitive .kit-mini-btn{background:var(--charcoal);color:var(--cream)}
+.kit-mini-btn:hover{opacity:0.85}
+
+.kit-mini-bg{position:absolute;bottom:-12px;right:-4px;font-family:'Cormorant Garamond',serif;font-size:90px;font-weight:300;font-style:italic;opacity:0.05;pointer-events:none;line-height:1}
+.kit-mini-card.luxe .kit-mini-bg{opacity:0.1;color:white}
+.kit-mini-card:not(.luxe) .kit-mini-bg{color:var(--charcoal)}
+
+/* SCAN CTA STRIP */
+.scan-strip{background:var(--charcoal);padding:52px 48px;margin-top:80px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:40px}
+.scan-strip-text{}
+.scan-strip-eyebrow{font-size:9px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-light);margin-bottom:10px}
+.scan-strip h3{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:300;color:var(--cream);margin-bottom:8px;line-height:1.15}
+.scan-strip h3 em{font-style:italic;color:var(--sage-light)}
+.scan-strip p{font-size:13px;font-weight:300;color:rgba(247,243,238,0.5);line-height:1.7}
+.scan-strip-btns{display:flex;flex-direction:column;gap:10px;flex-shrink:0}
+.btn-scan{display:inline-flex;align-items:center;gap:8px;background:var(--terra);color:white;padding:14px 28px;font-size:12px;font-weight:500;letter-spacing:0.5px;white-space:nowrap;transition:background 0.2s}
+.btn-scan:hover{background:var(--terra-dark)}
+.btn-playbook{display:inline-flex;align-items:center;gap:8px;background:transparent;color:rgba(247,243,238,0.5);padding:14px 28px;font-size:12px;font-weight:400;letter-spacing:0.5px;border:1px solid rgba(247,243,238,0.15);white-space:nowrap;transition:all 0.2s}
+.btn-playbook:hover{color:var(--cream);border-color:rgba(247,243,238,0.4)}
+
+/* FOOTER */
+footer{background:var(--charcoal);padding:44px 80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.footer-links{display:flex;gap:28px;flex-wrap:wrap}
+.footer-links a{font-size:11px;color:rgba(247,243,238,0.3);letter-spacing:0.5px;transition:color 0.2s}
+.footer-links a:hover{color:rgba(247,243,238,0.7)}
+.footer-copy{font-size:11px;color:rgba(247,243,238,0.2)}
+@media(max-width:600px){footer{padding:32px 24px;flex-direction:column;text-align:center}}
+
+/* EMPTY STATE */
+.empty-state{padding:48px;text-align:center;border:1px dashed var(--border);background:white}
+.empty-state p{font-size:14px;font-weight:300;color:var(--text-light);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .result-inner{grid-template-columns:1fr}
+  .budget-grid{grid-template-columns:1fr 1fr}
+  .scan-strip{grid-template-columns:1fr;gap:24px}
+  .all-kits-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .page-header{padding:110px 24px 48px}
+  .filter-section{padding:0 24px 60px}
+  .budget-grid{grid-template-columns:1fr 1fr}
+  .kit-grid{grid-template-columns:1fr}
+  .all-kits-grid{grid-template-columns:1fr}
+  .scan-strip{padding:36px 24px}
+  .scan-strip-btns{flex-direction:row;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><a href="index.html" class="nav-logo-text">The Glow<em>Well</em></a></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="resources.html">Free Resources</a></li>
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="https://theglowwell.com/playbook">Get the Playbook</a></li>
+    <li><a href="https://theglowwell.com/glowscan-v2?start=quiz" class="nav-cta">Scan My Skin — Free</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-eyebrow">Curated Routines</div>
+  <h1 class="page-title">Build Your<br><em>Glow Routine</em></h1>
+  <p class="page-subtitle">
+    Pre-selected kits to get you started — curated by skin concern and budget. Swap anything you want.<br><br>
+    Already taken the free Glow Scan? <a href="https://theglowwell.com/glowscan-v2?start=quiz"><strong>Grab your Full Report</strong></a> for a routine built around your exact skin — or pick up <a href="https://theglowwell.com/playbook"><strong>the Playbook</strong></a> for the complete education.
+  </p>
+</div>
+
+<!-- FILTER SECTION -->
+<div class="filter-section">
+
+  <!-- STEP 1: BUDGET -->
+  <div class="filter-label" style="margin-bottom:16px">
+    <span>1</span> What's your spending comfort?
+  </div>
+  <div class="budget-grid" id="budgetGrid">
+    <div class="budget-card affordable" data-budget="affordable" onclick="selectBudget(this)">
+      <div class="budget-card-check"></div>
+      <div class="budget-card-name">Affordable</div>
+      <div class="budget-card-desc">Real results, budget-friendly picks</div>
+      <div class="budget-card-bg-letter">A</div>
+    </div>
+    <div class="budget-card premium" data-budget="premium" onclick="selectBudget(this)">
+      <div class="budget-card-check"></div>
+      <div class="budget-card-name">Premium</div>
+      <div class="budget-card-desc">Elevated ingredients, elevated skin</div>
+      <div class="budget-card-bg-letter">P</div>
+    </div>
+    <div class="budget-card luxe" data-budget="luxe" onclick="selectBudget(this)">
+      <div class="budget-card-check"></div>
+      <div class="budget-card-name" style="color:var(--cream)">Full Luxe</div>
+      <div class="budget-card-desc">The best of the best — nothing held back</div>
+      <div class="budget-card-bg-letter" style="color:white">L</div>
+    </div>
+    <div class="budget-card sensitive" data-budget="sensitive" onclick="selectBudget(this)">
+      <div class="budget-card-check"></div>
+      <div class="budget-card-name">Sensitive Skin</div>
+      <div class="budget-card-desc">Gentle formulas, without compromising results</div>
+      <div class="budget-card-bg-letter">S</div>
+    </div>
+  </div>
+
+  <!-- STEP 2: KIT TIER -->
+  <div class="filter-label" style="margin-bottom:16px">
+    <span>2</span> How far do you want to take it?
+  </div>
+  <div class="kit-grid" id="kitGrid">
+    <div class="kit-card" data-kit="essential" onclick="selectKit(this)">
+      <span class="kit-card-number">01</span>
+      <div class="kit-card-name">Essential</div>
+      <div class="kit-card-desc">The must-haves — everything your skin needs, nothing it doesn't</div>
+      <div class="kit-card-items">5 products</div>
+      <div class="kit-card-bg-num">1</div>
+    </div>
+    <div class="kit-card" data-kit="full" onclick="selectKit(this)">
+      <span class="kit-card-number">02</span>
+      <div class="kit-card-name">Full Routine</div>
+      <div class="kit-card-desc">A complete AM/PM routine, start to finish</div>
+      <div class="kit-card-items">10 products</div>
+      <div class="kit-card-bg-num">2</div>
+    </div>
+    <div class="kit-card" data-kit="treat" onclick="selectKit(this)">
+      <span class="kit-card-number">03</span>
+      <div class="kit-card-name">Treat Yourself</div>
+      <div class="kit-card-desc">The full routine plus the upgrades — because you deserve it</div>
+      <div class="kit-card-items">16 products</div>
+      <div class="kit-card-bg-num">3</div>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div class="results-section" id="resultsSection">
+    <div class="results-label">Your recommended kit</div>
+    <div id="resultCard"></div>
+  </div>
+
+  <!-- ALL KITS TOGGLE -->
+  <div class="all-kits-section">
+    <button class="all-kits-toggle" id="allKitsToggle" onclick="toggleAllKits()">
+      <span>Browse all 12 kits</span>
+      <div class="all-kits-toggle-icon">+</div>
+    </button>
+    <div class="all-kits-grid" id="allKitsGrid">
+
+      <!-- ESSENTIAL ROW -->
+      <div class="kit-mini-card affordable">
+        <div class="kit-mini-eyebrow">Affordable · Essential</div>
+        <div class="kit-mini-name">Glow Well Essentials — Budget</div>
+        <div class="kit-mini-desc">Complete anti-aging starter routine under $30 per product. Drugstore picks that actually work.</div>
+        <div class="kit-mini-count">5 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/1YWPT92ETBZ8O?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">E</div>
+      </div>
+
+      <div class="kit-mini-card premium">
+        <div class="kit-mini-eyebrow">Premium · Essential</div>
+        <div class="kit-mini-name">Glow Well Essentials — Premium</div>
+        <div class="kit-mini-desc">Proven results without overspending. French pharmacy favorites and dermatologist-trusted formulas.</div>
+        <div class="kit-mini-count">5 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/2ZNOULJKXOF8G?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">E</div>
+      </div>
+
+      <div class="kit-mini-card luxe">
+        <div class="kit-mini-eyebrow">Full Luxe · Essential</div>
+        <div class="kit-mini-name">Glow Well Essentials — Luxury</div>
+        <div class="kit-mini-desc">Prestige formulas with clinically studied ingredients. Every pick is worth the investment.</div>
+        <div class="kit-mini-count">5 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/1C4NC52WGQS8I?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">E</div>
+      </div>
+
+      <div class="kit-mini-card sensitive">
+        <div class="kit-mini-eyebrow">Sensitive Skin · Essential</div>
+        <div class="kit-mini-name">Glow Well Essentials — Sensitive</div>
+        <div class="kit-mini-desc">Fragrance-free, barrier-friendly, dermatologist-approved. No irritation, no guessing.</div>
+        <div class="kit-mini-count">5 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/2PBPKIBLEDDGX?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">E</div>
+      </div>
+
+      <!-- FULL ROUTINE ROW -->
+      <div class="kit-mini-card affordable">
+        <div class="kit-mini-eyebrow">Affordable · Full Routine</div>
+        <div class="kit-mini-name">Glow Well Full Routine — Budget</div>
+        <div class="kit-mini-desc">Everything your skin needs for a complete anti-aging routine under $25 per product.</div>
+        <div class="kit-mini-count">10 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/24NUU848K7X72?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">F</div>
+      </div>
+
+      <div class="kit-mini-card premium">
+        <div class="kit-mini-eyebrow">Premium · Full Routine</div>
+        <div class="kit-mini-name">Glow Well Full Routine — Premium</div>
+        <div class="kit-mini-desc">Proven actives, clean formulas, dermatologist-trusted ingredients. The sweet spot for serious skincare.</div>
+        <div class="kit-mini-count">10 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/PWZTSZ18TRIT?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">F</div>
+      </div>
+
+      <div class="kit-mini-card luxe">
+        <div class="kit-mini-eyebrow">Full Luxe · Full Routine</div>
+        <div class="kit-mini-name">Glow Well Full Routine — Luxury</div>
+        <div class="kit-mini-desc">Prestige anti-aging at every step. Clinically studied ingredients, elevated textures, results you can see.</div>
+        <div class="kit-mini-count">10 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/A98YVXK74OY8?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">F</div>
+      </div>
+
+      <div class="kit-mini-card sensitive">
+        <div class="kit-mini-eyebrow">Sensitive Skin · Full Routine</div>
+        <div class="kit-mini-name">Glow Well Full Routine — Sensitive</div>
+        <div class="kit-mini-desc">Fragrance-free, barrier-supportive, gentle enough for daily use. No compromises on results.</div>
+        <div class="kit-mini-count">10 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/2T0MSBMGHJ1TY?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">F</div>
+      </div>
+
+      <!-- TREAT YOURSELF ROW -->
+      <div class="kit-mini-card affordable">
+        <div class="kit-mini-eyebrow">Affordable · Treat Yourself</div>
+        <div class="kit-mini-name">Glow Well Treat Yourself — Budget</div>
+        <div class="kit-mini-desc">The complete budget anti-aging experience. Full glow-up routine at drugstore prices.</div>
+        <div class="kit-mini-count">16 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/19K55G59WWURA?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">T</div>
+      </div>
+
+      <div class="kit-mini-card premium">
+        <div class="kit-mini-eyebrow">Premium · Treat Yourself</div>
+        <div class="kit-mini-name">Glow Well Treat Yourself — Premium</div>
+        <div class="kit-mini-desc">Proven actives and elevated extras that turn your routine into a ritual. Everything your skin needs.</div>
+        <div class="kit-mini-count">16 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/2M62R2OUIR3UM?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">T</div>
+      </div>
+
+      <div class="kit-mini-card luxe">
+        <div class="kit-mini-eyebrow">Full Luxe · Treat Yourself</div>
+        <div class="kit-mini-name">Glow Well Treat Yourself — Luxury</div>
+        <div class="kit-mini-desc">The ultimate anti-aging routine. Prestige formulas and elevated extras. Nothing held back.</div>
+        <div class="kit-mini-count">16 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/237IKFXP9YRVZ?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">T</div>
+      </div>
+
+      <div class="kit-mini-card sensitive">
+        <div class="kit-mini-eyebrow">Sensitive Skin · Treat Yourself</div>
+        <div class="kit-mini-name">Glow Well Treat Yourself — Sensitive</div>
+        <div class="kit-mini-desc">The complete sensitive skin experience. Fragrance-free, barrier-friendly, from essentials to indulgent extras.</div>
+        <div class="kit-mini-count">16 products</div>
+        <a href="https://www.amazon.com/shop/withglowwell/list/K80D0UDAXTE4?linkCode=spc&tag=onamzspacelux-20" class="kit-mini-btn" target="_blank">
+          Shop This Kit
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <div class="kit-mini-bg">T</div>
+      </div>
+
+    </div><!-- end allKitsGrid -->
+  </div><!-- end allKitsSection -->
+
+</div><!-- end filter-section -->
+
+<!-- SCAN CTA STRIP -->
+<div class="filter-section" style="padding-bottom:0">
+  <div class="scan-strip">
+    <div class="scan-strip-text">
+      <div class="scan-strip-eyebrow">Want a personalized routine?</div>
+      <h3>Your skin is <em>unique.</em> Your routine should be too.</h3>
+      <p>The free Glow Scan analyzes your skin — grab the Full Report for a complete routine built around your exact skin type, concerns, and budget. Or pick up the Playbook for the full skincare education.</p>
+    </div>
+    <div class="scan-strip-btns">
+      <a href="https://theglowwell.com/glowscan-v2?start=quiz" class="btn-scan">
+        Get Your Full Report
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="https://theglowwell.com/playbook" class="btn-playbook">
+        Get the Playbook — $24.99
+      </a>
+    </div>
+  </div>
+</div>
+
+<div style="height:80px"></div>
+
+<footer>
+  <a href="index.html" style="font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(247,243,238,0.5);text-decoration:none">The Glow<em style="font-style:italic;color:#7A9474">Well</em></a>
+  <div class="footer-links">
+    <a href="blog.html">Blog</a>
+    <a href="resources.html">Free Resources</a>
+    <a href="index.html#about">About</a>
+    <a href="terms.html">Terms</a>
+    <a href="refund.html">Refund Policy</a>
+    <a href="mailto:theglowwellcollective@gmail.com">Contact</a>
+  </div>
+  <div class="footer-copy">© 2025 The Glow Well · theglowwell.com</div>
+</footer>
+
+<script>
+// Bundle data
+const bundles = {
+  affordable: {
+    essential: {
+      name: "Glow Well Essentials",
+      tier: "Affordable · Essential",
+      desc: "Complete anti-aging starter routine under $30 per product. <strong>Drugstore picks that actually work</strong> — the non-negotiables your skin needs, curated without the noise.",
+      items: "5 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/1YWPT92ETBZ8O?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Glow"
+    },
+    full: {
+      name: "Glow Well Full Routine",
+      tier: "Affordable · Full Routine",
+      desc: "Everything your skin needs for a complete anti-aging routine <strong>under $25 per product</strong>. Essentials plus targeted treatments — exfoliant, niacinamide, eye cream, barrier repair, and peptides.",
+      items: "10 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/24NUU848K7X72?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Routine"
+    },
+    treat: {
+      name: "Glow Well Treat Yourself",
+      tier: "Affordable · Treat Yourself",
+      desc: "The complete budget anti-aging experience. Every essential plus targeted treatments and luxurious extras — <strong>all without breaking the bank</strong>. Your full glow-up routine at drugstore prices.",
+      items: "16 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/19K55G59WWURA?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Treat"
+    }
+  },
+  premium: {
+    essential: {
+      name: "Glow Well Essentials",
+      tier: "Premium · Essential",
+      desc: "A complete anti-aging starter routine for women who want <strong>proven results without overspending</strong>. French pharmacy favorites and dermatologist-trusted formulas — no $300 serums required.",
+      items: "5 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/2ZNOULJKXOF8G?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Glow"
+    },
+    full: {
+      name: "Glow Well Full Routine",
+      tier: "Premium · Full Routine",
+      desc: "Proven actives, clean formulas, and dermatologist-trusted ingredients — <strong>without crossing into luxury pricing</strong>. The sweet spot for serious skincare, morning and night.",
+      items: "10 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/PWZTSZ18TRIT?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Routine"
+    },
+    treat: {
+      name: "Glow Well Treat Yourself",
+      tier: "Premium · Treat Yourself",
+      desc: "Proven actives, clean formulas, and elevated extras that <strong>turn your routine into a ritual</strong>. Everything your skin needs, morning and night — the full premium experience.",
+      items: "16 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/2M62R2OUIR3UM?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Treat"
+    }
+  },
+  luxe: {
+    essential: {
+      name: "Glow Well Essentials",
+      tier: "Full Luxe · Essential",
+      desc: "The finest anti-aging starter routine for women who want the best. <strong>Prestige formulas with clinically studied ingredients</strong>, cleaner delivery systems, and a genuinely elevated experience.",
+      items: "5 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/1C4NC52WGQS8I?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Luxe"
+    },
+    full: {
+      name: "Glow Well Full Routine",
+      tier: "Full Luxe · Full Routine",
+      desc: "A complete prestige anti-aging routine. <strong>Clinically studied ingredients, elevated textures, and results you can actually see</strong>. Every step worth the investment.",
+      items: "10 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/A98YVXK74OY8?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Routine"
+    },
+    treat: {
+      name: "Glow Well Treat Yourself",
+      tier: "Full Luxe · Treat Yourself",
+      desc: "The ultimate anti-aging routine. <strong>Prestige formulas, clinically studied ingredients, and elevated extras</strong> that make skincare feel like self-care. This is the full Glow Well experience.",
+      items: "16 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/237IKFXP9YRVZ?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Treat"
+    }
+  },
+  sensitive: {
+    essential: {
+      name: "Glow Well Essentials",
+      tier: "Sensitive Skin · Essential",
+      desc: "A complete anti-aging starter routine built specifically for <strong>reactive, dry, and sensitive skin</strong>. Every pick is fragrance-free, barrier-friendly, and dermatologist-approved.",
+      items: "5 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/2PBPKIBLEDDGX?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Calm"
+    },
+    full: {
+      name: "Glow Well Full Routine",
+      tier: "Sensitive Skin · Full Routine",
+      desc: "A complete anti-aging routine built for reactive skin. <strong>Every product is fragrance-free, barrier-supportive, and gentle enough for daily use</strong>. No compromises on results — zero irritation.",
+      items: "10 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/2T0MSBMGHJ1TY?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Gentle"
+    },
+    treat: {
+      name: "Glow Well Treat Yourself",
+      tier: "Sensitive Skin · Treat Yourself",
+      desc: "The complete sensitive skin anti-aging experience. <strong>Every product is fragrance-free, barrier-friendly, and dermatologist-approved</strong> — from daily essentials to indulgent extras. Full glow, zero irritation.",
+      items: "16 products",
+      link: "https://www.amazon.com/shop/withglowwell/list/K80D0UDAXTE4?linkCode=spc&tag=onamzspacelux-20",
+      bgWord: "Glow"
+    }
+  }
+};
+
+let selectedBudget = null;
+let selectedKit = null;
+
+function selectBudget(el) {
+  document.querySelectorAll('.budget-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedBudget = el.dataset.budget;
+  updateResult();
+}
+
+function selectKit(el) {
+  document.querySelectorAll('.kit-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedKit = el.dataset.kit;
+  updateResult();
+}
+
+function updateResult() {
+  const card = document.getElementById('resultCard');
+  const section = document.getElementById('resultsSection');
+
+  if (!selectedBudget || !selectedKit) {
+    card.innerHTML = '';
+    return;
+  }
+
+  const b = bundles[selectedBudget][selectedKit];
+  const tierClass = selectedBudget;
+  const btnClass = selectedBudget === 'luxe' ? 'terra' : '';
+
+  card.innerHTML = `
+    <div class="result-inner">
+      <div class="result-left ${tierClass}">
+        <div class="result-tier-badge">${b.tier}</div>
+        <div class="result-name"><em>${b.name}</em></div>
+        <div class="result-items-count">${b.items} · Amazon curated list</div>
+        <div class="result-bg-word">${b.bgWord}</div>
+      </div>
+      <div class="result-right">
+        <div class="result-desc">${b.desc}</div>
+        <div class="result-divider"></div>
+        <div class="result-cta-area">
+          <div class="result-swap-note">These are curated picks — swap any product you like once you're on Amazon.</div>
+          <a href="${b.link}" class="result-btn ${btnClass}" target="_blank">
+            Shop This Kit on Amazon
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Add visible class to trigger animation
+  const inner = card.querySelector('.result-inner');
+  if(inner) {
+    card.classList.add('result-card','visible');
+  }
+
+  // Scroll to result smoothly
+  setTimeout(() => {
+    section.scrollIntoView({behavior:'smooth', block:'nearest'});
+  }, 100);
+}
+
+function toggleAllKits() {
+  const grid = document.getElementById('allKitsGrid');
+  const toggle = document.getElementById('allKitsToggle');
+  const isOpen = grid.classList.contains('open');
+  grid.classList.toggle('open');
+  toggle.classList.toggle('open');
+  toggle.querySelector('span').textContent = isOpen ? 'Browse all 12 kits' : 'Hide all kits';
+}
+</script>
+
+</body>
+</html>
