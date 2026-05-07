@@ -1550,6 +1550,73 @@ function showScanError(message) {
   }, 300);
 }
 
+// True when a cached/parsed reportData object actually contains report content
+// (not just a wrapper). Used to invalidate stale/garbage caches and to verify
+// fresh API responses parsed correctly.
+function isReportComplete(rd) {
+  return !!(rd && (
+    rd.profileSummary ||
+    (Array.isArray(rd.amRoutine) && rd.amRoutine.length) ||
+    (Array.isArray(rd.photoFindings) && rd.photoFindings.length) ||
+    (Array.isArray(rd.top3priorities) && rd.top3priorities.length)
+  ));
+}
+
+// Normalize the Worker's full-report response into a plain JSON object
+// regardless of which shape it arrives in (direct object, text/result/data
+// wrapper, Anthropic-style content array, or string with markdown fences).
+function extractReportPayload(raw) {
+  if (raw == null) return null;
+
+  // Already a usable object
+  if (typeof raw === 'object' && !Array.isArray(raw)) {
+    if (raw.profileSummary || raw.amRoutine || raw.photoFindings || raw.top3priorities) {
+      return raw;
+    }
+  }
+
+  // Find the inner candidate (string or object) under common wrappers
+  let candidate = null;
+  if (typeof raw === 'string') {
+    candidate = raw;
+  } else if (typeof raw === 'object') {
+    if (typeof raw.text === 'string') candidate = raw.text;
+    else if (raw.result) candidate = raw.result;
+    else if (raw.data) candidate = raw.data;
+    else if (raw.report) candidate = raw.report;
+    else if (Array.isArray(raw.content) && raw.content[0]) {
+      candidate = raw.content[0].text || raw.content[0];
+    } else if (typeof raw.content === 'string') {
+      candidate = raw.content;
+    } else if (raw.message && typeof raw.message.content === 'string') {
+      candidate = raw.message.content;
+    }
+  }
+
+  // Object candidate already? Hand it back if it has expected keys
+  if (candidate && typeof candidate === 'object' && !Array.isArray(candidate)) {
+    if (candidate.profileSummary || candidate.amRoutine || candidate.photoFindings) {
+      return candidate;
+    }
+  }
+
+  // String candidate — strip markdown code fences and try to parse
+  if (typeof candidate === 'string') {
+    let s = candidate.trim()
+      .replace(/^```(?:json)?\s*/i, '')
+      .replace(/\s*```$/, '')
+      .trim();
+    try { return JSON.parse(s); } catch (e) {}
+    // Final fallback — extract the largest {...} block
+    const match = s.match(/\{[\s\S]*\}/);
+    if (match) {
+      try { return JSON.parse(match[0]); } catch (e) {}
+    }
+  }
+
+  return null;
+}
+
 async function callClaudeForFullReport() {
   const actualAge = parseInt(userData.age) || 30;
   const freeData = scanResults;
@@ -1610,11 +1677,12 @@ Tailor product/routine suggestions to what's realistically available in the user
     });
     clearTimeout(timeout);
 
-    const data = await response.json();
-    console.log('Full report received:', JSON.stringify(data).slice(0, 200));
+    const raw = await response.json();
+    console.log('Full report HTTP status:', response.status);
+    console.log('Full report raw response (first 800 chars):', JSON.stringify(raw).slice(0, 800));
 
-    if (!response.ok || data.error) {
-      console.error('Full report error:', data);
+    if (!response.ok || raw.error) {
+      console.error('Full report error response:', raw);
       const reportLink = document.getElementById('reportLink');
       if (reportLink) {
         reportLink.textContent = 'Tap to generate your report';
@@ -1628,6 +1696,31 @@ Tailor product/routine suggestions to what's realistically available in the user
       }
       return;
     }
+
+    // Normalize response shape — Worker may pass through Anthropic's raw
+    // { content: [{text: "..."}] } or markdown-fenced JSON. Without this,
+    // data.profileSummary / data.amRoutine / etc. would be undefined and the
+    // report page would render every section as "not yet available".
+    const data = extractReportPayload(raw);
+
+    if (!isReportComplete(data)) {
+      console.error('Full report parsed but missing expected fields. Raw:', raw, 'Extracted:', data);
+      const reportLink = document.getElementById('reportLink');
+      if (reportLink) {
+        reportLink.textContent = 'Tap to generate your report';
+        reportLink.style.color = 'var(--terra-dark)';
+        reportLink.style.pointerEvents = 'auto';
+        reportLink.style.cursor = 'pointer';
+        reportLink.onclick = function() {
+          reportLink.textContent = 'Generating...';
+          reportLink.style.pointerEvents = 'none';
+          callClaudeForFullReport();
+        };
+      }
+      return;
+    }
+
+    console.log('Full report parsed — fields present:', Object.keys(data));
 
     scanResults.reportData = data;
 
@@ -1922,8 +2015,9 @@ async function showConfirmationAndReport() {
 
   const reportWaitMsg = document.getElementById('reportWaitMsg');
 
-  // Only regenerate if no cached report — paid returning users see the same report every time
-  if (!scanResults.reportData) {
+  // Only regenerate if no cached report — paid returning users see the same report every time.
+  // Also regenerate if the cached object was a wrapper/garbage from before the response normalization fix.
+  if (!isReportComplete(scanResults.reportData)) {
     if (reportLink) {
       reportLink.innerHTML = 'Generating your report...<span class="report-loading-dot"></span>';
       reportLink.style.color = 'var(--text-light)';
@@ -1963,7 +2057,7 @@ async function showConfirmationAndReport() {
 
     if (reportWaitMsg) reportWaitMsg.style.display = 'none';
 
-    if (!scanResults.reportData) {
+    if (!isReportComplete(scanResults.reportData)) {
       reportLink.textContent = 'Tap to generate your report';
       reportLink.style.color = 'var(--terra-dark)';
       reportLink.style.opacity = '1';
