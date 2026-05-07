@@ -1917,26 +1917,29 @@ async function showConfirmationAndReport() {
 
   goToScreen(7);
 
-  // Set loading state on report link
-  if (reportLink) {
-    reportLink.innerHTML = 'Generating your report...<span class="report-loading-dot"></span>';
-    reportLink.style.color = 'var(--text-light)';
-    reportLink.style.cursor = 'not-allowed';
-    reportLink.style.opacity = '0.6';
-    reportLink.style.pointerEvents = 'none';
-  }
   const reportWaitMsg = document.getElementById('reportWaitMsg');
-  if (reportWaitMsg) reportWaitMsg.style.display = 'block';
 
-  const quizRaw = localStorage.getItem('glowscan_quizAnswers');
-  if (quizRaw) {
-    try {
-      Object.assign(userData, JSON.parse(quizRaw));
-    } catch(e) {}
+  // Only regenerate if no cached report — paid returning users see the same report every time
+  if (!scanResults.reportData) {
+    if (reportLink) {
+      reportLink.innerHTML = 'Generating your report...<span class="report-loading-dot"></span>';
+      reportLink.style.color = 'var(--text-light)';
+      reportLink.style.cursor = 'not-allowed';
+      reportLink.style.opacity = '0.6';
+      reportLink.style.pointerEvents = 'none';
+    }
+    if (reportWaitMsg) reportWaitMsg.style.display = 'block';
+
+    const quizRaw = localStorage.getItem('glowscan_quizAnswers');
+    if (quizRaw) {
+      try {
+        Object.assign(userData, JSON.parse(quizRaw));
+      } catch(e) {}
+    }
+
+    await callClaudeForFullReport();
+    await new Promise(resolve => setTimeout(resolve, 2000));
   }
-
-  await callClaudeForFullReport();
-  await new Promise(resolve => setTimeout(resolve, 2000));
 
   // Restore ready state with score URL param as backup
   if (reportLink) {
