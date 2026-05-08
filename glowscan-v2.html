@@ -1805,6 +1805,74 @@ async function saveReportToKV() {
   return null;
 }
 
+// ── EMAIL RECOVERY (cross-browser ?paid=1 with no reportId in URL) ──
+function showEmailRecovery() {
+  const overlay = document.getElementById('emailRecoveryOverlay');
+  if (overlay) overlay.style.display = 'block';
+  setTimeout(function(){
+    const input = document.getElementById('recoveryEmailInput');
+    if (input) input.focus();
+  }, 50);
+}
+
+async function submitEmailRecovery() {
+  const input = document.getElementById('recoveryEmailInput');
+  const btn = document.getElementById('recoveryEmailBtn');
+  const errorMsg = document.getElementById('recoveryErrorMsg');
+  if (!input) return;
+  const email = input.value.trim();
+  if (!email || !email.includes('@')) {
+    if (errorMsg) {
+      errorMsg.textContent = 'Please enter a valid email address.';
+      errorMsg.style.display = 'block';
+    }
+    input.style.borderColor = 'var(--terra)';
+    input.focus();
+    return;
+  }
+  if (errorMsg) errorMsg.style.display = 'none';
+  input.style.borderColor = '';
+  if (btn) { btn.disabled = true; btn.textContent = 'Loading your report...'; }
+
+  try {
+    const res = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ callType: 'loadByEmail', email })
+    });
+    const kv = await res.json();
+    if (kv && kv.ok) {
+      if (kv.scanResults) Object.assign(scanResults, kv.scanResults);
+      if (kv.userData) Object.assign(userData, kv.userData);
+      if (kv.reportData && Object.keys(kv.reportData).length) {
+        scanResults.reportData = kv.reportData;
+        try { sessionStorage.setItem('glowReportData', JSON.stringify(kv.reportData)); } catch(e) {}
+      }
+      try {
+        localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+        localStorage.setItem('glowscan_quizAnswers', JSON.stringify(userData));
+        if (kv.reportId) localStorage.setItem('glowscan_reportId', kv.reportId);
+      } catch(e) {}
+      const overlay = document.getElementById('emailRecoveryOverlay');
+      if (overlay) overlay.style.display = 'none';
+      showConfirmationAndReport();
+    } else {
+      if (errorMsg) {
+        errorMsg.textContent = 'No report found for that email. Please double-check the address you used during your scan.';
+        errorMsg.style.display = 'block';
+      }
+      if (btn) { btn.disabled = false; btn.textContent = 'Load My Report →'; }
+    }
+  } catch(e) {
+    console.error('loadByEmail failed:', e);
+    if (errorMsg) {
+      errorMsg.textContent = 'Network error. Please check your connection and try again.';
+      errorMsg.style.display = 'block';
+    }
+    if (btn) { btn.disabled = false; btn.textContent = 'Load My Report →'; }
+  }
+}
+
 function useFallbackResults() {
   console.error('FALLBACK TRIGGERED — Claude API did not return valid results');
   const actualAge = parseInt(userData.age) || null;
@@ -2214,6 +2282,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // URL handed us a reportId. Hydrate scanResults + userData from KV before
     // showConfirmationAndReport runs, so any regen uses the real age/concern/country
     // (no more parseInt(null) || 30 fallback) and consistent inputs.
+    // If no reportId AND no local cache, fall back to email-based recovery so
+    // the user can identify themselves instead of getting a wrong/empty report.
+    if (!hasLocalScan && !reportId) {
+      showEmailRecovery();
+      return;
+    }
     if (reportId && !hasLocalScan) {
       (async () => {
         try {
@@ -2307,6 +2381,20 @@ document.addEventListener('DOMContentLoaded', function() {
   <div onclick="dismissValuePropPopup()" style="font-size:11px;color:rgba(247,243,238,0.28);margin-top:12px;cursor:pointer">No thanks, I'll pay full price</div>
 </div>
 <style>@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}</style>
+
+<!-- Email recovery overlay — shown when ?paid=1 lands with no local cache and no reportId -->
+<div id="emailRecoveryOverlay" style="display:none;position:fixed;inset:0;background:var(--cream);z-index:9999;padding:80px 24px;overflow-y:auto;">
+  <div style="max-width:440px;margin:0 auto;text-align:center;">
+    <div style="font-size:11px;font-weight:500;letter-spacing:3.5px;text-transform:uppercase;color:var(--sage-dark);margin-bottom:18px">Welcome back</div>
+    <h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--charcoal);line-height:1.3;margin-bottom:14px;">To load your personalized report on this device, please enter the email you used during your scan.</h2>
+    <p style="font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.7;margin-bottom:24px;">Your scan is securely linked to your email — we'll use it to retrieve your real results.</p>
+    <input type="email" class="email-input" id="recoveryEmailInput" placeholder="Your email address" autocomplete="email" style="margin-bottom:8px;" />
+    <button class="btn btn-terra btn-full" id="recoveryEmailBtn" onclick="submitEmailRecovery()" style="font-size:15px;padding:18px 32px;">
+      Load My Report →
+    </button>
+    <p id="recoveryErrorMsg" style="font-size:12px;color:var(--terra-dark);margin-top:14px;display:none;line-height:1.6"></p>
+  </div>
+</div>
 
 </body>
 </html>
