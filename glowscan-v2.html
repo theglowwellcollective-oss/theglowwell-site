@@ -1750,6 +1750,15 @@ Tailor product/routine suggestions to what's realistically available in the user
       sessionStorage.setItem('glowReportData', JSON.stringify(data));
     } catch(e) {}
 
+    // Update the KV record with the full report content. If a reportId was
+    // saved at checkout time, overwrite that record (Worker honors the passed
+    // reportId). If not (Worker was down at checkout, or this is a regen path),
+    // create a new record so cross-browser email recovery still has the
+    // complete report. Fire-and-forget — never block the report-link reveal.
+    let existingReportId = null;
+    try { existingReportId = localStorage.getItem('glowscan_reportId'); } catch(e) {}
+    saveReportToKV(existingReportId);
+
   } catch(err) {
     clearTimeout(timeout);
     if (err.name === 'AbortError') {
@@ -1774,7 +1783,7 @@ Tailor product/routine suggestions to what's realistically available in the user
 // to Cloudflare KV via the Worker. Returns the KV reportId or null on failure.
 // Called from handleCheckout so the LS receipt URL can carry ?reportId=<id>,
 // letting the user reopen their report in any browser.
-async function saveReportToKV() {
+async function saveReportToKV(existingReportId) {
   try {
     // Strip the photo binary — it's huge and not needed once the report exists.
     const userDataLight = {
@@ -1783,15 +1792,22 @@ async function saveReportToKV() {
       country: userData.country,
       email: userData.email
     };
+    const body = {
+      callType: 'save',
+      scanResults: scanResults,
+      reportData: scanResults.reportData || {},
+      userData: userDataLight
+    };
+    // If an existing reportId is provided, the Worker overwrites that record
+    // instead of generating a new UUID. Lets us upgrade the partial save from
+    // handleCheckout (no reportData yet) to a complete one once the full
+    // Claude report arrives, so cross-browser email recovery returns the
+    // identical report instead of regenerating.
+    if (existingReportId) body.reportId = existingReportId;
     const response = await fetch(WORKER_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        callType: 'save',
-        scanResults: scanResults,
-        reportData: scanResults.reportData || {},
-        userData: userDataLight
-      })
+      body: JSON.stringify(body)
     });
     const data = await response.json();
     if (data && data.ok && data.reportId) {
