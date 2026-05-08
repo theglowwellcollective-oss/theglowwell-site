@@ -1313,7 +1313,12 @@ async function subscribeToMailerLite(extraFields) {
 
 // ── CLAUDE API CALLS ──────────────────────────
 async function callClaudeForFreeResults() {
-  const actualAge = parseInt(userData.age) || 30;
+  const actualAge = parseInt(userData.age) || null;
+  if (!actualAge) {
+    console.error('callClaudeForFreeResults: userData.age missing — aborting');
+    showScanError('Please re-enter your age and try again.');
+    return;
+  }
 
   const freePrompt = `You are a clinical skin analysis AI for Glow Scan by The Glow Well. You have deep expertise in dermatological visual assessment. Analyze the uploaded selfie photo with precision and clinical accuracy.
 
@@ -1483,7 +1488,7 @@ Return ONLY this JSON, no other text, no markdown:
     }
 
     Object.assign(scanResults, data);
-    scanResults.actualAge = parseInt(userData.age) || 30;
+    scanResults.actualAge = parseInt(userData.age) || null;
     scanResults.ageDiff = scanResults.skinAge - scanResults.actualAge;
 
     if (data.topProduct) {
@@ -1618,7 +1623,21 @@ function extractReportPayload(raw) {
 }
 
 async function callClaudeForFullReport() {
-  const actualAge = parseInt(userData.age) || 30;
+  const actualAge = parseInt(userData.age) || null;
+  if (!actualAge) {
+    console.error('callClaudeForFullReport: userData.age missing — aborting (would have produced a wrong report).');
+    const reportLink = document.getElementById('reportLink');
+    if (reportLink) {
+      reportLink.textContent = 'Please retake your scan to view your report';
+      reportLink.href = 'glowscan-v2.html?start=quiz';
+      reportLink.style.color = 'var(--terra-dark)';
+      reportLink.style.opacity = '1';
+      reportLink.style.pointerEvents = 'auto';
+      reportLink.style.cursor = 'pointer';
+      reportLink.onclick = null;
+    }
+    return;
+  }
   const freeData = scanResults;
 
   const reportPrompt = `You are generating a personalized skin report. Be concise — 1-2 sentences per field maximum.
@@ -1750,9 +1769,45 @@ Tailor product/routine suggestions to what's realistically available in the user
   }
 }
 
+// ── KV PERSISTENCE ────────────────────────────
+// Save the user's scan + (any available) full report + identifying userData
+// to Cloudflare KV via the Worker. Returns the KV reportId or null on failure.
+// Called from handleCheckout so the LS receipt URL can carry ?reportId=<id>,
+// letting the user reopen their report in any browser.
+async function saveReportToKV() {
+  try {
+    // Strip the photo binary — it's huge and not needed once the report exists.
+    const userDataLight = {
+      age: userData.age,
+      concern: userData.concern,
+      country: userData.country,
+      email: userData.email
+    };
+    const response = await fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        callType: 'save',
+        scanResults: scanResults,
+        reportData: scanResults.reportData || {},
+        userData: userDataLight
+      })
+    });
+    const data = await response.json();
+    if (data && data.ok && data.reportId) {
+      try { localStorage.setItem('glowscan_reportId', data.reportId); } catch(e) {}
+      return data.reportId;
+    }
+    console.warn('saveReportToKV: unexpected response:', data);
+  } catch(e) {
+    console.error('saveReportToKV error:', e);
+  }
+  return null;
+}
+
 function useFallbackResults() {
   console.error('FALLBACK TRIGGERED — Claude API did not return valid results');
-  const actualAge = parseInt(userData.age) || 30;
+  const actualAge = parseInt(userData.age) || null;
   Object.assign(scanResults, {
     skinAge: actualAge + 3,
     glowScore: null,
@@ -1786,12 +1841,12 @@ function populateResults() {
     return;
   }
   const r = scanResults;
-  const actualAge = parseInt(userData.age) || 30;
+  const actualAge = parseInt(userData.age) || null;
   const ageDiff = r.skinAge - actualAge;
 
   // Age banner
   document.getElementById('skinAgeDisplay').textContent = r.skinAge;
-  document.getElementById('actualAgeDisplay').textContent = 'Your actual age: ' + actualAge;
+  document.getElementById('actualAgeDisplay').textContent = actualAge ? ('Your actual age: ' + actualAge) : 'Your actual age: —';
 
   const gapEl = document.getElementById('ageGapDisplay');
   if (ageDiff > 0) {
@@ -1893,7 +1948,7 @@ async function shareScore() {
     canvas.toBlob(async (blob) => {
       const file = new File([blob], 'glowscan-score.png', { type: 'image/png' });
       if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-        const ageDiff = scanResults.ageDiff || (scanResults.skinAge - (parseInt(userData.age) || 30));
+        const ageDiff = scanResults.ageDiff || (scanResults.skinAge - (parseInt(userData.age) || null));
         const shareText = ageDiff > 0
           ? `just found out my skin is ${ageDiff} years older than it should be 😭 got my free Glow Score at theglowwell.com — it's free and slightly terrifying`
           : `just found out my skin is ${Math.abs(ageDiff)} years younger than my actual age ✨ got my free Glow Scan at theglowwell.com`;
@@ -1950,11 +2005,27 @@ function selectAddonAndCheckout(addAddon) {
 }
 
 // ── CHECKOUT HANDLER ──────────────────────────
-function handleCheckout() {
+async function handleCheckout() {
   clearTimeout(popupTimer);
   document.getElementById('valuePropPopup').style.display = 'none';
   resetStickyDefault();
+
   let url = addonChecked ? LS_BUNDLE_URL : LS_REPORT_URL;
+
+  // Save the scan to KV and append the reportId so the LS receipt URL can
+  // carry ?reportId=<id> back to us (configurable in LS dashboard via
+  // {{custom.reportId}}). Hard-cap the wait at 5s — never block payment.
+  let reportId = null;
+  try {
+    reportId = await Promise.race([
+      saveReportToKV(),
+      new Promise(resolve => setTimeout(() => resolve(null), 5000))
+    ]);
+  } catch (e) {}
+  if (reportId) {
+    url += '&checkout[custom][reportId]=' + encodeURIComponent(reportId);
+  }
+
   const tier = getPricingTier();
   if (window.popupDiscountActive) {
     url += '&checkout[discount_code]=' + (window.popupDiscountCode || 'FINAL25');
@@ -2112,17 +2183,70 @@ document.addEventListener('DOMContentLoaded', function() {
   if (urlParams.get('paid') === '1') {
     const isBundle = urlParams.get('bundle') === '1';
     addonChecked = isBundle;
+
+    // Recover reportId from URL (LS appends it via {{custom.reportId}}) or
+    // from localStorage (same-browser case where saveReportToKV cached it).
+    let reportId = urlParams.get('reportId') || null;
+    if (!reportId) {
+      try { reportId = localStorage.getItem('glowscan_reportId'); } catch(e) {}
+    }
+
+    // Restore from local storage where possible
+    let hasLocalScan = false;
     const raw = localStorage.getItem('glowscan_reportData');
     if (raw) {
       try {
         const data = JSON.parse(raw);
         if (data.reportData) sessionStorage.setItem('glowReportData', JSON.stringify(data.reportData));
         Object.assign(scanResults, data);
+        hasLocalScan = !!(data.skinAge || data.glowScore);
       } catch(e) {}
     }
+    try {
+      const quizRaw = localStorage.getItem('glowscan_quizAnswers');
+      if (quizRaw) Object.assign(userData, JSON.parse(quizRaw));
+    } catch(e) {}
+
     localStorage.setItem('glowscan_paid', 'true');
     window.history.replaceState({}, document.title, window.location.pathname);
-    showConfirmationAndReport();
+
+    // Cross-browser: localStorage is empty in this browser but the LS receipt
+    // URL handed us a reportId. Hydrate scanResults + userData from KV before
+    // showConfirmationAndReport runs, so any regen uses the real age/concern/country
+    // (no more parseInt(null) || 30 fallback) and consistent inputs.
+    if (reportId && !hasLocalScan) {
+      (async () => {
+        try {
+          const res = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ callType: 'load', reportId })
+          });
+          const kv = await res.json();
+          if (kv && kv.ok) {
+            if (kv.scanResults) Object.assign(scanResults, kv.scanResults);
+            if (kv.userData) Object.assign(userData, kv.userData);
+            if (kv.reportData && Object.keys(kv.reportData).length) {
+              scanResults.reportData = kv.reportData;
+              try { sessionStorage.setItem('glowReportData', JSON.stringify(kv.reportData)); } catch(e) {}
+            }
+            // Mirror to localStorage so subsequent visits in this browser don't re-fetch
+            try {
+              localStorage.setItem('glowscan_reportData', JSON.stringify(scanResults));
+              localStorage.setItem('glowscan_quizAnswers', JSON.stringify(userData));
+              localStorage.setItem('glowscan_reportId', reportId);
+            } catch(e) {}
+          } else {
+            console.warn('KV load returned no data:', kv);
+          }
+        } catch(e) {
+          console.error('KV load failed:', e);
+        }
+        showConfirmationAndReport();
+      })();
+    } else {
+      showConfirmationAndReport();
+    }
     return;
   }
 
