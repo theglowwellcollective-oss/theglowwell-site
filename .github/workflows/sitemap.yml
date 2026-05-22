@@ -1,20 +1,6 @@
 name: Generate Sitemap
+
+# DISABLED - was causing failed run emails on every push
+# To re-enable, restore the 'on:' trigger below
 on:
-  push:
-    branches: [main]
-jobs:
-  sitemap:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Generate sitemap
-        run: python3 generate_sitemap.py
-      - name: Commit sitemap
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add sitemap.xml
-          git diff --staged --quiet || git commit -m "chore: regenerate sitemap.xml"
-          git push
+  workflow_dispatch: # manual only - will not run automatically
