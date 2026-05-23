@@ -1,6 +1,0 @@
-name: Generate Sitemap
-
-# DISABLED - was causing failed run emails on every push
-# To re-enable, restore the 'on:' trigger below
-on:
-  workflow_dispatch: # manual only - will not run automatically
