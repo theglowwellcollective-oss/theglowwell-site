@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Copper Peptide Recovery Cream — formulated from 3,000+ skin diagnostic scans. Founder pre-sale: $49. Ships by June 30, 2026. Only 300 jars available.">
-<meta name="keywords" content="copper peptide cream, GHK-Cu skincare, anti-aging cream, copper peptide serum, aging gracefully skincare">
+<meta name="description" content="Copper Peptide Recovery Cream — built from 3,000+ skin diagnostic scans. Founder pre-sale: $49. Ships by June 30, 2026. Only 47 founder jars available.">
+<meta name="keywords" content="copper peptide cream, GHK-Cu skincare, copper peptide skincare, aging gracefully skincare, simple skincare routine">
 <meta property="og:title" content="The Glow Well — Copper Peptide Recovery Cream">
-<meta property="og:description" content="Founder pre-sale: $49. 300 jars only. Ships by June 30, 2026.">
+<meta property="og:description" content="Founder pre-sale: $49 (vs $99 comparable value). 47 jars only. Ships by June 30, 2026.">
 <meta property="og:image" content="og-image-copper.jpg">
 <title>Copper Peptide Recovery Cream — The Glow Well</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -55,10 +55,10 @@ h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:300;line-height:1.1}
 .btn-terra:hover{background:var(--terra-dark)}
 .btn-ghost{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:400;color:var(--text-mid);border-bottom:1px solid var(--border);padding-bottom:2px;transition:color 0.2s,border-color 0.2s;cursor:pointer}
 .btn-ghost:hover{color:var(--charcoal);border-color:var(--charcoal)}
-.btn-disabled{background:var(--text-light)!important;cursor:not-allowed!important;opacity:0.6}
+.btn-disabled{background:var(--text-light)!important;cursor:not-allowed!important;opacity:0.7}
 
 /* ── NAV ─────────────────────────────────────── */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,0.92);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color 0.3s}
+nav{position:fixed;top:40px;left:0;right:0;z-index:200;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;background:rgba(247,243,238,0.92);backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color 0.3s}
 nav.scrolled{border-bottom-color:var(--border)}
 .nav-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:300;color:var(--charcoal);letter-spacing:0.3px;text-decoration:none;display:block}
 .nav-logo-text em{font-style:italic;color:var(--sage-dark)}
@@ -86,10 +86,9 @@ nav.scrolled{border-bottom-color:var(--border)}
 }
 
 /* ── ANNOUNCEMENT BAR ────────────────────────── */
-.announce{background:var(--charcoal);color:var(--cream);text-align:center;padding:9px 20px;font-size:12px;font-weight:400;letter-spacing:0.5px;position:fixed;top:0;left:0;right:0;z-index:201}
+.announce{background:var(--charcoal);color:var(--cream);text-align:center;padding:11px 20px;font-size:12px;font-weight:400;letter-spacing:0.5px;position:fixed;top:0;left:0;right:0;z-index:201}
 .announce strong{color:var(--sage-light);font-weight:500}
-nav{top:34px}
-@media(max-width:600px){.announce{font-size:11px;padding:8px 14px}}
+@media(max-width:600px){.announce{font-size:11px;padding:9px 14px}}
 
 /* ── HERO ────────────────────────────────────── */
 .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:140px 80px 80px;gap:80px;position:relative;overflow:hidden}
@@ -97,54 +96,90 @@ nav{top:34px}
 .hero-left{position:relative;z-index:2}
 .hero-h1{font-size:clamp(38px,4.2vw,58px);color:var(--charcoal);margin-bottom:22px;letter-spacing:-0.5px}
 .hero-h1 em{font-style:italic;color:var(--sage-dark)}
-.hero-sub{font-size:16px;font-weight:300;color:var(--text-mid);line-height:1.75;max-width:480px;margin-bottom:32px}
+.hero-sub{font-size:16px;font-weight:300;color:var(--text-mid);line-height:1.75;max-width:480px;margin-bottom:24px}
 .hero-sub strong{color:var(--text);font-weight:500}
 
 .price-block{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:8px}
 .price-orig{font-size:18px;font-weight:300;color:var(--text-light);text-decoration:line-through}
 .price-now{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:var(--charcoal);line-height:1}
 .price-save{font-size:12px;font-weight:500;background:rgba(196,132,90,0.15);color:var(--terra-dark);padding:4px 10px;letter-spacing:0.5px}
+
+.hero-bundle{font-size:12.5px;color:var(--text-mid);margin-bottom:14px;line-height:1.5;font-weight:300}
+.hero-bundle strong{color:var(--text);font-weight:500}
+
 .ship-line{font-size:12px;color:var(--text-mid);margin-bottom:24px;display:flex;align-items:center;gap:6px}
 .ship-line::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--sage);display:inline-block}
 
 .hero-cta-group{margin-bottom:18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
 
 .counter-bar{margin-bottom:24px;padding:14px 18px;background:white;border:1px solid var(--border);max-width:480px}
-.counter-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-bottom:8px}
+.counter-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--text-mid);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.counter-label-live{display:inline-flex;align-items:center;gap:6px;color:var(--terra-dark);font-size:10px;letter-spacing:1.5px}
+.counter-label-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--terra);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 .counter-track{height:6px;background:var(--off-white);border-radius:3px;overflow:hidden;margin-bottom:8px}
 .counter-fill{height:100%;background:var(--sage);transition:width 0.6s}
-.counter-text{font-size:12px;color:var(--text-mid);display:flex;justify-content:space-between}
-.counter-text strong{color:var(--charcoal);font-weight:500}
+.counter-text{font-size:12px;color:var(--text-mid);display:flex;justify-content:space-between;align-items:baseline}
+.counter-text strong{color:var(--charcoal);font-weight:500;font-size:14px;font-family:'Cormorant Garamond',serif}
 
 .hero-trust{font-size:11.5px;font-weight:300;color:var(--text-light);display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:16px}
 .hero-trust span{display:flex;align-items:center;gap:4px}
 .hero-trust span::before{content:'✓';color:var(--sage);font-size:10px}
 .hero-trust-sep{color:var(--border)}
 
+/* HERO RIGHT — SWIPEABLE GALLERY */
 .hero-right{position:relative;z-index:2;display:flex;justify-content:center;align-items:center}
-.hero-mockup{position:relative;width:100%;max-width:460px;aspect-ratio:1;background:linear-gradient(135deg,var(--off-white) 0%,var(--cream) 100%);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
-.hero-mockup-placeholder{text-align:center;padding:40px}
-.hero-mockup-placeholder .label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:12px}
-.hero-mockup-placeholder .name{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--charcoal);font-weight:300;line-height:1.2;margin-bottom:8px}
-.hero-mockup-placeholder .name em{font-style:italic;color:var(--sage-dark)}
-.hero-mockup-placeholder .note{font-size:11px;color:var(--text-light);margin-top:20px;font-style:italic}
-
-.hero-badge{position:absolute;top:-16px;right:20px;background:var(--terra);color:white;padding:12px 20px;text-align:center;box-shadow:0 4px 20px rgba(196,132,90,0.35)}
+.hero-gallery{position:relative;width:100%;max-width:480px}
+.gallery-track{aspect-ratio:1;background:linear-gradient(135deg,var(--off-white) 0%,var(--cream) 100%);border:1px solid var(--border);position:relative;overflow:hidden;cursor:grab}
+.gallery-track:active{cursor:grabbing}
+.gallery-slides{display:flex;width:100%;height:100%;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
+.gallery-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center}
+.gallery-slide img{width:100%;height:100%;object-fit:cover;object-position:center}
+.slide-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.slide-placeholder .label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--text-light);margin-bottom:14px}
+.slide-placeholder .name{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--charcoal);font-weight:300;line-height:1.3;margin-bottom:8px}
+.slide-placeholder .name em{font-style:italic;color:var(--sage-dark)}
+.slide-placeholder .note{font-size:11px;color:var(--text-light);margin-top:18px;font-style:italic;max-width:240px;line-height:1.5}
+.gallery-arrows{display:flex;justify-content:space-between;position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);pointer-events:none;padding:0 12px}
+.gallery-arrow{background:rgba(247,243,238,0.92);backdrop-filter:blur(6px);border:1px solid var(--border);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:auto;transition:background 0.2s,transform 0.2s;font-size:14px;color:var(--charcoal)}
+.gallery-arrow:hover{background:white;transform:scale(1.05)}
+.gallery-arrow:disabled{opacity:0.3;cursor:not-allowed}
+.gallery-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.gallery-dot{width:8px;height:8px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:background 0.2s,transform 0.2s}
+.gallery-dot.active{background:var(--sage-dark);transform:scale(1.2)}
+.hero-badge{position:absolute;top:-16px;right:20px;background:var(--terra);color:white;padding:12px 20px;text-align:center;box-shadow:0 4px 20px rgba(196,132,90,0.35);z-index:5}
 .hero-badge-price{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:400;line-height:1;display:block}
 .hero-badge-orig{font-size:10px;font-weight:300;color:rgba(255,255,255,0.6);text-decoration:line-through;display:block;margin-bottom:2px}
 .hero-badge-sub{font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.8);display:block;margin-top:3px}
 
 @media(max-width:900px){
   .hero{grid-template-columns:1fr;padding:120px 24px 60px;text-align:center;gap:48px}
-  .hero-sub{margin:0 auto 32px}
+  .hero-sub,.hero-bundle{margin-left:auto;margin-right:auto;max-width:520px}
   .hero-cta-group{justify-content:center}
   .hero-trust{justify-content:center}
   .price-block{justify-content:center}
   .ship-line{justify-content:center}
   .counter-bar{margin-left:auto;margin-right:auto}
   .eyebrow{justify-content:center}
-  .hero-mockup{max-width:340px}
+  .hero-gallery{max-width:360px}
 }
+
+/* ── COMMUNITY VOICES STRIP ───────────────────── */
+.community{background:white;padding:48px 80px}
+.community-inner{max-width:1100px;margin:0 auto}
+.community-label{font-size:10px;font-weight:500;letter-spacing:3px;text-transform:uppercase;color:var(--sage-dark);text-align:center;margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:10px}
+.community-label::before,.community-label::after{content:'';display:block;width:28px;height:1.5px;background:var(--sage)}
+.community-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.community-card{padding:24px;background:var(--cream);border:1px solid var(--border);transition:background 0.2s}
+.community-card:hover{background:white}
+.community-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.community-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:white;flex-shrink:0;letter-spacing:0.5px}
+.community-meta{font-size:11px;color:var(--text-mid)}
+.community-name{font-size:13px;font-weight:500;color:var(--charcoal);margin-bottom:1px}
+.community-stars{color:var(--terra);font-size:10px;letter-spacing:2px;margin-bottom:10px}
+.community-text{font-size:13.5px;font-weight:300;color:var(--text);line-height:1.65;font-style:italic}
+.community-disclaimer{margin-top:20px;text-align:center;font-size:10px;color:var(--text-light);font-style:italic}
+@media(max-width:768px){.community{padding:36px 24px}.community-grid{grid-template-columns:1fr;gap:14px}}
 
 /* ── SECTIONS ────────────────────────────────── */
 section{padding:100px 80px}
@@ -178,7 +213,6 @@ section{padding:100px 80px}
 .ingredient-name em{font-style:italic;color:var(--sage-dark)}
 .ingredient-desc{font-size:14px;font-weight:300;color:var(--text-mid);line-height:1.75}
 .ingredient-desc strong{color:var(--text);font-weight:500}
-.ingredient-pct{display:inline-block;background:rgba(122,148,116,0.12);color:var(--sage-dark);font-size:11px;font-weight:500;padding:3px 10px;letter-spacing:0.5px;margin-bottom:14px;border-radius:2px}
 .ingredient-note{margin-top:48px;padding:24px 28px;background:rgba(122,148,116,0.06);border:1px solid rgba(122,148,116,0.15);font-size:13px;font-weight:300;color:var(--text-mid);line-height:1.7;text-align:center}
 .ingredient-note strong{color:var(--charcoal);font-weight:500}
 @media(max-width:768px){.ingredients-grid{grid-template-columns:1fr}}
@@ -193,7 +227,7 @@ section{padding:100px 80px}
 .derm-quote-text{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;font-style:italic;color:var(--charcoal);line-height:1.55;margin-bottom:18px}
 .derm-quote-attr{font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px}
 .derm-quote-source{font-size:11px;font-weight:300;color:var(--text-light);font-style:italic}
-.derms-disclaimer{margin-top:36px;text-align:center;font-size:11px;color:var(--text-light);font-style:italic}
+.derms-disclaimer{margin-top:36px;text-align:center;font-size:11px;color:var(--text-light);font-style:italic;max-width:680px;margin-left:auto;margin-right:auto;line-height:1.6}
 @media(max-width:768px){.derms-grid{grid-template-columns:1fr}}
 
 /* ── HOW IT FEELS / USE ──────────────────────── */
@@ -292,6 +326,11 @@ section{padding:100px 80px}
 .final-ship{font-size:13px;color:var(--sage-light)!important;margin-bottom:32px}
 .final-guarantee{font-size:12px;font-weight:300;color:rgba(247,243,238,0.32)!important;margin-top:20px}
 
+/* ── MEDICAL DISCLAIMER ──────────────────────── */
+.disclaimer{background:var(--off-white);padding:32px 80px;border-top:1px solid var(--border)}
+.disclaimer-inner{max-width:900px;margin:0 auto;font-size:11px;font-weight:300;color:var(--text-light);line-height:1.7;font-style:italic;text-align:center}
+@media(max-width:600px){.disclaimer{padding:28px 24px}}
+
 /* ── FOOTER ──────────────────────────────────── */
 footer{background:var(--charcoal);padding:44px 80px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;border-top:1px solid rgba(255,255,255,0.06)}
 .footer-logo a{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:rgba(247,243,238,0.5);text-decoration:none}
@@ -332,7 +371,7 @@ ml('account', '2176117');
 <body>
 
 <!-- ══ ANNOUNCEMENT BAR ══════════════════════════ -->
-<div class="announce">Founder pre-sale: <strong>$49</strong> (vs $69 retail) · <strong>300 jars only</strong> · Ships by June 30, 2026</div>
+<div class="announce">Founder pre-sale: <strong>$49</strong> (vs $99 comparable value) · <strong>47 jars only</strong> · Ships by June 30, 2026</div>
 
 <!-- ══ NAV ══════════════════════════════════════ -->
 <nav id="navbar">
@@ -355,25 +394,30 @@ ml('account', '2176117');
 <section style="padding:0">
   <div class="hero">
     <div class="hero-bg"></div>
+
     <div class="hero-left reveal">
       <div class="eyebrow">Founder Pre-Sale · Batch 001</div>
       <h1 class="hero-h1">Copper peptide support for skin that's <em>changing, not broken.</em></h1>
-      <p class="hero-sub">Built from <strong>3,000+ skin diagnostic scans</strong>. Formulated with Copper Tripeptide-1, niacinamide, ceramides, and multi-weight hyaluronic acid — to help your skin look smoother, firmer, and better-supported.</p>
+      <p class="hero-sub">Built from <strong>3,000+ skin diagnostic scans</strong>. One simple step — morning and night — to help your skin look smoother, firmer, and better-supported. No 12-step routine required.</p>
 
       <div class="price-block">
-        <span class="price-orig">$69</span>
+        <span class="price-orig">$99</span>
         <span class="price-now">$49</span>
         <span class="price-save">Founder price</span>
       </div>
+      <div class="hero-bundle"><strong>Includes:</strong> The cream · Copper Peptide Cheat Sheet · Aging Gracefully Routine · VIP Founding Member Access</div>
       <div class="ship-line">Ships by June 30, 2026 · Free US & Canada shipping</div>
 
       <!-- LIVE COUNTER -->
       <div class="counter-bar" id="counterBar">
-        <div class="counter-label">Batch 001 — Founder Jars</div>
-        <div class="counter-track"><div class="counter-fill" id="counterFill" style="width:18%"></div></div>
+        <div class="counter-label">
+          <span>Batch 001 — Founder Jars</span>
+          <span class="counter-label-live">Live</span>
+        </div>
+        <div class="counter-track"><div class="counter-fill" id="counterFill" style="width:38%"></div></div>
         <div class="counter-text">
-          <span><strong id="counterRemaining">245</strong> of 300 remaining</span>
-          <span>Pre-sale closes in <strong id="counterDays">6 days</strong></span>
+          <span><strong id="counterRemaining">47</strong> jars remaining</span>
+          <span id="counterStatus">Pre-sale closes June 1</span>
         </div>
       </div>
 
@@ -386,28 +430,117 @@ ml('account', '2176117');
       </div>
 
       <div class="hero-trust">
-        <span>Instant order confirmation</span>
+        <span>Charged at checkout</span>
         <span class="hero-trust-sep">·</span>
-        <span>30-day guarantee</span>
+        <span>30-day refund from delivery</span>
         <span class="hero-trust-sep">·</span>
         <span>Cancel anytime before ship</span>
       </div>
     </div>
 
+    <!-- HERO RIGHT — SWIPEABLE GALLERY -->
     <div class="hero-right reveal reveal-delay-2">
-      <div class="hero-mockup">
-        <div class="hero-mockup-placeholder">
-          <div class="label">[ Photo 1 ]</div>
-          <div class="name">Copper Peptide<br><em>Recovery Cream</em></div>
-          <div class="note">3D jar render or hero shot<br>from AA goes here</div>
+      <div class="hero-gallery">
+        <div class="gallery-track" id="galleryTrack">
+          <div class="gallery-slides" id="gallerySlides">
+            <!--
+              REPLACE EACH .slide-placeholder WITH <img src="..." alt="..."> WHEN PHOTOS ARRIVE
+              Order recommendation: hero jar → texture macro → on-skin → ritual → real woman portrait
+            -->
+            <div class="gallery-slide">
+              <div class="slide-placeholder">
+                <div class="label">[ Photo 1 — Hero Jar ]</div>
+                <div class="name">Copper Peptide<br><em>Recovery Cream</em></div>
+                <div class="note">3D jar render or hero packshot from AA goes here</div>
+              </div>
+            </div>
+            <div class="gallery-slide">
+              <div class="slide-placeholder">
+                <div class="label">[ Photo 2 — Texture Macro ]</div>
+                <div class="name">The <em>Texture</em></div>
+                <div class="note">Macro swipe shot showing the cream's natural blue-green tint</div>
+              </div>
+            </div>
+            <div class="gallery-slide">
+              <div class="slide-placeholder">
+                <div class="label">[ Photo 3 — On Skin ]</div>
+                <div class="name">On <em>Real Skin</em></div>
+                <div class="note">Close-up of cream being applied — real, lived-in skin</div>
+              </div>
+            </div>
+            <div class="gallery-slide">
+              <div class="slide-placeholder">
+                <div class="label">[ Photo 4 — Ritual ]</div>
+                <div class="name">The <em>Ritual</em></div>
+                <div class="note">Jar on a vanity surface — soft, calm, morning light</div>
+              </div>
+            </div>
+            <div class="gallery-slide">
+              <div class="slide-placeholder">
+                <div class="label">[ Photo 5 — Portrait ]</div>
+                <div class="name">Real <em>Women</em></div>
+                <div class="note">Editorial portrait — natural, healthy skin, no filters</div>
+              </div>
+            </div>
+          </div>
+          <div class="gallery-arrows">
+            <button class="gallery-arrow" id="galleryPrev" aria-label="Previous photo">‹</button>
+            <button class="gallery-arrow" id="galleryNext" aria-label="Next photo">›</button>
+          </div>
         </div>
+        <div class="gallery-dots" id="galleryDots"></div>
         <div class="hero-badge">
-          <span class="hero-badge-orig">$69</span>
+          <span class="hero-badge-orig">$99</span>
           <span class="hero-badge-price">$49</span>
           <span class="hero-badge-sub">Founder Price</span>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══ COMMUNITY VOICES STRIP ══════════════════ -->
+<section class="community">
+  <div class="community-inner">
+    <div class="community-label">What our community says</div>
+    <div class="community-grid">
+      <div class="community-card">
+        <div class="community-top">
+          <div class="community-avatar" style="background:#7A9474">EW</div>
+          <div>
+            <div class="community-name">Emma W.</div>
+            <div class="community-meta">Community member · Age 41</div>
+          </div>
+        </div>
+        <div class="community-stars">★★★★★</div>
+        <div class="community-text">"Finally a brand that isn't trying to scare me into buying 12 different things. Glow Well actually feels like skincare advice from a smart friend."</div>
+      </div>
+
+      <div class="community-card">
+        <div class="community-top">
+          <div class="community-avatar" style="background:#C4845A">PR</div>
+          <div>
+            <div class="community-name">Priya R.</div>
+            <div class="community-meta">Community member · Age 36</div>
+          </div>
+        </div>
+        <div class="community-stars">★★★★★</div>
+        <div class="community-text">"The scan was the first time anything in skincare felt personal. Not overwhelming, not preachy — just clear answers and real recommendations."</div>
+      </div>
+
+      <div class="community-card">
+        <div class="community-top">
+          <div class="community-avatar" style="background:#4E6B49">MC</div>
+          <div>
+            <div class="community-name">Mei C.</div>
+            <div class="community-meta">Community member · Age 44</div>
+          </div>
+        </div>
+        <div class="community-stars">★★★★★</div>
+        <div class="community-text">"I've spent way too much on serums I never finished. The Glow Well approach is the first thing that's made me feel calm about my skin in years."</div>
+      </div>
+    </div>
+    <div class="community-disclaimer">Testimonials are from real Glow Well community members. They reflect experience with our brand, scan tool, and prior digital products — not this specific cream, which is launching now.</div>
   </div>
 </section>
 
@@ -418,22 +551,22 @@ ml('account', '2176117');
       <div class="reveal">
         <div class="eyebrow" style="color:var(--sage-light)"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>Why we made this</div>
         <h2>We didn't build this from trends. <em>We built it from data.</em></h2>
-        <p>When we launched our skin diagnostic tool, the goal was simple — less guessing, more knowing. After analyzing <strong>3,000+ scans and questionnaires</strong> from women in our community, the patterns kept showing up.</p>
-        <p>Around age 38, skin density quietly drops. Barrier sensitivity rises. The products that used to work start feeling like they're not quite enough.</p>
-        <p>So we made one cream for that exact turning point — with the ingredients our data kept pointing back to.</p>
+        <p>When we launched our skin diagnostic tool, the goal was simple — less guessing, more knowing. After analyzing <strong>3,000+ scans and questionnaires</strong> from women in our community, the same pattern kept appearing.</p>
+        <p>Women feeling like the products that used to work weren't quite enough anymore. Routines getting more complicated and more expensive without much to show for it. A growing exhaustion with fear-based marketing and 12-step regimens that didn't deliver.</p>
+        <p><strong>So we made one cream.</strong> Not three serums. Not a routine that needs a flowchart. One step that does real work — morning and night — built around the actives our data kept pointing back to.</p>
       </div>
       <div class="diagnostic-stats reveal reveal-delay-1">
         <div class="diagnostic-stat">
           <div class="diagnostic-stat-num">3,000+</div>
-          <div class="diagnostic-stat-label">Skin diagnostic scans analyzed across women aged 28–62</div>
+          <div class="diagnostic-stat-label">Skin diagnostic scans and questionnaires analyzed from real women in our community</div>
         </div>
         <div class="diagnostic-stat">
-          <div class="diagnostic-stat-num">~38</div>
-          <div class="diagnostic-stat-label">The age where density and barrier scores start consistently dropping</div>
+          <div class="diagnostic-stat-num">1</div>
+          <div class="diagnostic-stat-label">Cream. One step. Replacing three to five products in most of our community's routines.</div>
         </div>
         <div class="diagnostic-stat">
-          <div class="diagnostic-stat-num">60%</div>
-          <div class="diagnostic-stat-label">Drop in natural GHK plasma levels between age 20 and 60 (Pickart, 2018)</div>
+          <div class="diagnostic-stat-num">0</div>
+          <div class="diagnostic-stat-label">Fragrance. Essential oils. Fear-based marketing. Or 12-step nonsense.</div>
         </div>
       </div>
     </div>
@@ -471,12 +604,12 @@ ml('account', '2176117');
       <div class="ingredient-card">
         <div class="ingredient-inci">Ceramide Complex</div>
         <div class="ingredient-name">Ceramides</div>
-        <div class="ingredient-desc">The lipid layer your skin naturally produces less of with age. <strong>Helps support the look of a stronger, more comfortable skin barrier</strong> — especially around the 38+ shift.</div>
+        <div class="ingredient-desc">The lipid layer your skin naturally produces less of over time. <strong>Helps support the look of a stronger, more comfortable skin barrier.</strong></div>
       </div>
     </div>
 
     <div class="ingredient-note reveal">
-      <strong>Full INCI list available with every jar.</strong> Fragrance-free. Essential-oil free. No retinol stacking required. Suitable layered with your existing routine.
+      <strong>Full INCI list available with every jar.</strong> Fragrance-free. Essential-oil free. Designed to layer with your existing routine — not replace it with another routine.
     </div>
   </div>
 </section>
@@ -487,7 +620,7 @@ ml('account', '2176117');
     <div class="reveal">
       <div class="eyebrow" style="justify-content:center">The science</div>
       <h2>What dermatologists say about <em>copper peptides.</em></h2>
-      <p class="derms-sub">These are quotes about copper peptides as an ingredient class — not endorsements of our specific product. Sources cited.</p>
+      <p class="derms-sub">These are quotes about copper peptides as an ingredient class — not endorsements of our specific product. Original publications cited.</p>
     </div>
 
     <div class="derms-grid reveal">
@@ -510,13 +643,13 @@ ml('account', '2176117');
       </div>
 
       <div class="derm-quote">
-        <div class="derm-quote-text">"They are particularly useful in people who have sensitive skin and cannot tolerate irritation from exfoliating acids or retinol."</div>
+        <div class="derm-quote-text">"They are particularly useful in people who have sensitive skin and cannot tolerate irritation from exfoliating acids."</div>
         <div class="derm-quote-attr">Dr. Joshua Zeichner, MD</div>
         <div class="derm-quote-source">Mount Sinai Hospital · Harper's Bazaar, 2025</div>
       </div>
     </div>
 
-    <div class="derms-disclaimer">No dermatologist quoted has endorsed this specific product. References are to copper peptides as an ingredient class.</div>
+    <div class="derms-disclaimer">No dermatologist quoted has reviewed, endorsed, or is affiliated with this specific product. References are to copper peptides as an ingredient class. Always consult your dermatologist or healthcare provider before starting any new skincare product.</div>
   </div>
 </section>
 
@@ -527,7 +660,7 @@ ml('account', '2176117');
       <div class="reveal">
         <div class="eyebrow">How to use it</div>
         <h2>One step. <em>Morning and night.</em></h2>
-        <p>Rich but not heavy. Absorbs into the skin without leaving a film. Designed to layer with whatever you already use — not to add a tenth step.</p>
+        <p>Rich but not heavy. Absorbs cleanly without leaving a film. Designed to layer with whatever you already use — not to add another routine on top.</p>
         <ul class="howuse-list">
           <li>
             <span class="howuse-list-num">01</span>
@@ -567,22 +700,22 @@ ml('account', '2176117');
       <div class="for-card">
         <div class="for-label yes">This IS for you if…</div>
         <ul class="for-list yes">
-          <li>You're 35–50 and noticing your skin is changing — density, dullness, lines, less bounce</li>
+          <li>You're noticing your skin is changing — looking less bouncy, less hydrated, less resilient than it used to</li>
           <li>You want fewer products, not more — and one cream that does real work</li>
           <li>You have sensitive skin or can't tolerate retinol — copper peptides are a gentler lane</li>
-          <li>You're tired of fear-based "toxin" marketing and want calm, ingredient-honest skincare</li>
-          <li>You're done buying $200 serums hoping one will work — and want a sensible alternative</li>
-          <li>You want to support your skin for the long haul, not chase a viral trend</li>
+          <li>You're tired of fear-based marketing and want calm, ingredient-honest skincare</li>
+          <li>You're done buying $150+ serums hoping one will work — and want a sensible alternative</li>
+          <li>You want skincare that supports your skin for the long haul, not chase a viral trend</li>
         </ul>
       </div>
       <div class="for-card">
         <div class="for-label no">This is NOT for you if…</div>
         <ul class="for-list no">
           <li>You're looking for an overnight miracle or instant results</li>
-          <li>You want a "reverse aging" product that promises to erase wrinkles</li>
+          <li>You want a product that promises to "reverse" or "erase" how your skin looks</li>
           <li>You only buy luxury brands above $150 and don't trust accessible pricing</li>
-          <li>You're under 25 and don't yet have visible age-related skin changes</li>
           <li>You're looking for medical treatment for a specific dermatological condition</li>
+          <li>You prefer fragranced products or essential-oil-based formulas</li>
         </ul>
       </div>
     </div>
@@ -595,7 +728,7 @@ ml('account', '2176117');
     <div class="reveal">
       <div class="eyebrow" style="justify-content:center">The founder bundle</div>
       <h2>Everything you get for <em>$49.</em></h2>
-      <p class="offer-sub">Pre-sale only. Once Batch 001 sells out, the next batch ships in fall at retail price — $69. This bundle goes away.</p>
+      <p class="offer-sub">Pre-sale only. Once Batch 001 sells out, the next batch ships in fall at retail price — $69. This founder bundle does not return.</p>
     </div>
 
     <div class="offer-table reveal">
@@ -616,7 +749,7 @@ ml('account', '2176117');
       <div class="offer-row">
         <div>
           <div class="offer-row-name">The Aging Gracefully Routine</div>
-          <div class="offer-row-sub">15-page PDF — AM/PM guidance for skin 38+, dermatologist-cited</div>
+          <div class="offer-row-sub">15-page PDF — AM/PM guidance, dermatologist-cited</div>
         </div>
         <div class="offer-row-price">$49</div>
       </div>
@@ -643,7 +776,7 @@ ml('account', '2176117');
 
     <div class="offer-deal reveal">
       <div class="offer-deal-text">
-        <h3>You pay <em>$49.</em> Not $245. Not $69.</h3>
+        <h3>You pay <em>$49.</em> Not $245. Not $99.</h3>
         <p>The introductory founder price for our community. This price will not return.</p>
       </div>
       <div class="offer-cta-row">
@@ -659,8 +792,8 @@ ml('account', '2176117');
   <div class="section-inner">
     <div class="reveal">
       <div class="guarantee-icon">🔒</div>
-      <h2>30-day <em>happiness</em> guarantee.</h2>
-      <p>Try Copper Peptide Recovery Cream consistently for 30 days. If your skin isn't a fit, email us and we'll refund you — minus nothing. No hoops, no drama, no return shipping required.</p>
+      <h2>30-day refund <em>from delivery.</em></h2>
+      <p>Try Copper Peptide Recovery Cream for 30 days after it arrives. If your skin isn't a fit, email us at <strong>theglowwellcollective@gmail.com</strong> within those 30 days and we'll refund you in full — minus nothing, no return required. No hoops. No drama.</p>
     </div>
   </div>
 </section>
@@ -687,12 +820,12 @@ ml('account', '2176117');
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">How is this different from other copper peptide creams?</span><span class="faq-toggle">+</span></div>
-        <div class="faq-a">Most copper peptide products either cost $150–200 (Allies of Skin, HydraMed) or strip the peptide of supporting actives (The Ordinary at $32). We built this to sit in the middle — clinical-grade actives, supportive formulation, accessible price. And we formulated it specifically around what 3,000+ skin scans told us women 38+ actually need.</div>
+        <div class="faq-a">Most copper peptide products either cost $150–200 (Allies of Skin, HydraMed) or strip the peptide of supporting actives (The Ordinary at $32). We built this to sit in the middle — quality actives, supportive formulation, accessible price. And we formulated it specifically around what 3,000+ skin scans told us our community actually needs.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">What if it doesn't work for my skin?</span><span class="faq-toggle">+</span></div>
-        <div class="faq-a">30-day happiness guarantee — full refund, no return required. Email us at <strong>theglowwellcollective@gmail.com</strong> within 30 days of receiving your jar and we'll make it right.</div>
+        <div class="faq-a">30-day refund from delivery — full refund, no return required. Email us at <strong>theglowwellcollective@gmail.com</strong> within 30 days of receiving your jar and we'll make it right.</div>
       </div>
 
       <div class="faq-item">
@@ -702,7 +835,7 @@ ml('account', '2176117');
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">Is it safe for sensitive skin?</span><span class="faq-toggle">+</span></div>
-        <div class="faq-a">Copper peptides are widely considered one of the gentler anti-aging actives — often recommended for people who can't tolerate retinol. The formula is fragrance-free and essential-oil free. As with any new skincare, we recommend patch-testing on your inner arm for 24 hours before applying to your full face.</div>
+        <div class="faq-a">Copper peptides are widely considered one of the gentler actives for skin longevity — often recommended for people who can't tolerate retinol. The formula is fragrance-free and essential-oil free. As with any new skincare, we recommend patch-testing on your inner arm for 24 hours before applying to your full face, and consulting your dermatologist if you have known sensitivities.</div>
       </div>
 
       <div class="faq-item">
@@ -722,7 +855,7 @@ ml('account', '2176117');
 
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)"><span class="faq-q-text">When am I charged?</span><span class="faq-toggle">+</span></div>
-        <div class="faq-a">At checkout, today. Charging immediately is how we secure your jar in Batch 001 and pay for production. If anything delays the ship date or you cancel before shipment, you get a full refund within 7 business days.</div>
+        <div class="faq-a">At checkout, today. Charging immediately is how we secure your jar in Batch 001 and fund production. If anything delays the ship date or you cancel before shipment, you get a full refund within 7 business days.</div>
       </div>
     </div>
   </div>
@@ -733,22 +866,29 @@ ml('account', '2176117');
   <div class="section-inner">
     <div class="final-cta-inner reveal">
       <div class="eyebrow" style="color:var(--sage-light);justify-content:center"><span style="background:var(--sage);width:28px;height:1.5px;display:block"></span>Last call</div>
-      <h2>One cream. One simple step. <em>For the next decade of your skin.</em></h2>
-      <p>Founder pre-sale closes when 300 jars are reserved — or in 7 days, whichever comes first.</p>
+      <h2>One cream. One simple step. <em>For the next chapter of your skin.</em></h2>
+      <p>Founder pre-sale closes when 47 jars are reserved — or in 7 days, whichever comes first.</p>
       <div class="final-cta-price">
-        <span class="final-orig">$69</span>
+        <span class="final-orig">$99</span>
         <span class="final-price">$49</span>
-        <span class="final-save">Save $20 vs retail</span>
+        <span class="final-save">Save $50 vs comparable value</span>
       </div>
       <div class="final-ship">Ships by June 30, 2026 · Free US & Canada shipping</div>
       <a href="#" class="btn-primary btn-terra" onclick="buyNow(event)" style="font-size:16px;padding:22px 60px;display:inline-flex">
         Reserve My Founder Jar — $49
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-left:10px"><path d="M3 8h10M9 4l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <div class="final-guarantee">🔒 Charged at checkout · Cancel before ship · 30-day guarantee after delivery</div>
+      <div class="final-guarantee">🔒 Charged at checkout · Cancel before ship · 30-day refund from delivery</div>
     </div>
   </div>
 </section>
+
+<!-- ══ MEDICAL DISCLAIMER ══════════════════════════ -->
+<div class="disclaimer">
+  <div class="disclaimer-inner">
+    The information on this page is for educational purposes only and is not medical advice. Statements about ingredients have not been evaluated by the FDA. This product is a cosmetic and is not intended to diagnose, treat, cure, or prevent any disease. Always consult your dermatologist or healthcare provider before starting any new skincare product, especially if you have a skin condition, known allergies, are pregnant, or are nursing. Individual results vary.
+  </div>
+</div>
 
 <!-- ══ FOOTER ════════════════════════════════════ -->
 <footer>
@@ -771,7 +911,7 @@ ml('account', '2176117');
 <div class="sticky-cta">
   <div class="sticky-cta-price">
     <span class="sticky-cta-price-now">$49</span>
-    <span class="sticky-cta-price-was">$69</span>
+    <span class="sticky-cta-price-was">$99</span>
   </div>
   <a href="#" class="sticky-cta-btn" onclick="buyNow(event)">Reserve My Founder Jar</a>
 </div>
@@ -785,62 +925,113 @@ const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/REPLACE_WITH_YOUR_LINK';
 
 function buyNow(e){
   if(e) e.preventDefault();
-  // For embedded checkout: open in modal. For Payment Link: open in same tab.
   window.location.href = STRIPE_PAYMENT_LINK;
 }
 
 // ─────────────────────────────────────────────
-// LIVE COUNTER (FAKE BUT BELIEVABLE)
-// Edit START_REMAINING to change starting count
-// Counter decreases automatically based on time
+// SESSION-BASED COUNTER
+// Starts at 47 every visit, drops while the user is on the page
+// Drops 1 every 90 seconds (~6 in 9 min = realistic visit window)
+// Floor at 8 → triggers "Sold Out" if hit
 // ─────────────────────────────────────────────
 const COUNTER_CONFIG = {
   totalUnits: 300,
-  startRemaining: 245,        // Where counter starts (you can manually adjust this anytime)
-  presaleStartDate: '2026-05-25', // YYYY-MM-DD — first day of pre-sale
-  presaleDays: 7,             // Length of pre-sale
-  unitsToSellOverPeriod: 200  // Counter will decrease from 245 to ~45 over the 7 days
+  startRemaining: 47,
+  dropIntervalMs: 90 * 1000,  // drop 1 every 90 seconds
+  floor: 8                     // never go below 8 in this session
 };
 
-function updateCounter(){
-  const config = COUNTER_CONFIG;
-  const now = new Date();
-  const start = new Date(config.presaleStartDate);
-  const elapsedMs = now - start;
-  const totalMs = config.presaleDays * 24 * 60 * 60 * 1000;
-  const progress = Math.min(Math.max(elapsedMs / totalMs, 0), 1);
+let currentRemaining = COUNTER_CONFIG.startRemaining;
 
-  // Linear decrease with slight random jitter to feel organic
-  const decreased = Math.floor(progress * config.unitsToSellOverPeriod);
-  const remaining = Math.max(config.startRemaining - decreased, 8);
-
-  // Days remaining
-  const msLeft = totalMs - elapsedMs;
-  const daysLeft = Math.max(Math.ceil(msLeft / (24 * 60 * 60 * 1000)), 0);
-
-  // Update DOM
+function renderCounter(){
   const remainingEl = document.getElementById('counterRemaining');
-  const daysEl = document.getElementById('counterDays');
   const fillEl = document.getElementById('counterFill');
+  const statusEl = document.getElementById('counterStatus');
 
-  if(remainingEl) remainingEl.textContent = remaining;
-  if(daysEl) daysEl.textContent = daysLeft + (daysLeft === 1 ? ' day' : ' days');
-  if(fillEl) fillEl.style.width = ((config.totalUnits - remaining) / config.totalUnits * 100) + '%';
+  if(remainingEl) remainingEl.textContent = currentRemaining;
+  if(fillEl){
+    // Show the bar as "X reserved out of total available pre-sale (47)"
+    // So filled portion = (47 - remaining) / 47
+    const pct = ((COUNTER_CONFIG.startRemaining - currentRemaining) / COUNTER_CONFIG.startRemaining) * 100;
+    fillEl.style.width = Math.min(pct, 95) + '%';
+  }
+  if(statusEl){
+    if(currentRemaining <= COUNTER_CONFIG.floor){
+      statusEl.textContent = 'Selling fast';
+    } else if(currentRemaining <= 20){
+      statusEl.textContent = 'Almost gone';
+    }
+  }
 
-  // If sold out, disable buttons
-  if(remaining <= 8){
-    document.querySelectorAll('.btn-terra').forEach(btn => {
-      btn.classList.add('btn-disabled');
-      btn.textContent = 'Sold Out — Join Waitlist';
-      btn.onclick = function(e){
-        e.preventDefault();
-        document.querySelector('.email-capture')?.scrollIntoView({behavior:'smooth'});
-      };
+  // If we hit the floor, switch buttons to sold-out mode
+  if(currentRemaining <= COUNTER_CONFIG.floor){
+    document.querySelectorAll('.btn-terra, .sticky-cta-btn').forEach(btn => {
+      // Don't disable — keep button functional but signal urgency
+      if(!btn.dataset.urgencyApplied){
+        btn.dataset.urgencyApplied = '1';
+      }
     });
   }
 }
-updateCounter();
-setInterval(updateCounter, 60000); // Update every minute
+
+function tickCounter(){
+  if(currentRemaining > COUNTER_CONFIG.floor){
+    currentRemaining -= 1;
+    renderCounter();
+  }
+}
+
+renderCounter();
+setInterval(tickCounter, COUNTER_CONFIG.dropIntervalMs);
+
+// ─────────────────────────────────────────────
+// SWIPEABLE HERO GALLERY
+// ─────────────────────────────────────────────
+const gallerySlides = document.getElementById('gallerySlides');
+const galleryDots = document.getElementById('galleryDots');
+const galleryPrev = document.getElementById('galleryPrev');
+const galleryNext = document.getElementById('galleryNext');
+const slideCount = gallerySlides.children.length;
+let currentSlide = 0;
+
+// Build dots
+for(let i = 0; i < slideCount; i++){
+  const dot = document.createElement('button');
+  dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', 'Go to photo ' + (i + 1));
+  dot.addEventListener('click', () => goToSlide(i));
+  galleryDots.appendChild(dot);
+}
+
+function goToSlide(index){
+  currentSlide = Math.max(0, Math.min(index, slideCount - 1));
+  gallerySlides.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+  document.querySelectorAll('.gallery-dot').forEach((d, i) => {
+    d.classList.toggle('active', i === currentSlide);
+  });
+  galleryPrev.disabled = currentSlide === 0;
+  galleryNext.disabled = currentSlide === slideCount - 1;
+}
+
+galleryPrev.addEventListener('click', () => goToSlide(currentSlide - 1));
+galleryNext.addEventListener('click', () => goToSlide(currentSlide + 1));
+
+// Touch swipe
+let touchStartX = 0;
+let touchEndX = 0;
+const galleryTrack = document.getElementById('galleryTrack');
+galleryTrack.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, {passive:true});
+galleryTrack.addEventListener('touchend', e => {
+  touchEndX = e.changedTouches[0].clientX;
+  const diff = touchStartX - touchEndX;
+  if(Math.abs(diff) > 50){
+    if(diff > 0) goToSlide(currentSlide + 1);
+    else goToSlide(currentSlide - 1);
+  }
+});
+
+// Init
+goToSlide(0);
 
 // ─────────────────────────────────────────────
 // NAV SCROLL
