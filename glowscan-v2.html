@@ -1033,6 +1033,7 @@ function goToScreen(n) {
       clearTimeout(popupTimer);
       popupTimer = setTimeout(showValuePropPopup, 8000);
     }
+    if (n === 6) updateCheckoutButtonsState();
     if (n === 7) showConfirmation();
   }
 }
@@ -1139,6 +1140,8 @@ function updateProgress(step) {
 function handleFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
+  const failureBlock = document.getElementById('scanFailureBlock');
+  if (failureBlock) failureBlock.remove();
   userData.photo = file;
   if (typeof gtag !== 'undefined') gtag('event', 'photo_uploaded');
   userData.photoMimeType = file.type || 'image/jpeg';
@@ -1268,13 +1271,20 @@ function startLoading() {
   };
   const textInterval = setInterval(cycleText, 1500);
 
-  // Make API call (starts immediately, but we show loading for min 15s)
-  const apiPromise = callClaudeForFreeResults();
+  // Make API call (starts immediately, but we show loading for min 15s).
+  // Any thrown error is treated as a failed scan so the user is routed to the
+  // retake screen rather than falling through to a blank results page.
+  const apiPromise = callClaudeForFreeResults().catch(() => false);
   const timerPromise = new Promise(resolve => setTimeout(resolve, 15000));
 
-  Promise.all([apiPromise, timerPromise]).then(() => {
+  Promise.all([apiPromise, timerPromise]).then(([scanOk]) => {
     clearInterval(textInterval);
-    goToScreen(4);
+    clearInterval(barInterval);
+    if (scanOk) {
+      goToScreen(4);
+    } else {
+      showScanFailure();
+    }
   });
 }
 
@@ -1316,8 +1326,7 @@ async function callClaudeForFreeResults() {
   const actualAge = parseInt(userData.age) || null;
   if (!actualAge) {
     console.error('callClaudeForFreeResults: userData.age missing — aborting');
-    showScanError('Please re-enter your age and try again.');
-    return;
+    return false;
   }
 
   const freePrompt = `You are a clinical skin analysis AI for Glow Scan by The Glow Well. You have deep expertise in dermatological visual assessment. Analyze the uploaded selfie photo with precision and clinical accuracy.
@@ -1471,20 +1480,21 @@ Return ONLY this JSON, no other text, no markdown:
 
     if (!response.ok || data.error) {
       console.error('Free scan API error:', data);
-      showScanError('Analysis failed. Please try again.');
-      return;
+      return false;
     }
 
     const responseText = JSON.stringify(data);
     if (
+      data.invalidPhoto ||
       responseText.includes('not able to identify') ||
       responseText.includes('cannot identify') ||
       responseText.includes("can't analyze") ||
-      !data.skinAge ||
-      data.skinAge === 0
+      !data.skinAge || data.skinAge === 0 ||
+      !data.glowScore || data.glowScore === 0 ||
+      !data.scores
     ) {
-      showScanError('We need to see your face clearly. Please retake with your face centered in frame and good lighting.');
-      return;
+      console.error('Free scan returned invalid/empty data:', data);
+      return false;
     }
 
     Object.assign(scanResults, data);
@@ -1526,31 +1536,35 @@ Return ONLY this JSON, no other text, no markdown:
       skin_age: String(data.skinAge || 0)
     });
 
+    return true;
+
   } catch(err) {
     clearTimeout(timeout);
-    if (err.name === 'AbortError') {
-      showScanError('Analysis is taking too long. Please check your connection and try again.');
-    } else {
-      showScanError('Something went wrong. Please try again.');
-    }
     console.error('Free scan failed:', err);
-    return;
+    return false;
   }
 }
 
-function showScanError(message) {
+// Scan failed (API error, timeout, or unusable/empty data). Send the user back
+// to the photo step with a photo-quality framed message and a retake button.
+// Never let a failed scan fall through to the results/checkout screens.
+function showScanFailure() {
   goToScreen('2b');
   setTimeout(() => {
-    const uploadBox = document.querySelector('#screen2b .upload-box') || document.querySelector('.upload-box');
+    const uploadBox = document.getElementById('uploadBox') || document.querySelector('#screen2b .upload-box');
     const previewEl = document.getElementById('uploadPreview');
     if (uploadBox) uploadBox.style.display = 'block';
     if (previewEl) { previewEl.style.display = 'none'; previewEl.src = ''; }
-    const errorDiv = document.createElement('div');
-    errorDiv.style.cssText = 'background:rgba(196,132,90,0.1);border:1px solid rgba(196,132,90,0.3);border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:13px;color:#A06840;font-family:DM Sans,sans-serif;line-height:1.5;text-align:center';
-    errorDiv.textContent = message;
+    // Drop the rejected photo so they must choose a fresh one before re-scanning.
+    userData.photoBase64 = null;
+    const existing = document.getElementById('scanFailureBlock');
+    if (existing) existing.remove();
+    const block = document.createElement('div');
+    block.id = 'scanFailureBlock';
+    block.style.cssText = 'background:rgba(196,132,90,0.1);border:1px solid rgba(196,132,90,0.3);border-radius:8px;padding:16px 18px;margin-bottom:16px;font-family:DM Sans,sans-serif;text-align:center';
+    block.innerHTML = '<p style="font-size:13px;color:#A06840;line-height:1.55;margin:0 0 14px">We couldn\'t get a clear read on your photo. This usually happens with low lighting, too much distance, or an angled shot. Try again with a well-lit, straight-on selfie — natural light works best 🤍</p><button type="button" onclick="document.getElementById(\'fileInput\').click()" style="background:var(--terra,#C4845A);color:#fff;border:none;border-radius:8px;padding:12px 28px;font-family:\'DM Sans\',sans-serif;font-size:14px;font-weight:500;cursor:pointer">Retake Photo</button>';
     if (uploadBox && uploadBox.parentNode) {
-      uploadBox.parentNode.insertBefore(errorDiv, uploadBox);
-      setTimeout(() => errorDiv.remove(), 8000);
+      uploadBox.parentNode.insertBefore(block, uploadBox);
     }
   }, 300);
 }
@@ -1620,6 +1634,33 @@ function extractReportPayload(raw) {
   }
 
   return null;
+}
+
+// Paid report failed (API error, timeout, or empty/unparseable data). Show a
+// reassuring message and turn the report link into a retry button — never leave
+// the user staring at a blank report.
+function showReportRetry() {
+  const reportWaitMsg = document.getElementById('reportWaitMsg');
+  if (reportWaitMsg) {
+    reportWaitMsg.textContent = 'Your report is taking a little longer than usual. Please wait a moment and try again.';
+    reportWaitMsg.style.fontStyle = 'normal';
+    reportWaitMsg.style.display = 'block';
+  }
+  const reportLink = document.getElementById('reportLink');
+  if (reportLink) {
+    reportLink.textContent = 'Try Again →';
+    reportLink.removeAttribute('href');
+    reportLink.style.color = 'var(--terra-dark)';
+    reportLink.style.opacity = '1';
+    reportLink.style.cursor = 'pointer';
+    reportLink.style.pointerEvents = 'auto';
+    reportLink.onclick = function() {
+      reportLink.textContent = 'Generating...';
+      reportLink.style.pointerEvents = 'none';
+      reportLink.onclick = null;
+      callClaudeForFullReport();
+    };
+  }
 }
 
 async function callClaudeForFullReport() {
@@ -1702,17 +1743,7 @@ Tailor product/routine suggestions to what's realistically available in the user
 
     if (!response.ok || raw.error) {
       console.error('Full report error response:', raw);
-      const reportLink = document.getElementById('reportLink');
-      if (reportLink) {
-        reportLink.textContent = 'Tap to generate your report';
-        reportLink.style.color = 'var(--terra-dark)';
-        reportLink.style.pointerEvents = 'auto';
-        reportLink.onclick = function() {
-          reportLink.textContent = 'Generating...';
-          reportLink.style.pointerEvents = 'none';
-          callClaudeForFullReport();
-        };
-      }
+      showReportRetry();
       return;
     }
 
@@ -1724,18 +1755,7 @@ Tailor product/routine suggestions to what's realistically available in the user
 
     if (!isReportComplete(data)) {
       console.error('Full report parsed but missing expected fields. Raw:', raw, 'Extracted:', data);
-      const reportLink = document.getElementById('reportLink');
-      if (reportLink) {
-        reportLink.textContent = 'Tap to generate your report';
-        reportLink.style.color = 'var(--terra-dark)';
-        reportLink.style.pointerEvents = 'auto';
-        reportLink.style.cursor = 'pointer';
-        reportLink.onclick = function() {
-          reportLink.textContent = 'Generating...';
-          reportLink.style.pointerEvents = 'none';
-          callClaudeForFullReport();
-        };
-      }
+      showReportRetry();
       return;
     }
 
@@ -1762,19 +1782,11 @@ Tailor product/routine suggestions to what's realistically available in the user
   } catch(err) {
     clearTimeout(timeout);
     if (err.name === 'AbortError') {
-      console.error('Full report timed out after 25 seconds');
-      const reportLink = document.getElementById('reportLink');
-      if (reportLink) {
-        reportLink.textContent = 'Report timed out — tap to retry';
-        reportLink.style.color = 'var(--terra)';
-        reportLink.style.opacity = '1';
-        reportLink.style.pointerEvents = 'auto';
-        reportLink.style.cursor = 'pointer';
-        reportLink.onclick = function() { callClaudeForFullReport(); };
-      }
+      console.error('Full report timed out');
     } else {
       console.error('Full report generation failed:', err);
     }
+    showReportRetry();
   }
 }
 
@@ -1784,6 +1796,12 @@ Tailor product/routine suggestions to what's realistically available in the user
 // Called from handleCheckout so the LS receipt URL can carry ?reportId=<id>,
 // letting the user reopen their report in any browser.
 async function saveReportToKV(existingReportId) {
+  // Never persist an empty scan — there's nothing worth recovering and it would
+  // pollute KV (and the email pointer) with a blank report.
+  if (isScanResultEmpty()) {
+    console.warn('saveReportToKV skipped — scan results are empty (skinAge/glowScore 0)');
+    return null;
+  }
   try {
     // Strip the photo binary — it's huge and not needed once the report exists.
     const userDataLight = {
@@ -2080,6 +2098,27 @@ function toggleAddon() {
   applyPricingToCheckout();
 }
 
+// A scan that returned no usable result leaves skinAge/glowScore at their 0
+// defaults. Never let the user pay for an empty report — disable the checkout
+// CTAs. Only ever called when entering screen 6, i.e. after the scan API has
+// responded, so this never fires during the loading state.
+function isScanResultEmpty() {
+  return !scanResults.skinAge || scanResults.skinAge === 0 ||
+         !scanResults.glowScore || scanResults.glowScore === 0;
+}
+
+function updateCheckoutButtonsState() {
+  const empty = isScanResultEmpty();
+  ['checkoutBtnBundle', 'checkoutBtnReport'].forEach(function(id) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    btn.disabled = empty;
+    btn.style.opacity = empty ? '0.5' : '';
+    btn.style.pointerEvents = empty ? 'none' : '';
+    btn.style.cursor = empty ? 'not-allowed' : 'pointer';
+  });
+}
+
 // ── ADDON CHOICE → CHECKOUT ───────────────────
 function selectAddonAndCheckout(addAddon) {
   const checkbox = document.getElementById('addonCheckbox');
@@ -2090,6 +2129,11 @@ function selectAddonAndCheckout(addAddon) {
 
 // ── CHECKOUT HANDLER ──────────────────────────
 async function handleCheckout() {
+  if (isScanResultEmpty()) {
+    console.error('handleCheckout blocked — scan results are empty (skinAge/glowScore 0)');
+    updateCheckoutButtonsState();
+    return;
+  }
   clearTimeout(popupTimer);
   document.getElementById('valuePropPopup').style.display = 'none';
   resetStickyDefault();
