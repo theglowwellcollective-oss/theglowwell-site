@@ -951,6 +951,11 @@ const STRIPE_PAYMENT_LINK = 'https://buy.stripe.com/fZu4gA0kX7o81MAeEq1VK00';
 
 function buyNow(e){
   if(e) e.preventDefault();
+  gtag('event', 'begin_checkout', {
+    currency: 'USD',
+    value: 49.00,
+    items: [{item_name: 'Copper Peptide Cream - Pre-Sale'}]
+  });
   window.location.href = STRIPE_PAYMENT_LINK;
 }
 
