@@ -155,7 +155,7 @@ nav.scrolled{border-bottom-color:var(--border)}
 /* HERO RIGHT — SWIPEABLE GALLERY */
 .hero-right{position:relative;z-index:2;display:flex;justify-content:center;align-items:center}
 .hero-gallery{position:relative;width:100%;max-width:480px}
-.gallery-track{aspect-ratio:1;background:linear-gradient(135deg,var(--off-white) 0%,var(--cream) 100%);border:1px solid var(--border);position:relative;overflow:hidden;cursor:grab}
+.gallery-track{aspect-ratio:2/3;max-height:500px;width:100%;margin:0 auto;background:linear-gradient(135deg,var(--off-white) 0%,var(--cream) 100%);border:1px solid var(--border);position:relative;overflow:hidden;cursor:grab}
 .gallery-track:active{cursor:grabbing}
 .gallery-slides{display:flex;width:100%;height:100%;transition:transform 0.4s cubic-bezier(0.4,0,0.2,1)}
 .gallery-slide{min-width:100%;height:100%;display:flex;align-items:center;justify-content:center}
@@ -182,7 +182,8 @@ nav.scrolled{border-bottom-color:var(--border)}
   .ship-line{justify-content:center}
   .counter-bar{margin-left:auto;margin-right:auto}
   .eyebrow{justify-content:center}
-  .hero-gallery{max-width:360px}
+  .hero-gallery{max-width:340px}
+  .gallery-track{max-height:400px}
 }
 
 /* ── COMMUNITY VOICES STRIP ───────────────────── */
@@ -264,7 +265,7 @@ section{padding:100px 80px}
 .howuse-list-num{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--sage-dark);font-weight:400}
 .howuse-list-text{font-size:14px;font-weight:300;color:var(--text);line-height:1.7}
 .howuse-list-text strong{color:var(--charcoal);font-weight:500}
-.howuse-visual{background:var(--off-white);border:1px solid var(--border);aspect-ratio:1;overflow:hidden;position:relative}
+.howuse-visual{background:var(--off-white);border:1px solid var(--border);aspect-ratio:2/3;max-height:520px;overflow:hidden;position:relative}
 .howuse-visual img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 @media(max-width:900px){.howuse-grid{grid-template-columns:1fr;gap:40px}}
 
@@ -406,9 +407,9 @@ ml('account', '2176117');
 
 <!-- ══ NAV ══════════════════════════════════════ -->
 <nav id="navbar">
-  <a href="index.html" class="nav-logo">
-    <img src="current-logo.png" alt="The Glow Well" style="height:40px;width:auto">
-  </a>
+  <div class="nav-logo">
+    <a href="index.html" class="nav-logo-text">The Glow<em>Well</em></a>
+  </div>
   <button class="nav-menu-toggle" id="navToggle" onclick="toggleMobileMenu()" aria-label="Toggle menu">
     <span></span><span></span><span></span>
   </button>
@@ -919,7 +920,7 @@ ml('account', '2176117');
 <!-- ══ FOOTER ════════════════════════════════════ -->
 <footer>
   <div class="footer-logo">
-    <a href="index.html"><img src="current-logo.png" alt="The Glow Well" style="height:32px;width:auto"></a>
+    <a href="index.html">The Glow<em>Well</em></a>
   </div>
   <div class="footer-links">
     <a href="index.html">Home</a>
