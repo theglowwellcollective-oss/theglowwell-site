@@ -963,6 +963,14 @@ if (/Instagram/.test(navigator.userAgent)) {
 // ── CONFIG ────────────────────────────────────
 const WORKER_URL = 'https://glowscan.theglowwellcollective.workers.dev';
 
+// ── UTM CAPTURE ───────────────────────────────
+// On page load, capture utm_source from the URL and persist it for the session
+// so it can be passed to MailerLite on subscribe (ad attribution).
+try {
+  const utmSource = new URLSearchParams(window.location.search).get('utm_source');
+  if (utmSource) sessionStorage.setItem('utm_source', utmSource);
+} catch(e) { /* ignore — never block the scan flow */ }
+
 const GLOW_TIERS = {
   ranges: [
     { min: 0, max: 40, name: 'Raw Start', line: "Your skin's origin story starts here.", percentile: 'Bottom 20% — but Raw Start means most improved' },
@@ -1308,7 +1316,8 @@ async function subscribeToMailerLite(extraFields) {
       skin_concern: userData.concern || '',
       country: mapCountryToTier(userData.country),
       glow_score: '',
-      skin_age: ''
+      skin_age: '',
+      utm_source: sessionStorage.getItem('utm_source') || ''
     };
     if (extraFields) Object.assign(fields, extraFields);
     await fetch(WORKER_URL, {
