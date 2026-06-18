@@ -591,5 +591,8 @@ function startLiveCounter(elId) {
 }
 startLiveCounter('liveCounterHero');
 </script>
+<script>
+try { const u = new URLSearchParams(window.location.search).get('utm_source'); if (u) sessionStorage.setItem('utm_source', u); } catch(e) {}
+</script>
 </body>
 </html>
