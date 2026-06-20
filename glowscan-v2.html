@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '816642944645321');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=816642944645321&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
 <script>
 if('serviceWorker' in navigator){
   navigator.serviceWorker.getRegistrations().then(function(r){
@@ -1152,6 +1160,7 @@ function handleFileUpload(event) {
   if (failureBlock) failureBlock.remove();
   userData.photo = file;
   if (typeof gtag !== 'undefined') gtag('event', 'photo_uploaded');
+  if (typeof fbq !== 'undefined') fbq('trackCustom', 'UploadedPhoto');
   userData.photoMimeType = file.type || 'image/jpeg';
 
   const reader = new FileReader();
@@ -1183,6 +1192,7 @@ function advanceToPhotoUpload() {
   if (!userData.concern) return;
   if (!userData.country) return;
   goToScreen('2b');
+  if (typeof fbq !== 'undefined') fbq('trackCustom', 'QuizCompleted');
 }
 
 // ── QUIZ STEP NAVIGATION ──────────────────────
@@ -1243,6 +1253,7 @@ function submitQuiz() {
   userData.email = email;
   if (typeof gtag !== 'undefined') gtag('event', 'email_submitted');
   subscribeToMailerLite(); // initial capture — no scan data yet
+  if (typeof fbq !== 'undefined') fbq('track', 'Lead');
   goToScreen(3);
 }
 
@@ -2405,6 +2416,7 @@ document.addEventListener('DOMContentLoaded', function() {
     scanBtn.addEventListener('click', function(e) {
       e.preventDefault();
       goToScreen(2);
+      if (typeof fbq !== 'undefined') fbq('trackCustom', 'StartedGlowScan');
     });
   }
 
