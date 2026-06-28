@@ -2332,10 +2332,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const isBundle = urlParams.get('bundle') === '1';
     addonChecked = isBundle;
 
-    if (typeof fbq !== 'undefined') {
-      fbq('track', 'Purchase', {value: isBundle ? 22.99 : 7.99, currency: 'USD'});
-    }
-
     // Recover reportId from URL (LS appends it via {{custom.reportId}}) or
     // from localStorage (same-browser case where saveReportToKV cached it).
     let reportId = urlParams.get('reportId') || null;
