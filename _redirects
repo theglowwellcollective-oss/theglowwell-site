@@ -1,5 +1,4 @@
 /glowscan     /glowscan-v2.html    200
 /glowscan.html    /glowscan-v2.html    301
-/VIP          /vip.html            200
-/Vip          /vip.html            200
-/vip          /vip.html            200
+/VIP          /vip                 301
+/Vip          /vip                 301
