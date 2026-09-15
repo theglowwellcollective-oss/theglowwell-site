@@ -9,10 +9,7 @@
  *  2. exposes window.i18nT(key, fallback) for strings the page builds in JS;
  *  3. appends ?lang=xx to every internal link so the language follows the visitor
  *     (external links, mailto:, in-page #anchors and checkout URLs are left alone);
- *  4. points the EN · DE · FR toggle at the current page, keeping other params;
- *  5. injects a small <style> of html[lang="de"] / html[lang="fr"]-scoped CSS fixes for
- *     layouts that only break with the longer translated copy (injected here, not in the
- *     page CSS, so the English DOM and stylesheet stay byte-for-byte untouched).
+ *  4. points the EN · DE · FR toggle at the current page, keeping other params.
  *
  * No storage of any kind is used — the language lives only in the URL.
  */
@@ -107,26 +104,7 @@
     }
   }
 
-  // DE/FR-only layout fixes (scoped by <html lang>, so EN rendering is never affected).
-  // index.html "old way / new way": its inline 80px section padding + 2-column grid
-  // overflow a 390px viewport once the cards hold the longer DE/FR copy.
-  var MOBILE_CSS =
-    '@media (max-width:768px){' +
-      'html[lang="de"] section:has([data-i18n="old_way_title"]),' +
-      'html[lang="fr"] section:has([data-i18n="old_way_title"]){padding:72px 24px!important}' +
-      'html[lang="de"] div:has(> div > [data-i18n="old_way_title"]),' +
-      'html[lang="fr"] div:has(> div > [data-i18n="old_way_title"]){grid-template-columns:1fr!important}' +
-    '}';
-
-  function injectCss() {
-    var st = document.createElement('style');
-    st.id = 'i18n-mobile-css';
-    st.textContent = MOBILE_CSS;
-    (document.head || document.documentElement).appendChild(st);
-  }
-
   document.documentElement.setAttribute('lang', lang);
-  injectCss();
   translateDom();
   rewriteLinks();
   buildToggle();
