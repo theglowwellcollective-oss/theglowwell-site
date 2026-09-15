@@ -46,7 +46,7 @@ var TRANSLATIONS = {
 
     // ── index.html — hero ──
     // EN: Free Skin Analysis · 150,000+ Scans Taken
-    hero_eyebrow: "Kostenlose Hautanalyse · Über 150.000 Scans durchgeführt",
+    hero_eyebrow: "Kostenlose Hautanalyse · 150.000+ Scans",
     // EN: Your Skin Has Been Sending Signals. It's Time to <em>Listen.</em>
     hero_h1: "Ihre Haut sendet Signale. Es ist Zeit, <em>zuzuhören.</em>",
     // EN: Upload a selfie. Answer 3 quick questions. Find out exactly what your skin needs — and how to give it to you.
@@ -641,7 +641,7 @@ var TRANSLATIONS = {
 
     // ── index.html — hero ──
     // EN: Free Skin Analysis · 150,000+ Scans Taken
-    hero_eyebrow: "Analyse de peau gratuite · Plus de 150 000 scans réalisés",
+    hero_eyebrow: "Analyse de peau offerte · 150 000+ scans",
     // EN: Your Skin Has Been Sending Signals. It's Time to <em>Listen.</em>
     hero_h1: "Votre peau vous envoie des signaux. Il est temps d'<em>écouter.</em>",
     // EN: Upload a selfie. Answer 3 quick questions. Find out exactly what your skin needs — and how to give it to you.
