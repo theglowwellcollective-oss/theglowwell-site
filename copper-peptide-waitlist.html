@@ -381,7 +381,9 @@ footer .logo em{color:var(--sage)}
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){msg.className='wl-msg err';msg.textContent='That email doesn\u2019t look right.';email.focus();return}
     form.dataset.state='busy';msg.className='wl-msg';msg.textContent='';
     try{
-      const r=await fetch(form.action,{method:'POST',body:new FormData(form),mode:'cors',credentials:'omit'});
+      const fd=new FormData(form);
+      try{const g=await Promise.race([fetch('/api/geo').then(r=>r.json()),new Promise((_,rej)=>setTimeout(rej,1500))]);if(g&&g.country)fd.append('fields[waitlist_country]',g.country)}catch(_){}
+      const r=await fetch(form.action,{method:'POST',body:fd,mode:'cors',credentials:'omit'});
       const j=await r.json().catch(()=>({}));
       if(!r.ok||j.success===false)throw new Error(j.message||'bad');
       form.dataset.state='done';msg.textContent='You\u2019re on the list. One email when it\u2019s live.';
