@@ -55,7 +55,7 @@
   .pill{background:var(--terra);color:var(--cream);padding:9px 16px;border-radius:999px;font-size:12.5px;font-weight:600;text-decoration:none}
 
   /* HERO */
-  .hero{padding:30px 0 44px}
+  .hero{padding:12px 0 40px}
   .hero .wrap{display:grid;gap:24px}
   .hero-copy{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
   h1{font-family:var(--display);font-weight:400;letter-spacing:-.02em;line-height:.95;font-size:clamp(2.7rem,8.5vw,4rem);margin-top:6px}
@@ -85,7 +85,7 @@
   .stage{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;background:#ded4c6;box-shadow:0 30px 70px -34px rgba(0,0,0,.4)}
   .hero-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:56% 20%;display:block;will-change:transform}
   .playbtn{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);z-index:6;width:58px;height:58px;border-radius:50%;border:1px solid rgba(255,255,255,.6);background:rgba(37,35,32,.35);color:#fff;font-size:17px;cursor:pointer;display:none;align-items:center;justify-content:center;padding-left:3px}
-  .playbtn.show{display:flex}
+  .playbtn.show{display:flex}/* iOS draws its own play glyph on a video whose autoplay it blocked (Low Power Mode); ours is the only one. */video::-webkit-media-controls{display:none!important}video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}video::-webkit-media-controls-panel{display:none!important}
   .stage-scrim{position:absolute;left:0;right:0;bottom:0;height:42%;pointer-events:none;background:linear-gradient(180deg,transparent,rgba(37,35,32,.18))}
   .ba{position:absolute;left:14px;bottom:14px;z-index:4;display:flex;align-items:flex-end;gap:10px}
   .ba-imgs{display:flex;gap:4px}
@@ -368,7 +368,11 @@ const GW_CONFIG = {
     /* LAUNCH GATE: PLACEHOLDERS — swap for real VIP reviews before launch */
     { text: "I finally understand my skin. Clear, simple, and actually works.", who: "Sara, 26" },
     { text: "Called out the exact products I was wasting money on. Game changer.", who: "Yasmine, 34" },
-    { text: "My skin has never looked calmer and brighter. So grateful.", who: "Celeste, 42" }
+    { text: "My skin has never looked calmer and brighter. So grateful.", who: "Celeste, 42" },
+      /* V1's scan-page reviews, carried over verbatim (Haziq, 2026-10-04) */
+      { text: "I actually cried. I've wasted so much money on the wrong stuff. This fixed that.", who: "Sofia A." },
+      { text: "Just started it and already know more about my skin than 10 years of guessing.", who: "Jamie, 28" },
+      { text: "Already saved $200 swapping out the wrong products. I feel so much smarter about everything I put on my face.", who: "Karen, 51" }
   ]
 };
 </script>
@@ -618,7 +622,7 @@ const GW_CONFIG = {
   const vid=document.getElementById('heroVid'), pbtn=document.getElementById('playbtn'), stage=document.getElementById('stage');
   function tryPlay(){const p=vid.play&&vid.play();if(p&&p.catch)p.then(()=>pbtn.classList.remove('show')).catch(()=>pbtn.classList.add('show'));}
   tryPlay();window.addEventListener('load',tryPlay);
-  document.addEventListener('click',()=>{if(vid.paused)tryPlay();},{once:true});
+  document.addEventListener('click',()=>{if(vid.paused)tryPlay();},{once:true});document.addEventListener('touchstart',()=>{if(vid.paused)tryPlay();},{once:true,passive:true});
   pbtn.addEventListener('click',tryPlay);vid.addEventListener('playing',()=>pbtn.classList.remove('show'));
   // gentle parallax so the hero feels tied to scroll
   const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
@@ -736,7 +740,7 @@ const I18N={"de": {"T": {"Home": "Start", "Blog": "Blog", "Free Resources": "Gra
   var track=document.getElementById('carTrack'), dots=document.getElementById('carDots'), region=document.getElementById('revCarousel');
   var page=0, pages=1, timer=null, paused=false;
   var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  function pageSize(){ return innerWidth>=880 ? 3 : 1; }
+  /* Phones: every review stacked, no carousel (a one-at-a-time swipe read as one review). Desktop: 3 per page. */ function pageSize(){ return innerWidth>=880 ? 3 : Math.max(1, C.REVIEWS.length); }
   function esc(s){ var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
   function card(r){ return '<div class="tcard"><div class="q">\u201C</div><span class="stars">\u2605\u2605\u2605\u2605\u2605</span><p>'+esc(r.text)+'</p><div class="who">'+esc(r.who)+'</div></div>'; }
   function go(i,user){ page=(i%pages+pages)%pages; track.style.transform='translateX(-'+page*100+'%)';
