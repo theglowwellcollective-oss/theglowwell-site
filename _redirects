@@ -1,5 +1,7 @@
 /glowscan     https://scan.theglowwell.com/app/?start=quiz    302
 /glowscan.html    https://scan.theglowwell.com/app/?start=quiz    301
+/glowscan-v2      https://scan.theglowwell.com/app/?start=quiz    302
+/glowscan-v2.html https://scan.theglowwell.com/app/?start=quiz    302
 /VIP          /vip                 301
 /Vip          /vip                 301
 /copper-peptide-waitlist.html  /copper-peptide-waitlist  301
