@@ -240,6 +240,9 @@ footer .logo em{color:var(--sage)}
 .wl-form[data-state=done] input,.wl-form[data-state=done] .buy{display:none}
 .join .consent{font-size:13px;color:var(--ink-light);line-height:1.5;margin-top:10px;max-width:44ch}
 .join .consent a{text-decoration:underline;text-underline-offset:2px}
+.join .consent[hidden],.wl-optin[hidden]{display:none}
+.wl-opt{display:flex;align-items:center;gap:12px;min-height:44px;margin-top:10px;font-size:14px;color:var(--ink);line-height:1.4;cursor:pointer;max-width:44ch}
+.wl-opt input{flex:none;width:22px;height:22px;margin:0;accent-color:var(--sage-dark);cursor:pointer}
 /* compact strips */
 .strip{padding:56px 24px}
 .strip-inner{max-width:1120px;margin:0 auto}
@@ -342,7 +345,11 @@ footer .logo em{color:var(--sage)}
         <button type="submit" class="buy" id="wl-btn">Join the waitlist →</button>
         <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
       </form>
-      <p class="consent">One email when it's live, then only what's useful. First run ships to US addresses — join from anywhere and you'll hear when your country opens. Unsubscribe any time. <a href="privacy.html">Privacy</a></p>
+      <p class="consent" id="wl-consent-us" hidden>One email when the serum is live — with your 20% off — plus one short skin-tips email a week from The Glow Well. Unsubscribe anytime. <a href="privacy.html">Privacy</a></p>
+      <div class="wl-optin" id="wl-consent-cb">
+        <label class="wl-opt"><input type="checkbox" id="wl-weekly"><span>Also send me one short skin-tips email a week from The Glow Well.</span></label>
+        <p class="consent">One email when the serum is live. First run ships to US addresses — join from anywhere and you'll hear when your country opens. Unsubscribe anytime. <a href="privacy.html">Privacy</a></p>
+      </div>
     </div>
   </div>
 </header>
@@ -398,7 +405,7 @@ footer .logo em{color:var(--sage)}
     <button class="modal-x" id="wl-modal-x" aria-label="Close">✕</button>
     <p class="modal-ey">You're in</p>
     <h2 id="wl-modal-h">You're on the list.</h2>
-    <p class="modal-sub">One email the moment it's live — with your <b>20% off</b> and free shipping. Your <b>Copper Peptide Cheat Sheet</b> is on its way to your inbox now.</p>
+    <p class="modal-sub" id="wl-modal-sub">One email the moment it's live — with your <b>20% off</b> and free shipping. Your <b>Copper Peptide Cheat Sheet</b> is on its way to your inbox now.</p>
     <p class="modal-from">It comes from <b>hello@theglowwell.com</b> — if it's not in your inbox in a minute, check Promotions or Spam and drag it over so the launch email lands.</p>
     <p class="modal-scan-lead">Want to know what your skin's been trying to tell you? One selfie, two minutes — so when the serum lands, you'll know exactly where it fits.</p>
     <a class="buy modal-scan" href="https://scan.theglowwell.com/app/?start=quiz">Take the free 2-minute scan →</a>
@@ -453,6 +460,13 @@ footer .logo em{color:var(--sage)}
   });
   // waitlist form → MailerLite (single-tab, works in IG in-app browser)
   const form=document.getElementById('wl-form'),msg=document.getElementById('wl-msg'),email=document.getElementById('wl-email');
+  // weekly tips opt-in: US = notice, everywhere else (or geo failure) = unticked checkbox
+  let consentMode='checkbox';
+  (async()=>{
+    try{const g=await Promise.race([fetch('/api/geo').then(r=>r.json()),new Promise((_,rej)=>setTimeout(rej,1500))]);
+      if(g&&g.country==='US'){consentMode='notice';document.getElementById('wl-consent-us').hidden=false;document.getElementById('wl-consent-cb').hidden=true}
+    }catch(_){}
+  })();
   form.addEventListener('submit',async e=>{
     e.preventDefault();
     const v=email.value.trim();
@@ -461,10 +475,14 @@ footer .logo em{color:var(--sage)}
     try{
       const fd=new FormData(form);
       try{const g=await Promise.race([fetch('/api/geo').then(r=>r.json()),new Promise((_,rej)=>setTimeout(rej,1500))]);if(g&&g.country)fd.append('fields[waitlist_country]',g.country)}catch(_){}
+      const weekly=consentMode==='notice'||document.getElementById('wl-weekly').checked;
+      if(weekly){fd.append('fields[weekly_consent]','weekly-2026-10-20');fd.append('fields[weekly_consent_method]',consentMode)}
       const r=await fetch(form.action,{method:'POST',body:fd,mode:'cors',credentials:'omit'});
       const j=await r.json().catch(()=>({}));
       if(!r.ok||j.success===false)throw new Error(j.message||'bad');
-      form.dataset.state='done';msg.textContent='You’re on the list — check your inbox.';openWin();
+      form.dataset.state='done';msg.textContent='You’re on the list — check your inbox.';
+      if(weekly){const ms=document.getElementById('wl-modal-sub');ms.innerHTML=ms.innerHTML.replace('and free shipping.','and free shipping — plus one short skin-tips email a week.')}
+      openWin();
       try{fbq('track','Lead',{content_name:'Copper Peptide Waitlist'})}catch(_){}
       try{gtag('event','generate_lead',{form:'copper_peptide_waitlist'})}catch(_){}
     }catch(err){
