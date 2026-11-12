@@ -417,6 +417,7 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
      unauthenticated_read_product_inventory scope) to show "N bottles left".
      Empty token = no stock line. Any failure = no stock line. */
 const LAUNCH = { on: true, code: 'GLOW20', pct: 20, endsLabel: 'Sat, Nov 14, 9 pm', endsAt: '2026-11-15T02:00:00Z' };
+const PREORDER = { code: 'PREORDER20', pct: 20, ships: 'December' };
 const STOCK  = { token: 'c2110053968b53c7f1b7d26b1ebaf8e8' };
 
 const PRODUCT = {
@@ -472,13 +473,16 @@ const PRODUCT = {
   };
   const S={qty:1,left:null};
   const $m=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
-  const unit=()=>launchLive()?Math.round(PRODUCT.price*(1-LAUNCH.pct/100)*100)/100:PRODUCT.price;
+  const pre=()=>Number.isInteger(S.left)&&S.left<=0;
+  const pct=()=>pre()?PREORDER.pct:(launchLive()?LAUNCH.pct:0);
+  const unit=()=>Math.round(PRODUCT.price*(1-pct()/100)*100)/100;
   const total=()=>Math.round(unit()*S.qty*100)/100;
-  const soldOut=()=>S.left===0;
+  const soldOut=()=>false; // sold out now means pre-order mode
   const url=()=>{
     if(soldOut())return PRODUCT.waitlist;
     let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
-    if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
+    if(pre())u+='?discount='+encodeURIComponent(PREORDER.code);
+    else if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
     return u;
   };
 
@@ -504,19 +508,19 @@ const PRODUCT = {
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
   function render(){
-    const live=launchLive(),t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
-    all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=out||(S.left!==null&&+b.dataset.qty>S.left)});
+    const P=pre(),live=P||launchLive(),t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=!P&&S.left!==null&&S.left>0&&+b.dataset.qty>S.left});
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live;e.textContent=live?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):''});
+    all('[data-launch]',e=>{e.hidden=!live;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(live?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):'')});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
-    all('[data-stock]',e=>{const show=Number.isInteger(S.left)&&S.left>0;e.hidden=!show;e.textContent=show?(S.left+(S.left===1?' bottle left':' bottles left')):''});
+    all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
     all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
-    all('[data-btn-label]',e=>e.textContent=out?'Sold out · Join the restock list':'Buy now · '+t);
-    all('[data-bar-price]',e=>e.textContent=out?'Sold out':t);
-    all('[data-bar-qty]',e=>e.textContent=out?'Restock list open':(S.qty+(S.qty>1?' bottles':' bottle')+' · Free US shipping'));
+    all('[data-btn-label]',e=>e.textContent=(P?'Pre-order now · ':'Buy now · ')+t);
+    all('[data-bar-price]',e=>e.textContent=t);
+    all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+' · Free US shipping'));
   }
 
   document.addEventListener('click',e=>{
@@ -540,7 +544,7 @@ const PRODUCT = {
       fetch(PRODUCT.storefrontApi,{method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':STOCK.token},body:JSON.stringify({query})})
         .then(r=>r.ok?r.json():null)
         .then(j=>{const n=j&&j.data&&j.data.productVariant&&j.data.productVariant.quantityAvailable;
-          if(Number.isInteger(n)&&n>=0){S.left=n;if(n>0&&S.qty>n)S.qty=1;render()}})
+          if(Number.isInteger(n)){S.left=n;if(n>0&&S.qty>n)S.qty=1;render()}})
         .catch(()=>{});
     }catch(_){}
   }
