@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F7F3EE">
+<title>Copper Peptide Serum · The Glow Well</title>
+<meta name="description" content="A daily copper peptide serum to help skin look smoother and firmer with continued use. 0.2% Copper Tripeptide-1 (GHK-Cu) by weight, 30 ml. Free US shipping, 30-day returns.">
+<meta property="og:type" content="product">
+<meta property="og:site_name" content="The Glow Well">
+<meta property="og:title" content="For smoother, firmer-looking skin · Copper Peptide Serum">
+<meta property="og:description" content="A daily copper peptide serum to help skin look smoother and firmer with continued use. 0.2% GHK-Cu, 30 ml. Free US shipping, 30-day returns.">
+<meta property="og:image" content="https://theglowwell.com/serum-media/og-serum.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A hand holding The Glow Well Copper Peptide Serum, with the line: For smoother, firmer-looking skin.">
+<meta property="og:url" content="https://theglowwell.com/copper-peptide-serum">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="For smoother, firmer-looking skin · Copper Peptide Serum">
+<meta name="twitter:description" content="A daily copper peptide serum to help skin look smoother and firmer with continued use. 0.2% GHK-Cu, 30 ml.">
+<meta name="twitter:image" content="https://theglowwell.com/serum-media/og-serum.jpg">
+<link rel="canonical" href="https://theglowwell.com/copper-peptide-serum">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="serum-media/serum-hero-poster.jpg" fetchpriority="high">
+<!--
+  v9 FINAL BUILD (Nov 2026). Media lives in /serum-media/ next to this page.
+  Launch price, stock line: edit LAUNCH and STOCK at the top of the page script (bottom of file).
+-->
+<style>
+:root{
+  --cream:#F7F3EE; --sand:#EFE7DC; --sage:#7A9474; --sage-dark:#4E6B49; --terra:#C4845A;
+  --charcoal:#252320; --ink:#2b2824; --ink-soft:#6c665d; --line:#e6ddd2;
+  --serum:#CFE3E4; --serum-deep:#9ec3cd;
+  --zap:#1D4ED8; --zap-dark:#1739A8; --zap-soft:#E8EEFF;   /* purchase actions only */
+  --serif:'Cormorant Garamond',Georgia,serif; --sans:'DM Sans',system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--serif);font-weight:500;line-height:1.04;letter-spacing:-.01em;color:var(--charcoal)}
+em{font-style:italic}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+@media(min-width:900px){.wrap{padding:0 32px}}
+.eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:var(--sage-dark)}
+.orn{color:var(--terra);font-size:.85em;margin-right:6px}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ── 1 header ─────────────────────────────── */
+.nav{position:sticky;top:0;z-index:60;background:rgba(247,243,238,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:12px;height:52px;max-width:1180px;margin:0 auto;padding:0 16px}
+.brand{font-family:var(--serif);font-size:21px;color:var(--charcoal)}
+.brand em{color:var(--sage)}
+.nav-note{font-size:12px;color:var(--ink-soft);text-align:right;line-height:1.3}
+@media(min-width:900px){.nav-in{padding:0 32px;height:60px}.nav-note{font-size:13px}}
+
+/* ── 2 product intro + gallery ────────────── */
+.hero{padding:14px 0 8px}
+.hero-grid{display:grid;gap:12px}
+.hero h1{font-size:clamp(2.3rem,10vw,3.6rem)}
+.hero-sub{font-size:15.5px;color:var(--ink);margin-top:4px;max-width:44ch}
+.hero-price{margin-top:6px;font-size:15px;color:var(--ink-soft)}
+.hero-price b{font-size:19px;color:var(--charcoal);font-weight:700}
+.hero-price s{margin-left:6px}
+.gal{position:relative;margin:0 -16px}
+.gal-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.gal-track::-webkit-scrollbar{display:none}
+.slide{position:relative;flex:0 0 100%;scroll-snap-align:center;aspect-ratio:1/1;overflow:hidden;background:#efe6d8}
+.slide picture{display:contents}
+.slide img,.slide video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slide.vid{background:#2a2622}
+.slide.vid video{object-position:50% 62%}
+.slide[data-label="0.2%"] img{object-position:72% 50%}
+/* soft cream scrim behind on-photo copy (top-left safe area, away from the bottle label) */
+.slide.ph-slide::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(115% 62% at 0% 0%,rgba(247,241,231,.82) 0%,rgba(247,241,231,.5) 42%,rgba(247,241,231,0) 72%)}
+/* on-photo copy (HTML, never baked into the image) */
+.ov{position:absolute;z-index:3;left:6.5%;top:6.5%;max-width:var(--ovw,52%);color:var(--charcoal)}
+.ov b{display:block;font-family:var(--serif);font-weight:600;font-size:clamp(25px,7vw,38px);line-height:1.02;letter-spacing:-.01em}
+.ov small{display:block;font-size:clamp(12.5px,3.4vw,14.5px);line-height:1.4;margin-top:8px;color:#3a3631}
+.ov small span{display:block}
+/* hero video: three timed beats */
+.slide.vid::after{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(95% 60% at 0% 100%,rgba(28,24,20,.66) 0%,rgba(28,24,20,.32) 45%,rgba(28,24,20,0) 75%)}
+.beats{position:absolute;z-index:3;left:6.5%;bottom:7%;width:54%;min-height:3em}
+.beat{position:absolute;left:0;bottom:0;font-family:var(--serif);font-weight:600;font-size:clamp(26px,7.4vw,40px);line-height:1.02;color:var(--cream);text-shadow:0 1px 14px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+.beat.on{opacity:1;transform:none}
+.thumbs{display:flex;gap:8px;padding:10px 16px 0;overflow-x:auto;scrollbar-width:none}
+.thumbs::-webkit-scrollbar{display:none}
+.thumbs button{flex:0 0 58px;display:flex;flex-direction:column;align-items:center;gap:4px;background:none;border:0;padding:0;cursor:pointer}
+.thumbs .ti{width:58px;height:58px;border-radius:7px;border:2px solid transparent;overflow:hidden;background:#efe6d8}
+.thumbs .ti img{width:100%;height:100%;object-fit:cover}
+.thumbs .tl{font-size:11px;font-weight:700;letter-spacing:.02em;color:var(--ink-soft)}
+.thumbs button.on .ti{border-color:var(--charcoal)}
+.thumbs button.on .tl{color:var(--charcoal)}
+.fact{font-size:13.5px;color:var(--ink);padding-top:10px;line-height:1.4}
+.fact b{font-weight:700}
+@media(min-width:900px){
+  .hero{padding:36px 0 40px}
+  .hero-grid{grid-template-columns:1.05fr 1fr;column-gap:52px;align-items:start}
+  .gal-col{grid-column:1;grid-row:1/span 3;position:sticky;top:76px}
+  .gal{margin:0;border-radius:14px;overflow:hidden}
+  .thumbs{padding:12px 0 0}
+  .thumbs button{flex-basis:68px}
+  .thumbs .ti{width:68px;height:68px}
+  .intro{grid-column:2}
+  .hero .box{grid-column:2}
+  .fit{grid-column:2}
+  .ov b{font-size:40px}.ov small{font-size:15px}
+  .beat{font-size:44px}
+}
+
+/* ── 3 buy box ─────────────────────────────── */
+.box{background:#fff;border:2px solid var(--charcoal);border-radius:14px;padding:16px;color:var(--ink);text-align:left;max-width:480px}
+.bx-title{font-size:27px;font-weight:600}
+.bx-sub{font-size:14.5px;color:var(--ink);margin:4px 0 12px}
+.qty-label{font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:2px 0 6px}
+.qty{display:flex;gap:7px;margin-bottom:12px}
+.qty button{flex:1;border:2px solid var(--line);border-radius:10px;padding:11px 4px;font-weight:500;font-size:14.5px;background:#fff;color:var(--charcoal);cursor:pointer}
+.qty button.on{border-color:var(--charcoal);background:var(--charcoal);color:#fff}
+.qty button:disabled{opacity:.4;cursor:not-allowed}
+.price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.price-row b{font-size:26px;font-weight:700;color:var(--charcoal);line-height:1.1}
+.price-row s{font-size:16px;color:var(--ink-soft)}
+.price-row span{font-size:13.5px;color:var(--ink-soft)}
+.launch{font-size:13px;font-weight:700;color:var(--zap);margin-top:2px}
+.gift{font-size:13.5px;line-height:1.45;color:var(--charcoal);background:var(--sand);border-radius:10px;padding:10px 12px;margin:12px 0}
+.gift b{font-weight:700}
+.stock{font-size:13.5px;font-weight:700;color:var(--terra);margin:0 0 8px;display:flex;align-items:center;gap:7px}
+.stock[hidden],.launch[hidden],[data-was][hidden],[data-unit-was][hidden]{display:none}
+.stock::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--terra)}
+.buy{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--zap);color:#fff;font-weight:700;font-size:17px;padding:16px 18px;border-radius:10px;border:0;cursor:pointer;box-shadow:0 3px 0 var(--zap-dark);transition:background .2s,transform .1s;text-align:center}
+.buy:hover{background:var(--zap-dark)}.buy:active{transform:translateY(1px)}
+.buy.soldout{background:var(--charcoal);box-shadow:none}
+.reassure{font-size:13px;color:var(--charcoal);font-weight:500;margin-top:9px;text-align:center;line-height:1.45}
+.trust{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 6px;margin:12px 0 0;padding-top:12px;border-top:1px solid var(--line)}
+.trust li{font-size:11.5px;font-weight:500;color:var(--sage-dark);background:#f1f4ef;border-radius:999px;padding:4px 9px;white-space:nowrap}
+.proof{font-size:12.5px;color:var(--ink-soft);text-align:center;margin-top:10px;font-style:italic}
+.fit{font-size:12.5px;color:var(--ink-soft);text-align:center;max-width:480px}
+@media(min-width:900px){.fit{text-align:left}.box{padding:20px}}
+
+/* ── 4 formula (0.2%, moved up) ───────────── */
+.formula{background:var(--serum);padding:56px 0}
+.formula-grid{display:grid;gap:26px}
+.formula h2{font-size:clamp(2.2rem,7vw,3.3rem)}
+.big{font-family:var(--serif);font-weight:500;font-size:clamp(5.5rem,30vw,10rem);line-height:.82;color:var(--charcoal);letter-spacing:-.04em;margin:14px 0 10px}
+.formula p{max-width:44ch}
+.spec{margin:20px 0 0;border-top:1px solid rgba(37,35,32,.25);max-width:480px}
+.spec div{display:flex;justify-content:space-between;gap:16px;padding:11px 2px;border-bottom:1px solid rgba(37,35,32,.18);font-size:15px}
+.spec dt{color:var(--ink-soft)}
+.spec dd{font-family:var(--serif);font-size:19px;color:var(--charcoal);text-align:right}
+.fig{position:relative;border-radius:12px;overflow:hidden;background:#efe6d8}
+.fig img,.fig video{width:100%;height:100%;object-fit:cover}
+.fig picture{display:contents}
+.fig.b{aspect-ratio:1/1}
+.company h3{font-size:clamp(1.7rem,5.5vw,2.3rem);margin-bottom:6px}
+.company p{font-size:15.5px}
+.company .made{font-size:13.5px;color:var(--ink-soft);margin-top:12px}
+.company a{text-decoration:underline;font-size:14px;display:inline-block;margin-top:8px}
+@media(min-width:900px){.formula{padding:96px 0}.formula-grid{grid-template-columns:1fr 1fr;column-gap:56px;align-items:center}}
+
+/* ── 5 benefit (new) ──────────────────────── */
+.benefit{padding:56px 0;background:var(--cream)}
+.benefit-grid{display:grid;gap:24px;align-items:center}
+.fig.w{aspect-ratio:1/1}
+.benefit h2{font-size:clamp(2.2rem,7.4vw,3.4rem);margin:12px 0 0}
+.benefit h2 em{color:var(--sage-dark)}
+.benefit p{margin-top:14px;max-width:44ch;font-size:16.5px}
+.benefit .to-buy{display:inline-block;margin-top:18px;font-size:14.5px;font-weight:700;color:var(--charcoal);border-bottom:2px solid var(--terra);padding-bottom:2px}
+@media(min-width:900px){.benefit{padding:96px 0}.benefit-grid{grid-template-columns:1fr 1fr;column-gap:64px}}
+
+/* ── 6 how-to ──────────────────────────────── */
+.steps{background:var(--sage-dark);color:var(--cream);padding:56px 0}
+.steps-grid{display:grid;gap:24px}
+.steps h2{font-size:clamp(2.5rem,9vw,3.8rem);color:var(--cream);line-height:.98}
+.fig.e{aspect-ratio:4/5;max-height:520px;background:#3a3430}
+.step{display:flex;gap:16px;padding:16px 0;border-top:1px solid rgba(247,243,238,.22)}
+.step:last-of-type{border-bottom:1px solid rgba(247,243,238,.22)}
+.step b{font-family:var(--serif);font-size:28px;color:var(--serum);line-height:1;min-width:38px}
+.step h3{font-family:var(--sans);font-weight:700;font-size:16px;color:var(--cream);margin-bottom:3px}
+.step p{font-size:15px;color:#d9e2d2}
+.steps-note{font-size:13px;color:#c3cfbc;margin-top:14px}
+@media(min-width:900px){.steps{padding:96px 0}.steps-grid{grid-template-columns:.9fr 1.1fr;column-gap:56px;align-items:center}.fig.e{max-height:600px}}
+
+/* ── 7 faq ─────────────────────────────────── */
+.faq{padding:48px 0 56px}
+.faq h2{font-size:clamp(2.1rem,6.5vw,3rem);margin:10px 0 16px}
+.faq-list{max-width:780px;border-top:1px solid var(--charcoal)}
+.faq details{border-bottom:1px solid var(--line)}
+.faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:15px 0;font-size:16px;font-weight:500;color:var(--charcoal)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-size:22px;line-height:1;color:var(--terra)}
+.faq details[open] summary::after{content:"–"}
+.faq details p{font-size:15px;color:var(--ink-soft);padding:0 0 15px;max-width:62ch}
+.faq details a{text-decoration:underline}
+
+/* ── 8 close ───────────────────────────────── */
+.close{background:var(--sage);padding:56px 0}
+.close h2{font-size:clamp(2.2rem,7.6vw,3.6rem);color:var(--cream);text-align:center;max-width:18ch;margin:0 auto}
+.close .sub{color:#eaf2e6;text-align:center;font-size:14.5px;margin:10px 0 20px}
+.close .box{margin:0 auto}
+.close .fit{color:#eaf2e6;margin:10px auto 0}
+@media(min-width:900px){.close{padding:96px 0}}
+
+/* ── footer ────────────────────────────────── */
+footer{background:var(--charcoal);color:#a79f93;padding:40px 0 100px;font-size:13.5px}
+footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
+.foot-links{display:flex;flex-wrap:wrap;gap:12px 22px;margin-bottom:16px}
+.foot-links a:hover{color:var(--cream)}
+.foot-fine{font-size:11.5px;color:#8a8378;line-height:1.6;max-width:62ch}
+
+/* ── sticky bar ───────────────────────────── */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:70;transform:translateY(120%);transition:transform .4s cubic-bezier(.16,1,.3,1);background:rgba(247,243,238,.97);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+.bar.show{transform:none}
+.bar-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;justify-content:space-between}
+.bar-info{line-height:1.2;flex:0 0 auto}
+.bar-info b{display:block;font-size:19px;font-weight:700;color:var(--charcoal)}
+.bar-info small{font-size:11.5px;color:var(--ink-soft)}
+.bar .buy{width:auto;flex:1;max-width:340px;padding:13px 16px;font-size:16px;box-shadow:none}
+</style>
+<!-- Meta Pixel -->
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
+<!-- GA4 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G0CP35KCPJ"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G0CP35KCPJ');</script>
+<!-- Microsoft Clarity -->
+<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","vzqj6mrwig");</script>
+</head>
+<body>
+
+<!-- ═══ 1 HEADER — no exits, offer facts visible ═══ -->
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="https://theglowwell.com/">The Glow <em>Well</em></a>
+    <div class="nav-note">Free US shipping<br>30-day returns</div>
+  </div>
+</header>
+
+<!-- ═══ 2 HERO · GALLERY · BUY BOX ═══ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="intro">
+      <p class="eyebrow">The Glow Well</p>
+      <h1>Copper Peptide Serum</h1>
+      <p class="hero-sub">A daily copper peptide serum to help skin look smoother and firmer with continued use.</p>
+      <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
+    </div>
+
+    <div class="gal-col">
+      <div class="gal">
+        <div class="gal-track" id="galTrack">
+          <!-- 1 · Watch: hero video with three timed beats -->
+          <div class="slide vid" data-label="Watch" data-thumb="serum-media/serum-hero-poster.jpg">
+            <video id="heroVid" autoplay muted loop playsinline preload="metadata" poster="serum-media/serum-hero-poster.jpg" aria-label="A woman applies 2 to 3 drops of the copper peptide serum and holds up the bottle">
+              <source src="serum-media/serum-hero.mp4" type="video/mp4">
+            </video>
+            <div class="beats" aria-live="off">
+              <p class="beat on">Smoother, firmer-looking skin.</p>
+              <p class="beat">2–3 drops. Morning and night.</p>
+              <p class="beat">Your 30-second copper step.</p>
+            </div>
+          </div>
+          <!-- 2 · Benefit -->
+          <div class="slide ph-slide" data-label="Benefit" data-thumb="serum-media/cp-hand.webp" style="--ovw:44%">
+            <picture><source type="image/webp" srcset="serum-media/cp-hand.webp"><img src="serum-media/cp-hand.jpg" alt="A hand holding The Glow Well Copper Peptide Serum, an amber glass bottle with a white dropper" width="1024" height="1024" loading="lazy"></picture>
+            <div class="ov"><b>For smoother, firmer-looking skin.</b><small>Your daily copper peptide serum · 30 ml · with continued use</small></div>
+          </div>
+          <!-- 3 · 0.2% -->
+          <div class="slide ph-slide" data-label="0.2%" data-thumb="serum-media/cp-flatlay.webp" style="--ovw:58%">
+            <picture><source type="image/webp" srcset="serum-media/cp-flatlay.webp"><img src="serum-media/cp-flatlay.jpg" alt="The serum bottle lying beside a small glass dish of pale blue serum" width="1024" height="579" loading="lazy"></picture>
+            <div class="ov"><b>Know what's in your bottle.</b><small>0.2% GHK-Cu by weight, confirmed in writing by our lab.</small></div>
+          </div>
+          <!-- 4 · Formula -->
+          <div class="slide ph-slide" data-label="Formula" data-thumb="serum-media/cp-drop.webp" style="--ovw:60%">
+            <picture><source type="image/webp" srcset="serum-media/cp-drop.webp"><img src="serum-media/cp-drop.jpg" alt="A pale blue drop of serum at the tip of a glass dropper with a white cap" width="1200" height="1200" loading="lazy"></picture>
+            <div class="ov"><b>Copper, in good company.</b><small>With niacinamide, hyaluronic acid, panthenol + CoQ10. Naturally pale blue.</small></div>
+          </div>
+          <!-- 5 · Routine -->
+          <div class="slide ph-slide" data-label="Routine" data-thumb="serum-media/cp-shelf.webp" style="--ovw:50%">
+            <picture><source type="image/webp" srcset="serum-media/cp-shelf.webp"><img src="serum-media/cp-shelf.jpg" alt="The serum bottle on a bathroom shelf next to a folded sage towel and a glass dish" width="1024" height="1024" loading="lazy"></picture>
+            <div class="ov"><b>Your serum step, simplified.</b><small><span>2–3 drops after cleansing, before moisturizer.</span><span>Light honeysuckle scent · Contains fragrance</span></small></div>
+          </div>
+        </div>
+      </div>
+      <div class="thumbs" id="thumbs" aria-label="Product media"></div>
+      <p class="fact"><b>0.2% Copper Tripeptide-1 by weight.</b> Confirmed in writing by our lab.</p>
+    </div>
+
+    <div class="box" id="buy" data-box="top"></div>
+    <p class="fit">Light honeysuckle scent · Contains fragrance · No retinol · No dyes</p>
+  </div>
+</section>
+
+<!-- ═══ 3 FORMULA — 0.2% (moved up) ═══ -->
+<section class="formula" id="formula">
+  <div class="wrap formula-grid">
+    <div class="reveal">
+      <p class="eyebrow">Know what's in your serum</p>
+      <div class="big">0.2%</div>
+      <h2>Copper Tripeptide-1, by weight.</h2>
+      <p style="margin-top:12px">In the finished formula, confirmed in writing by our lab. That pale blue is the copper peptide itself. No dyes.</p>
+      <dl class="spec">
+        <div><dt>Lead ingredient</dt><dd>Copper Tripeptide-1</dd></div>
+        <div><dt>Concentration</dt><dd>0.2% by weight</dd></div>
+        <div><dt>Color</dt><dd>Naturally pale blue</dd></div>
+        <div><dt>Scent</dt><dd>Light honeysuckle</dd></div>
+      </dl>
+    </div>
+    <div class="reveal">
+      <figure class="fig b">
+        <picture><source type="image/webp" srcset="serum-media/cp-drop.webp"><img src="serum-media/cp-drop.jpg" alt="A pale blue drop of serum at the tip of a glass dropper" width="1200" height="1200" loading="lazy"></picture>
+      </figure>
+      <div class="company" style="margin-top:22px">
+        <h3>Copper, in good company.</h3>
+        <p>With niacinamide, coenzyme Q10, hyaluronic acid and panthenol. No retinol.</p>
+        <p class="made">Made in Australia in an ISO 22716 facility.</p>
+        <a href="#ingredients" data-open-ingredients>See the full ingredient list</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 4 BENEFIT (new — replaces the dark shelf section) ═══ -->
+<section class="benefit">
+  <div class="wrap benefit-grid">
+    <figure class="fig w reveal">
+      <picture><source type="image/webp" srcset="serum-media/cp-woman.webp"><img src="serum-media/cp-woman.jpg" alt="A woman in a sage shirt holding The Glow Well Copper Peptide Serum" width="1024" height="1024" loading="lazy"></picture>
+    </figure>
+    <div class="reveal">
+      <p class="eyebrow"><span class="orn">✦</span>The daily step</p>
+      <h2>Smoother, firmer-looking skin. <em>A straightforward daily step.</em></h2>
+      <p>0.2% GHK-Cu with niacinamide, hyaluronic acid, panthenol and coenzyme Q10. 2–3 drops after cleansing and before moisturizer, morning and night.</p>
+      <a class="to-buy" href="#buy">Choose 1 or 2 bottles</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 5 HOW TO ═══ -->
+<section class="steps">
+  <div class="wrap steps-grid">
+    <figure class="fig e reveal">
+      <video autoplay muted loop playsinline preload="metadata" poster="serum-media/serum-press-loop-poster.jpg" aria-label="Pressing serum gently into the cheeks">
+        <source src="serum-media/serum-press-loop.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <div class="reveal">
+      <h2>Drop.<br>Press.<br>Carry on.</h2>
+      <div style="margin-top:20px">
+        <div class="step"><b>01</b><div><h3>Cleanse</h3><p>Start with freshly washed skin.</p></div></div>
+        <div class="step"><b>02</b><div><h3>Apply</h3><p>Press in 2–3 drops, morning and night.</p></div></div>
+        <div class="step"><b>03</b><div><h3>Moisturize</h3><p>Follow with your moisturizer. Finish with SPF during the day.</p></div></div>
+      </div>
+      <p class="steps-note">Keep the dropper off your skin. Patch test before first use.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 6 FAQ (6 questions) ═══ -->
+<section class="faq">
+  <div class="wrap">
+    <p class="eyebrow reveal">Questions</p>
+    <h2 class="reveal">A few things to know.</h2>
+    <div class="faq-list">
+      <details><summary>Does it contain fragrance?</summary><p>Yes. It has a light honeysuckle scent. It contains no retinol and no dyes.</p></details>
+      <details><summary>Is it OK for sensitive skin?</summary><p>Copper peptides and fragrance can bother very reactive skin. Patch test on your inner arm first, start once a day, then build to twice.</p></details>
+      <details><summary>Can I use it with vitamin C, retinol or acids?</summary><p>Use strong acids and retinol at a different time of day. If in doubt, keep it simple: cleanser, serum, moisturizer, SPF.</p></details>
+      <details><summary>What does 0.2% mean?</summary><p>Copper Tripeptide-1 makes up 0.2% of the finished formula by weight. Our lab has confirmed this concentration in writing.</p></details>
+      <details><summary>Shipping and returns</summary><p>Free shipping to all 50 US states via USPS Ground Advantage. Orders ship within 1–2 business days; most arrive 2–5 business days later. 30-day returns, opened or not; email <a href="mailto:hello@theglowwell.com">hello@theglowwell.com</a> first, return shipping is paid by you. Damaged on arrival? Send a photo within 7 days and we'll replace it.</p></details>
+      <details id="ingredients"><summary>What's in it? (full ingredient list)</summary><p>Aqua, Niacinamide, Glycerin, Panthenol, Copper Tripeptide-1, Phenoxyethanol, Ethylhexylglycerin, Sodium Hyaluronate, Hydroxyethylcellulose, Allantoin, Tocopherol, Parfum, Ubiquinone (CoEnzyme Q10), Benzyl Benzoate.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 CLOSE ═══ -->
+<section class="close" id="close">
+  <div class="wrap">
+    <h2 class="reveal">Smoother, firmer-looking skin starts with 2–3 drops.</h2>
+    <p class="sub">Copper Peptide Serum · 30 ml</p>
+    <div class="box" data-box="close"></div>
+    <p class="fit">Light honeysuckle scent · Contains fragrance · No retinol · No dyes</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="https://theglowwell.com/">The Glow <em>Well</em></a>
+    <div class="foot-links">
+      <a href="mailto:hello@theglowwell.com">Contact</a>
+      <a href="/refund">Returns</a>
+      <a href="/privacy">Privacy</a>
+      <a href="https://theglowwell.com/glowscan">Free skin scan</a>
+    </div>
+    <p class="foot-fine">hello@theglowwell.com · Made in Australia in an ISO 22716 facility. Packed and shipped from Virginia. A cosmetic product intended to improve the look and feel of skin; not intended to diagnose, treat, cure or prevent any condition. Individual experiences vary. Campaign imagery is illustrative, not customer results. © 2026 The Glow Well.</p>
+  </div>
+</footer>
+
+<!-- sticky bar — goes straight to checkout with the current selection -->
+<div class="bar" id="bar">
+  <div class="bar-in">
+    <div class="bar-info"><b data-bar-price>$55</b><small data-bar-qty>1 bottle · Free US shipping</small></div>
+    <a class="buy" href="https://shop.theglowwell.com/cart/47395476275289:1" data-checkout="bar" data-btn-label>Buy now · $55</a>
+  </div>
+</div>
+
+<script>
+/* ═══ CONFIG — the only things to edit ═══════════════════════════════
+   LAUNCH: set on:true while the GLOW20 code is live in Shopify.
+     endsLabel = what the page prints, e.g. 'Sun, Nov 16, 9 pm' -> "Launch price, 20% off until Sun, Nov 16, 9 pm ET"
+     endsAt (optional) = ISO time; after it passes the page falls back to full price by itself,
+       e.g. '2026-11-16T21:00:00-05:00'. Leave '' to rely on on/off only.
+   STOCK: paste a Shopify Storefront API public access token (needs the
+     unauthenticated_read_product_inventory scope) to show "N bottles left".
+     Empty token = no stock line. Any failure = no stock line. */
+const LAUNCH = { on: true, code: 'GLOW20', pct: 20, endsLabel: 'Sat, Nov 14, 9 pm', endsAt: '2026-11-15T02:00:00Z' };
+const STOCK  = { token: 'c2110053968b53c7f1b7d26b1ebaf8e8' };
+
+const PRODUCT = {
+  shop: 'https://shop.theglowwell.com',
+  variant: '47395476275289',
+  price: 55,
+  waitlist: 'https://theglowwell.com/copper-peptide-waitlist',
+  storefrontApi: 'https://shop.theglowwell.com/api/2025-10/graphql.json'
+};
+
+/* ═══ PAGE ═══ */
+(()=>{
+  // scroll reveal
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // gallery + labelled thumbnails
+  const track=document.getElementById('galTrack'),slides=[...track.children],thumbs=document.getElementById('thumbs');
+  slides.forEach((s,i)=>{
+    const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Show '+s.dataset.label);
+    b.innerHTML='<span class="ti"><img src="'+s.dataset.thumb+'" alt="" loading="lazy"></span><span class="tl">'+s.dataset.label+'</span>';
+    b.onclick=()=>track.scrollTo({left:track.clientWidth*i,behavior:'smooth'});thumbs.appendChild(b);
+  });
+  const paint=()=>{const c=Math.round(track.scrollLeft/track.clientWidth);[...thumbs.children].forEach((b,i)=>b.classList.toggle('on',i===c))};
+  track.addEventListener('scroll',()=>requestAnimationFrame(paint),{passive:true});paint();
+
+  // hero video beats: follow the video clock; fall back to a page clock if the video can't play
+  const vid=document.getElementById('heroVid'),beats=[...document.querySelectorAll('.beat')],BEAT=3.7,t0=performance.now();
+  let cur=0;
+  setInterval(()=>{
+    const playing=vid&&!vid.paused&&vid.readyState>2&&vid.duration;
+    const t=playing?vid.currentTime:((performance.now()-t0)/1000)%(BEAT*3);
+    const per=playing?vid.duration/3:BEAT;
+    const n=Math.min(2,Math.floor(t/per));
+    if(n!==cur){beats[cur].classList.remove('on');beats[n].classList.add('on');cur=n}
+  },150);
+
+  // FAQ: "see the full ingredient list" opens that answer
+  document.querySelectorAll('[data-open-ingredients]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('ingredients').open=true}));
+
+  // sticky bar: after the top box, hidden while the closing box is on screen
+  const bar=document.getElementById('bar');let past=false,atClose=false;const sync=()=>bar.classList.toggle('show',past&&!atClose);
+  new IntersectionObserver(([e])=>{past=!e.isIntersecting&&e.boundingClientRect.top<0;sync()}).observe(document.getElementById('buy'));
+  new IntersectionObserver(([e])=>{atClose=e.isIntersecting;sync()},{threshold:.15}).observe(document.querySelector('[data-box="close"]'));
+})();
+
+/* ═══ BUY BOX ═══ */
+(()=>{
+  const launchLive=()=>{
+    if(!LAUNCH.on)return false;
+    if(LAUNCH.endsAt){const end=Date.parse(LAUNCH.endsAt);if(!isNaN(end)&&Date.now()>end)return false}
+    return true;
+  };
+  const S={qty:1,left:null};
+  const $m=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
+  const unit=()=>launchLive()?Math.round(PRODUCT.price*(1-LAUNCH.pct/100)*100)/100:PRODUCT.price;
+  const total=()=>Math.round(unit()*S.qty*100)/100;
+  const soldOut=()=>S.left===0;
+  const url=()=>{
+    if(soldOut())return PRODUCT.waitlist;
+    let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
+    if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
+    return u;
+  };
+
+  const tpl=(id,withTitle)=>`
+    ${withTitle?`<h3 class="bx-title">Copper Peptide Serum</h3>
+    <p class="bx-sub">A daily copper peptide serum to help skin look smoother and firmer with continued use.</p>`:''}
+    <p class="qty-label">Quantity</p>
+    <div class="qty" role="group" aria-label="Quantity">
+      <button type="button" data-qty="1" aria-pressed="true">1 bottle</button>
+      <button type="button" data-qty="2" aria-pressed="false">2 bottles</button>
+    </div>
+    <div class="price-row"><b data-total>$55</b><s data-was hidden></s><span data-for>for 1 bottle</span></div>
+    <p class="launch" data-launch hidden></p>
+    <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts ($28 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
+    <p class="stock" data-stock hidden></p>
+    <a class="buy" href="${PRODUCT.shop}/cart/${PRODUCT.variant}:1" data-checkout="${id}" data-btn-label>Buy now · $55</a>
+    <p class="reassure">Free US shipping · 30-day returns · 2 free gifts</p>
+    <ul class="trust">
+      <li>0.2% GHK-Cu verified</li><li>Made in Australia</li><li>ISO 22716 lab</li><li>Free US shipping</li><li>30-day returns</li>
+    </ul>
+    <p class="proof">From the makers of the Glow Scan, used by 8,000+ people.</p>`;
+  document.querySelectorAll('[data-box]').forEach(b=>b.innerHTML=tpl(b.dataset.box,b.dataset.box!=='top'));
+
+  const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
+  function render(){
+    const live=launchLive(),t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=out||(S.left!==null&&+b.dataset.qty>S.left)});
+    all('[data-total]',e=>e.textContent=t);
+    all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
+    all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
+    all('[data-launch]',e=>{e.hidden=!live;e.textContent=live?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):''});
+    all('[data-unit]',e=>e.textContent=u);
+    all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
+    all('[data-stock]',e=>{const show=Number.isInteger(S.left)&&S.left>0;e.hidden=!show;e.textContent=show?(S.left+(S.left===1?' bottle left':' bottles left')):''});
+    all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
+    all('[data-btn-label]',e=>e.textContent=out?'Sold out · Join the restock list':'Buy now · '+t);
+    all('[data-bar-price]',e=>e.textContent=out?'Sold out':t);
+    all('[data-bar-qty]',e=>e.textContent=out?'Restock list open':(S.qty+(S.qty>1?' bottles':' bottle')+' · Free US shipping'));
+  }
+
+  document.addEventListener('click',e=>{
+    const q=e.target.closest('[data-qty]');if(q){if(!q.disabled){S.qty=+q.dataset.qty;render()}return}
+    const c=e.target.closest('[data-checkout]');if(!c)return;
+    e.preventDefault();
+    const dest=url();
+    if(!soldOut()){
+      const v=total();
+      try{fbq('track','InitiateCheckout',{value:v,currency:'USD',num_items:S.qty,content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
+      try{gtag('event','begin_checkout',{value:v,currency:'USD',placement:c.dataset.checkout,items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:unit(),quantity:S.qty}]})}catch(_){}
+    }
+    // same tab always — Instagram/TikTok in-app browsers break new tabs
+    setTimeout(()=>{window.location.href=dest},300);
+  });
+
+  // live stock (client-side Storefront API; silent on any failure)
+  if(STOCK.token){
+    const query='{ productVariant: node(id:"gid://shopify/ProductVariant/'+PRODUCT.variant+'") { ... on ProductVariant { quantityAvailable } } }';
+    try{
+      fetch(PRODUCT.storefrontApi,{method:'POST',headers:{'Content-Type':'application/json','X-Shopify-Storefront-Access-Token':STOCK.token},body:JSON.stringify({query})})
+        .then(r=>r.ok?r.json():null)
+        .then(j=>{const n=j&&j.data&&j.data.productVariant&&j.data.productVariant.quantityAvailable;
+          if(Number.isInteger(n)&&n>=0){S.left=n;if(n>0&&S.qty>n)S.qty=1;render()}})
+        .catch(()=>{});
+    }catch(_){}
+  }
+
+  try{fbq('track','ViewContent',{value:55,currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
+  try{gtag('event','view_item',{currency:'USD',value:55,items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:55,quantity:1}]})}catch(_){}
+  render();
+})();
+</script>
+</body>
+</html>
