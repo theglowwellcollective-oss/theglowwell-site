@@ -483,8 +483,20 @@ const PRODUCT = {
     let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
     if(pre())u+='?discount='+encodeURIComponent(PREORDER.code);
     else if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
+    // carry the visit's source into Shopify so each order shows where it came from
+    const a=attr();const qs=Object.keys(a).map(k=>k+'='+encodeURIComponent(a[k])).join('&');
+    if(qs)u+=(u.indexOf('?')<0?'?':'&')+qs;
     return u;
   };
+  function attr(){
+    const o={},q=new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{const v=q.get(k);if(v)o[k]=v.slice(0,100)});
+    if(q.get('fbclid'))o.fbclid=q.get('fbclid');
+    if(!o.utm_source){let h='';try{h=new URL(document.referrer).hostname}catch(_){}
+      if(h&&!/theglowwell\.com$/.test(h)){o.utm_source=h.replace(/^www\.|^l\.|^lm\./,'');o.utm_medium='referral'}
+      else{const f=q.get('from');o.utm_source='theglowwell';o.utm_medium=f?'site_'+f:'product_page'}}
+    return o;
+  }
 
   const tpl=(id,withTitle)=>`
     ${withTitle?`<h3 class="bx-title">Copper Peptide Serum</h3>
@@ -524,14 +536,17 @@ const PRODUCT = {
   }
 
   document.addEventListener('click',e=>{
-    const q=e.target.closest('[data-qty]');if(q){if(!q.disabled){S.qty=+q.dataset.qty;render()}return}
+    const q=e.target.closest('[data-qty]');if(q){if(!q.disabled){S.qty=+q.dataset.qty;render();try{gtag('event','qty_select',{quantity:S.qty})}catch(_){}}return}
     const c=e.target.closest('[data-checkout]');if(!c)return;
     e.preventDefault();
     const dest=url();
     if(!soldOut()){
       const v=total();
-      try{fbq('track','InitiateCheckout',{value:v,currency:'USD',num_items:S.qty,content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
-      try{gtag('event','begin_checkout',{value:v,currency:'USD',placement:c.dataset.checkout,items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:unit(),quantity:S.qty}]})}catch(_){}
+      // the real InitiateCheckout / begin_checkout / Purchase fire from the Shopify checkout pixel
+      const mode=pre()?'preorder':(launchLive()?'launch':'full');
+      try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',num_items:S.qty,mode:mode})}catch(_){}
+      try{gtag('event','buy_click',{value:v,currency:'USD',quantity:S.qty,placement:c.dataset.checkout,mode:mode})}catch(_){}
+      try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
     }
     // same tab always — Instagram/TikTok in-app browsers break new tabs
     setTimeout(()=>{window.location.href=dest},300);
@@ -549,6 +564,11 @@ const PRODUCT = {
     }catch(_){}
   }
 
+  // FAQ opens, scroll depth, stock mode (GA4 + Clarity filters)
+  document.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open){const t=(d.querySelector('summary')||{}).textContent||'';try{gtag('event','faq_open',{question:t.slice(0,90)})}catch(_){}try{clarity('event','faq_open')}catch(_){}}}));
+  (function(){const hit={};addEventListener('scroll',()=>{const h=document.documentElement,p=Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100);[25,50,75].forEach(m=>{if(p>=m&&!hit[m]){hit[m]=1;try{gtag('event','scroll_depth',{percent:m})}catch(_){}}})},{passive:true})})();
+  try{const a=attr();clarity('set','source',a.utm_source||'direct');clarity('set','campaign',a.utm_campaign||'none')}catch(_){}
+  const markMode=()=>{try{clarity('set','stock_mode',pre()?'preorder':'in_stock')}catch(_){}};setTimeout(markMode,2500);
   try{fbq('track','ViewContent',{value:55,currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
   try{gtag('event','view_item',{currency:'USD',value:55,items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:55,quantity:1}]})}catch(_){}
   render();
