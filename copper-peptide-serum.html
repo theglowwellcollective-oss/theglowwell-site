@@ -234,6 +234,18 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 .tq figcaption{font-size:13px;font-weight:700;color:var(--charcoal)}
 .tq figcaption span{font-weight:400;color:var(--ink-soft)}
 @media(min-width:900px){.tq-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* first-bottle offer: a bottom sheet on phones, a centred card on desktop */
+.offer{position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;background:rgba(37,35,32,.45)}
+.offer[hidden]{display:none}
+.offer-card{position:relative;width:100%;max-width:440px;background:var(--cream);border-radius:18px 18px 0 0;padding:28px 20px calc(20px + env(safe-area-inset-bottom));text-align:center;box-shadow:0 -10px 40px rgba(0,0,0,.25);animation:offerUp .28s ease}
+@keyframes offerUp{from{transform:translateY(100%)}to{transform:none}}
+.offer-card h3{font-size:30px;line-height:1.1;padding:0 28px}
+.offer-sub{font-size:15px;color:var(--ink);margin:8px 0 16px}
+.offer-yes{display:block;width:100%;background:var(--zap);color:#fff;font-weight:700;font-size:17px;padding:16px 18px;border-radius:10px;border:0;cursor:pointer;box-shadow:0 3px 0 var(--zap-dark)}
+.offer-no{display:block;width:100%;background:none;border:0;color:var(--ink-soft);font-size:14px;padding:14px 0 2px;cursor:pointer;text-decoration:underline}
+.offer-x{position:absolute;top:6px;right:8px;width:44px;height:44px;background:none;border:0;font-size:26px;line-height:1;color:var(--ink-soft);cursor:pointer}
+@media(min-width:900px){.offer{align-items:center}.offer-card{border-radius:18px}}
+@media(prefers-reduced-motion:reduce){.offer-card{animation:none}}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -433,6 +445,17 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
   </div>
 </div>
 
+<!-- ═══ FIRST-BOTTLE OFFER — one popup per visit; text is filled from FIRST in the config ═══ -->
+<div class="offer" id="offer" hidden role="dialog" aria-modal="true" aria-labelledby="offerTitle">
+  <div class="offer-card">
+    <button class="offer-x" type="button" aria-label="Close" data-offer-close>&times;</button>
+    <h3 id="offerTitle" data-offer-title>20% off your first bottle</h3>
+    <p class="offer-sub" data-offer-sub>$44 instead of $55. One tap applies it at checkout.</p>
+    <button class="offer-yes" type="button" data-offer-claim>Apply 20% off</button>
+    <button class="offer-no" type="button" data-offer-close>No thanks</button>
+  </div>
+</div>
+
 <script>
 /* ═══ CONFIG — the only things to edit ═══════════════════════════════
    LAUNCH: set on:true while the GLOW20 code is live in Shopify.
@@ -457,6 +480,11 @@ const PRODUCT = {
 /* The closing line. Shown above every Buy button, and sent with the buy link as a
    line item property so Shopify prints it under the product name in the order summary. */
 const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, and feeling confident in it again." };
+
+/* FIRST: the "first bottle" offer shown once in a popup (US visitors, never during a
+   launch or pre-order price). on:false hides it. The code must exist in Shopify:
+   20% off the serum, once per customer. The page's listed price stays PRODUCT.price. */
+const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 20000, afterScroll: 50 };
 
 /* ═══ PAGE ═══ */
 (()=>{
@@ -501,10 +529,10 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
     if(LAUNCH.endsAt){const end=Date.parse(LAUNCH.endsAt);if(!isNaN(end)&&Date.now()>end)return false}
     return true;
   };
-  const S={qty:1,left:null};
+  const S={qty:1,left:null,first:false};
   const $m=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
   const pre=()=>Number.isInteger(S.left)&&S.left<=0;
-  const pct=()=>pre()?PREORDER.pct:(launchLive()?LAUNCH.pct:0);
+  const pct=()=>pre()?PREORDER.pct:(launchLive()?LAUNCH.pct:(S.first?FIRST.pct:0));
   const unit=()=>Math.round(PRODUCT.price*(1-pct()/100)*100)/100;
   const total=()=>Math.round(unit()*S.qty*100)/100;
   const soldOut=()=>false; // sold out now means pre-order mode
@@ -513,6 +541,7 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
     let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
     if(pre())u+='?discount='+encodeURIComponent(PREORDER.code);
     else if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
+    else if(S.first)u+='?discount='+encodeURIComponent(FIRST.code);
     // carry the visit's source into Shopify so each order shows where it came from
     const a=attr();const qs=Object.keys(a).map(k=>k+'='+encodeURIComponent(a[k])).join('&');
     if(qs)u+=(u.indexOf('?')<0?'?':'&')+qs;
@@ -553,12 +582,12 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
   function render(){
-    const P=pre(),live=P||launchLive(),t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    const P=pre(),live=P||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
     all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=!P&&S.left!==null&&S.left>0&&+b.dataset.qty>S.left});
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(live?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):'')});
+    all('[data-launch]',e=>{e.hidden=!live;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
     all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
@@ -568,7 +597,35 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
     all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+' · Free US shipping'));
   }
 
+  // ── first-bottle offer: one popup per visit, US only, never during a launch or pre-order price ──
+  const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(_){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(_){}}};
+  const offerEl=document.getElementById('offer');
+  let offerSeen=!!ss.get('tgw_first_seen'),offerGeo=true;
+  S.first=FIRST.on&&!!ss.get('tgw_first_claimed');
+  try{fetch('/api/geo').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.country&&j.country!=='US'&&j.country!=='XX')offerGeo=false}).catch(()=>{})}catch(_){}
+  const offerOk=()=>FIRST.on&&offerEl&&!offerSeen&&!S.first&&!pre()&&!launchLive()&&offerGeo;
+  const offerEv=n=>{try{gtag('event',n,{percent:FIRST.pct})}catch(_){}try{clarity('event',n)}catch(_){}};
+  function showOffer(){
+    if(!offerOk())return;
+    offerSeen=true;ss.set('tgw_first_seen','1');
+    offerEl.querySelector('[data-offer-title]').textContent=FIRST.pct+'% off your first bottle';
+    offerEl.querySelector('[data-offer-sub]').textContent=$m(PRODUCT.price*(1-FIRST.pct/100))+' instead of '+$m(PRODUCT.price)+'. One tap applies it at checkout.';
+    offerEl.querySelector('[data-offer-claim]').textContent='Apply '+FIRST.pct+'% off';
+    offerEl.hidden=false;
+    try{offerEl.querySelector('[data-offer-claim]').focus({preventScroll:true})}catch(_){}
+    offerEv('first_offer_shown');
+  }
+  function closeOffer(){if(!offerEl||offerEl.hidden)return;offerEl.hidden=true;offerEv('first_offer_dismissed')}
+  function claimOffer(){S.first=true;ss.set('tgw_first_claimed','1');if(offerEl)offerEl.hidden=true;render();offerEv('first_offer_claimed')}
+  if(FIRST.on&&offerEl){
+    setTimeout(showOffer,FIRST.afterMs);
+    addEventListener('scroll',()=>{const h=document.documentElement;if((h.scrollTop+innerHeight)/h.scrollHeight*100>=FIRST.afterScroll)showOffer()},{passive:true});
+    addEventListener('keydown',e=>{if(e.key==='Escape')closeOffer()});
+  }
+
   document.addEventListener('click',e=>{
+    if(e.target.closest('[data-offer-claim]')){claimOffer();return}
+    if(e.target.closest('[data-offer-close]')||e.target===offerEl){closeOffer();return}
     const q=e.target.closest('[data-qty]');if(q){if(!q.disabled){S.qty=+q.dataset.qty;render();try{gtag('event','qty_select',{quantity:S.qty})}catch(_){}}return}
     const c=e.target.closest('[data-checkout]');if(!c)return;
     e.preventDefault();
@@ -576,7 +633,7 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
     if(!soldOut()){
       const v=total();
       // the real InitiateCheckout / begin_checkout / Purchase fire from the Shopify checkout pixel
-      const mode=pre()?'preorder':(launchLive()?'launch':'full');
+      const mode=pre()?'preorder':(launchLive()?'launch':(S.first?'first':'full'));
       try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',num_items:S.qty,mode:mode})}catch(_){}
       try{gtag('event','buy_click',{value:v,currency:'USD',quantity:S.qty,placement:c.dataset.checkout,mode:mode})}catch(_){}
       try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
