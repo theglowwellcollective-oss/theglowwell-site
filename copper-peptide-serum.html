@@ -222,6 +222,18 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 .bar-info b{display:block;font-size:19px;font-weight:700;color:var(--charcoal)}
 .bar-info small{font-size:11.5px;color:var(--ink-soft)}
 .bar .buy{width:auto;flex:1;max-width:340px;padding:13px 16px;font-size:16px;box-shadow:none}
+/* headline under the product name · closing line above Buy · early testers */
+.hero-lead{font-family:var(--serif);font-weight:600;font-size:clamp(1.5rem,6vw,2rem);line-height:1.12;color:var(--charcoal);margin-top:6px;max-width:20ch}
+.cheer{font-family:var(--serif);font-style:italic;font-weight:500;font-size:19px;line-height:1.25;color:var(--charcoal);text-align:center;margin:6px 0 10px}
+.testers{padding:44px 0 52px}
+.testers h2{font-size:clamp(1.9rem,6.4vw,2.8rem)}
+.testers-note{font-size:14px;line-height:1.5;color:var(--ink-soft);margin-top:8px;max-width:52ch}
+.tq-grid{display:grid;gap:14px;margin-top:22px}
+.tq{margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px}
+.tq blockquote{margin:0;font-size:15.5px;line-height:1.55;color:var(--ink)}
+.tq figcaption{font-size:13px;font-weight:700;color:var(--charcoal)}
+.tq figcaption span{font-weight:400;color:var(--ink-soft)}
+@media(min-width:900px){.tq-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -247,7 +259,8 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
     <div class="intro">
       <p class="eyebrow">The Glow Well</p>
       <h1>Copper Peptide Serum</h1>
-      <p class="hero-sub">A daily copper peptide serum to help skin look smoother and firmer with continued use.</p>
+      <p class="hero-lead">Age gracefully, with skin that looks smoother and firmer.</p>
+      <p class="hero-sub">A daily copper peptide serum. 2–3 drops, morning and night, with continued use.</p>
       <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
     </div>
 
@@ -293,6 +306,19 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 
     <div class="box" id="buy" data-box="top"></div>
     <p class="fit">Light honeysuckle scent · Contains fragrance · No retinol · No dyes</p>
+  </div>
+</section>
+
+<!-- ═══ 2b EARLY TESTERS — their own words; the free product and the personal tie are stated ═══ -->
+<section class="testers" id="testers">
+  <div class="wrap">
+    <h2>From our early testers</h2>
+    <p class="testers-note">Friends and family tried the serum free and told us what they thought. These are their words.</p>
+    <div class="tq-grid">
+      <figure class="tq"><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41 <span>· Early tester</span></figcaption></figure>
+      <figure class="tq"><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34 <span>· Early tester</span></figcaption></figure>
+      <figure class="tq"><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56 <span>· Early tester</span></figcaption></figure>
+    </div>
   </div>
 </section>
 
@@ -428,6 +454,10 @@ const PRODUCT = {
   storefrontApi: 'https://shop.theglowwell.com/api/2025-10/graphql.json'
 };
 
+/* The closing line. Shown above every Buy button, and sent with the buy link as a
+   line item property so Shopify prints it under the product name in the order summary. */
+const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, and feeling confident in it again." };
+
 /* ═══ PAGE ═══ */
 (()=>{
   // scroll reveal
@@ -486,6 +516,8 @@ const PRODUCT = {
     // carry the visit's source into Shopify so each order shows where it came from
     const a=attr();const qs=Object.keys(a).map(k=>k+'='+encodeURIComponent(a[k])).join('&');
     if(qs)u+=(u.indexOf('?')<0?'?':'&')+qs;
+    // the closing line, under the product name in the checkout's order summary
+    try{const p=btoa(unescape(encodeURIComponent(JSON.stringify({[NOTE.label]:NOTE.text})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');u+=(u.indexOf('?')<0?'?':'&')+'properties='+p}catch(_){}
     return u;
   };
   function attr(){
@@ -510,6 +542,7 @@ const PRODUCT = {
     <p class="launch" data-launch hidden></p>
     <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts ($28 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
     <p class="stock" data-stock hidden></p>
+    <p class="cheer">${NOTE.text}</p>
     <a class="buy" href="${PRODUCT.shop}/cart/${PRODUCT.variant}:1" data-checkout="${id}" data-btn-label>Buy now · $55</a>
     <p class="reassure">Free US shipping · 30-day returns · 2 free gifts</p>
     <ul class="trust">
