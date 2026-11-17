@@ -237,6 +237,16 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 /* first-bottle offer: a bottom sheet on phones, a centred card on desktop */
 .offer{position:fixed;inset:0;z-index:1000;display:flex;align-items:flex-end;justify-content:center;background:rgba(37,35,32,.45)}
 .offer[hidden]{display:none}
+a.offer-yes{text-decoration:none;text-align:center}
+.offer-check{width:52px;height:52px;border-radius:50%;background:var(--sage-dark);color:#fff;font-size:28px;line-height:52px;font-weight:700;margin:0 auto 12px}
+.offer-done h3{padding:0 8px}
+.offer-done h3 b{display:block;font-family:var(--sans);font-size:46px;font-weight:700;letter-spacing:-.01em;line-height:1;color:var(--sage-dark);margin-bottom:4px}
+.applied{display:flex;align-items:center;gap:10px;background:var(--sage-dark);color:#fff;border-radius:10px;padding:11px 14px;margin:0 0 12px;line-height:1.15}
+.applied[hidden],.applied-pill[hidden]{display:none}
+.applied i{flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#fff;color:var(--sage-dark);font-style:normal;font-weight:700;font-size:16px}
+.applied b{display:block;font-size:19px;font-weight:700;letter-spacing:.01em}
+.applied small{display:block;font-size:12.5px;font-weight:500;opacity:.92;margin-top:2px}
+.applied-pill{display:inline-flex;align-items:center;gap:6px;margin-top:8px;background:var(--sage-dark);color:#fff;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px}
 .offer-card{position:relative;width:100%;max-width:440px;background:var(--cream);border-radius:18px 18px 0 0;padding:28px 20px calc(20px + env(safe-area-inset-bottom));text-align:center;box-shadow:0 -10px 40px rgba(0,0,0,.25);animation:offerUp .28s ease}
 @keyframes offerUp{from{transform:translateY(100%)}to{transform:none}}
 .offer-card h3{font-size:30px;line-height:1.1;padding:0 28px}
@@ -274,6 +284,7 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
       <p class="hero-lead">Age gracefully, with skin that looks smoother and firmer.</p>
       <p class="hero-sub">A daily copper peptide serum. 2–3 drops, morning and night, with continued use.</p>
       <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
+      <p class="applied-pill" data-applied-pill hidden></p>
     </div>
 
     <div class="gal-col">
@@ -449,10 +460,19 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 <div class="offer" id="offer" hidden role="dialog" aria-modal="true" aria-labelledby="offerTitle">
   <div class="offer-card">
     <button class="offer-x" type="button" aria-label="Close" data-offer-close>&times;</button>
-    <h3 id="offerTitle" data-offer-title>20% off your first bottle</h3>
-    <p class="offer-sub" data-offer-sub>$44 instead of $55. One tap applies it at checkout.</p>
-    <button class="offer-yes" type="button" data-offer-claim>Apply 20% off</button>
-    <button class="offer-no" type="button" data-offer-close>No thanks</button>
+    <div data-offer-ask>
+      <h3 id="offerTitle" data-offer-title>20% off your first bottle</h3>
+      <p class="offer-sub" data-offer-sub>$44 instead of $55. One tap applies it at checkout.</p>
+      <button class="offer-yes" type="button" data-offer-claim>Apply 20% off</button>
+      <button class="offer-no" type="button" data-offer-close>No thanks</button>
+    </div>
+    <div class="offer-done" data-offer-done hidden aria-live="polite">
+      <p class="offer-check" aria-hidden="true">✓</p>
+      <h3 id="offerDoneTitle"><b data-offer-done-pct>20% OFF</b>Coupon applied</h3>
+      <p class="offer-sub" data-offer-done-sub>Your first bottle is $44 instead of $55. It's already added for checkout.</p>
+      <a class="offer-yes" href="https://shop.theglowwell.com/cart/47395476275289:1" data-checkout="offer" data-btn-label>Buy now · $44</a>
+      <button class="offer-no" type="button" data-offer-close>Keep looking</button>
+    </div>
   </div>
 </div>
 
@@ -567,6 +587,7 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
       <button type="button" data-qty="1" aria-pressed="true">1 bottle</button>
       <button type="button" data-qty="2" aria-pressed="false">2 bottles</button>
     </div>
+    <p class="applied" data-applied hidden><i aria-hidden="true">✓</i><span><b data-applied-title>20% OFF coupon applied</b><small>Already added for checkout.</small></span></p>
     <div class="price-row"><b data-total>$55</b><s data-was hidden></s><span data-for>for 1 bottle</span></div>
     <p class="launch" data-launch hidden></p>
     <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts ($28 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
@@ -582,19 +603,23 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
   function render(){
-    const P=pre(),live=P||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    const P=pre(),first=!P&&!launchLive()&&S.first,live=P||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
     all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=!P&&S.left!==null&&S.left>0&&+b.dataset.qty>S.left});
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
+    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
+    // the claimed first-bottle coupon, said out loud: banner in each buy box, pill under the top price
+    all('[data-applied]',e=>{e.hidden=!first});
+    all('[data-applied-title]',e=>e.textContent=FIRST.pct+'% OFF coupon applied');
+    all('[data-applied-pill]',e=>{e.hidden=!first;e.textContent=first?('✓ '+FIRST.pct+'% OFF coupon applied'):''});
     all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
     all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
     all('[data-btn-label]',e=>e.textContent=(P?'Pre-order now · ':'Buy now · ')+t);
     all('[data-bar-price]',e=>e.textContent=t);
-    all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+' · Free US shipping'));
+    all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+(first?(' · '+FIRST.pct+'% off applied'):' · Free US shipping')));
   }
 
   // ── first-bottle offer: one popup per visit, US only, never during a launch or pre-order price ──
@@ -615,8 +640,19 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
     try{offerEl.querySelector('[data-offer-claim]').focus({preventScroll:true})}catch(_){}
     offerEv('first_offer_shown');
   }
-  function closeOffer(){if(!offerEl||offerEl.hidden)return;offerEl.hidden=true;offerEv('first_offer_dismissed')}
-  function claimOffer(){S.first=true;ss.set('tgw_first_claimed','1');if(offerEl)offerEl.hidden=true;render();offerEv('first_offer_claimed')}
+  function closeOffer(){if(!offerEl||offerEl.hidden)return;offerEl.hidden=true;if(!S.first)offerEv('first_offer_dismissed')}
+  function claimOffer(){
+    S.first=true;ss.set('tgw_first_claimed','1');render();
+    // the popup turns into the confirmation, with a Buy button, instead of just closing
+    const ask=offerEl&&offerEl.querySelector('[data-offer-ask]'),done=offerEl&&offerEl.querySelector('[data-offer-done]');
+    if(ask&&done){
+      done.querySelector('[data-offer-done-pct]').textContent=FIRST.pct+'% OFF';
+      done.querySelector('[data-offer-done-sub]').textContent='Your first bottle is '+$m(PRODUCT.price*(1-FIRST.pct/100))+' instead of '+$m(PRODUCT.price)+". It's already added for checkout.";
+      ask.hidden=true;done.hidden=false;offerEl.setAttribute('aria-labelledby','offerDoneTitle');
+      try{done.querySelector('[data-checkout]').focus({preventScroll:true})}catch(_){}
+    }else if(offerEl)offerEl.hidden=true;
+    offerEv('first_offer_claimed');
+  }
   if(FIRST.on&&offerEl){
     setTimeout(showOffer,FIRST.afterMs);
     addEventListener('scroll',()=>{const h=document.documentElement;if((h.scrollTop+innerHeight)/h.scrollHeight*100>=FIRST.afterScroll)showOffer()},{passive:true});
