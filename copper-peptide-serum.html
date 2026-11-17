@@ -284,6 +284,7 @@ a.offer-yes{text-decoration:none;text-align:center}
       <p class="hero-lead">Age gracefully, with skin that looks smoother and firmer.</p>
       <p class="hero-sub">A daily copper peptide serum. 2–3 drops, morning and night, with continued use.</p>
       <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
+      <p class="launch" data-sale-tag hidden></p>
       <p class="applied-pill" data-applied-pill hidden></p>
     </div>
 
@@ -506,6 +507,12 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
    20% off the serum, once per customer. The page's listed price stays PRODUCT.price. */
 const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll: 50 };
 
+/* SALE: a dated sale at one fixed price per bottle. It switches on at startsAt and off at
+   endsAt by itself, and while it runs the first-bottle popup stays hidden. The code must
+   exist in Shopify for the same dates, taking a fixed amount off each bottle so the
+   checkout lands on SALE.price. endsLabel = the day the page prints. on:false = no sale. */
+const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99, startsAt: '2026-11-26T05:00:00Z', endsAt: '2026-12-01T05:00:00Z', endsLabel: 'Mon, Nov 30' };
+
 /* ═══ PAGE ═══ */
 (()=>{
   // scroll reveal
@@ -549,17 +556,24 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
     if(LAUNCH.endsAt){const end=Date.parse(LAUNCH.endsAt);if(!isNaN(end)&&Date.now()>end)return false}
     return true;
   };
+  const saleLive=()=>{
+    if(!SALE.on)return false;
+    const a=Date.parse(SALE.startsAt),b=Date.parse(SALE.endsAt),n=Date.now();
+    return !isNaN(a)&&!isNaN(b)&&n>=a&&n<b;
+  };
+  const saleLabel=()=>SALE.name+' price'+(SALE.endsLabel?' through '+SALE.endsLabel:'');
   const S={qty:1,left:null,first:false};
   const $m=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
   const pre=()=>Number.isInteger(S.left)&&S.left<=0;
   const pct=()=>pre()?PREORDER.pct:(launchLive()?LAUNCH.pct:(S.first?FIRST.pct:0));
-  const unit=()=>Math.round(PRODUCT.price*(1-pct()/100)*100)/100;
+  const unit=()=>(!pre()&&saleLive())?SALE.price:Math.round(PRODUCT.price*(1-pct()/100)*100)/100;
   const total=()=>Math.round(unit()*S.qty*100)/100;
   const soldOut=()=>false; // sold out now means pre-order mode
   const url=()=>{
     if(soldOut())return PRODUCT.waitlist;
     let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
     if(pre())u+='?discount='+encodeURIComponent(PREORDER.code);
+    else if(saleLive())u+='?discount='+encodeURIComponent(SALE.code);
     else if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
     else if(S.first)u+='?discount='+encodeURIComponent(FIRST.code);
     // carry the visit's source into Shopify so each order shows where it came from
@@ -603,14 +617,15 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
   function render(){
-    const P=pre(),first=!P&&!launchLive()&&S.first,live=P||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    const P=pre(),sale=!P&&saleLive(),first=!P&&!sale&&!launchLive()&&S.first,live=P||sale||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
     all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=!P&&S.left!==null&&S.left>0&&+b.dataset.qty>S.left});
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
+    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):sale?saleLabel():(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
+    all('[data-sale-tag]',e=>{e.hidden=!sale;e.textContent=sale?saleLabel():''});
     // the claimed first-bottle coupon, said out loud: banner in each buy box, pill under the top price
     all('[data-applied]',e=>{e.hidden=!first});
     all('[data-applied-title]',e=>e.textContent=FIRST.pct+'% OFF coupon applied');
@@ -622,13 +637,13 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
     all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+(first?(' · '+FIRST.pct+'% off applied'):' · Free US shipping')));
   }
 
-  // ── first-bottle offer: one popup per visit, US only, never during a launch or pre-order price ──
+  // ── first-bottle offer: one popup per visit, US only, never during a sale, launch or pre-order price ──
   const ss={get:k=>{try{return sessionStorage.getItem(k)}catch(_){return null}},set:(k,v)=>{try{sessionStorage.setItem(k,v)}catch(_){}}};
   const offerEl=document.getElementById('offer');
   let offerSeen=!!ss.get('tgw_first_seen'),offerGeo=true;
   S.first=FIRST.on&&!!ss.get('tgw_first_claimed');
   try{fetch('/api/geo').then(r=>r.ok?r.json():null).then(j=>{if(j&&j.country&&j.country!=='US'&&j.country!=='XX')offerGeo=false}).catch(()=>{})}catch(_){}
-  const offerOk=()=>FIRST.on&&offerEl&&!offerSeen&&!S.first&&!pre()&&!launchLive()&&offerGeo;
+  const offerOk=()=>FIRST.on&&offerEl&&!offerSeen&&!S.first&&!pre()&&!saleLive()&&!launchLive()&&offerGeo;
   const offerEv=n=>{try{gtag('event',n,{percent:FIRST.pct})}catch(_){}try{clarity('event',n)}catch(_){}};
   function showOffer(){
     if(!offerOk())return;
@@ -669,7 +684,7 @@ const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll:
     if(!soldOut()){
       const v=total();
       // the real InitiateCheckout / begin_checkout / Purchase fire from the Shopify checkout pixel
-      const mode=pre()?'preorder':(launchLive()?'launch':(S.first?'first':'full'));
+      const mode=pre()?'preorder':(saleLive()?'sale':(launchLive()?'launch':(S.first?'first':'full')));
       try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',num_items:S.qty,mode:mode})}catch(_){}
       try{gtag('event','buy_click',{value:v,currency:'USD',quantity:S.qty,placement:c.dataset.checkout,mode:mode})}catch(_){}
       try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
