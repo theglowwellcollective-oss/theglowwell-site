@@ -269,6 +269,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 .flash-yes:active{transform:translateY(1px)}
 .flash-chip{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:1000;background:var(--dark-sage);color:#fff;font-weight:600;font-size:13px;border:0;border-radius:999px;padding:10px 17px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.28)}
 @media(min-width:560px){.flash{left:50%;right:auto;transform:translateX(-50%);border-radius:16px;bottom:16px}}
+.flash-up #bar{transform:translateY(130%)!important}
 @media(prefers-reduced-motion:no-preference){.flash{animation:offerUp .28s ease}}
 @media(prefers-reduced-motion:reduce){.offer-card{animation:none}}
 </style>
@@ -720,13 +721,13 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     if(flashChip&&!flashChip.hidden)return;      // already collapsed to the chip; leave it
     if(!flashEl.hidden)return;
     ss.set('tgw_flash_seen','1');
-    flashEl.hidden=false;flashEv('flash_shown');
+    flashEl.hidden=false;document.body.classList.add('flash-up');flashEv('flash_shown');
   }
-  function dismissFlash(){if(flashEl)flashEl.hidden=true;if(flashChip&&!S.flash)flashChip.hidden=false;flashEv('flash_dismissed')}
+  function dismissFlash(){if(flashEl)flashEl.hidden=true;document.body.classList.remove('flash-up');if(flashChip&&!S.flash)flashChip.hidden=false;flashEv('flash_dismissed')}
   function claimFlash(){
     if(S.flash)return;
     S.flash=true;ss.set('tgw_flash_claimed','1');
-    if(flashEl)flashEl.hidden=true;if(flashChip)flashChip.hidden=true;
+    if(flashEl)flashEl.hidden=true;document.body.classList.remove('flash-up');if(flashChip)flashChip.hidden=true;
     render();flashEv('flash_claimed');
   }
   if(FLASH.on&&flashEl&&saleLive()&&!S.flash){
