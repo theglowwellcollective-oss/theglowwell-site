@@ -126,7 +126,7 @@ em{font-style:italic}
 .qty button:disabled{opacity:.4;cursor:not-allowed}
 .price-row{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .price-row b{font-size:26px;font-weight:700;color:var(--charcoal);line-height:1.1}
-.price-row s{font-size:16px;color:var(--ink-soft)}
+.price-row s{font-size:18px;color:var(--ink-soft);font-weight:600;text-decoration-thickness:2px}
 .price-row span{font-size:13.5px;color:var(--ink-soft)}
 .launch{font-size:13px;font-weight:700;color:var(--zap);margin-top:2px}
 .gift{font-size:13.5px;line-height:1.45;color:var(--charcoal);background:var(--sand);border-radius:10px;padding:10px 12px;margin:12px 0}
@@ -255,6 +255,21 @@ a.offer-yes{text-decoration:none;text-align:center}
 .offer-no{display:block;width:100%;background:none;border:0;color:var(--ink-soft);font-size:14px;padding:14px 0 2px;cursor:pointer;text-decoration:underline}
 .offer-x{position:absolute;top:6px;right:8px;width:44px;height:44px;background:none;border:0;font-size:26px;line-height:1;color:var(--ink-soft);cursor:pointer}
 @media(min-width:900px){.offer{align-items:center}.offer-card{border-radius:18px}}
+/* Black-Friday FLASH bar: sits at the bottom, never covers or locks the page */
+.flash{position:fixed;left:0;right:0;bottom:0;z-index:1000;display:flex;align-items:center;gap:12px;max-width:520px;margin:0 auto;background:var(--cream);border:1px solid var(--line);border-top:3px solid var(--sage);border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18);padding:14px 16px calc(14px + env(safe-area-inset-bottom))}
+.flash[hidden],.flash-chip[hidden]{display:none}
+.flash-x{position:absolute;top:4px;right:6px;width:34px;height:34px;background:none;border:0;font-size:22px;line-height:1;color:var(--ink-soft);cursor:pointer}
+.flash-body{flex:1 1 auto;min-width:0;padding-right:4px}
+.flash-head{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--charcoal);line-height:1.05}
+.flash-sub{font-size:12.5px;color:var(--ink-soft);margin-top:1px}
+.flash-ladder{font-size:14px;margin-top:4px;color:var(--ink-soft)}
+.flash-ladder s{margin:0 1px}.flash-ladder .arw{opacity:.45;margin:0 4px}
+.flash-ladder b{color:var(--dark-sage);font-size:19px;margin-left:1px}
+.flash-yes{flex:0 0 auto;align-self:center;background:var(--dark-sage);color:#fff;font-weight:700;font-size:14.5px;border:0;border-radius:10px;padding:13px 15px;cursor:pointer;box-shadow:0 2px 0 #3F5A3B}
+.flash-yes:active{transform:translateY(1px)}
+.flash-chip{position:fixed;left:50%;transform:translateX(-50%);bottom:14px;z-index:1000;background:var(--dark-sage);color:#fff;font-weight:600;font-size:13px;border:0;border-radius:999px;padding:10px 17px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.28)}
+@media(min-width:560px){.flash{left:50%;right:auto;transform:translateX(-50%);border-radius:16px;bottom:16px}}
+@media(prefers-reduced-motion:no-preference){.flash{animation:offerUp .28s ease}}
 @media(prefers-reduced-motion:reduce){.offer-card{animation:none}}
 </style>
 <!-- Meta Pixel -->
@@ -477,6 +492,18 @@ a.offer-yes{text-decoration:none;text-align:center}
   </div>
 </div>
 
+<!-- ═══ BLACK-FRIDAY FLASH — slide-up bar (non-blocking) + persistent chip ═══ -->
+<div class="flash" id="flash" hidden aria-live="polite">
+  <button class="flash-x" type="button" aria-label="Close" data-flash-close>&times;</button>
+  <div class="flash-body">
+    <p class="flash-head">Okay — you win.</p>
+    <p class="flash-sub">You stuck around, so here's $5 more.</p>
+    <p class="flash-ladder"><s>$55</s><span class="arw">→</span><s>$44</s><span class="arw">→</span><b>$39</b></p>
+  </div>
+  <button class="flash-yes" type="button" data-flash-claim>I'll take the $5</button>
+</div>
+<button class="flash-chip" id="flashChip" hidden type="button" data-flash-claim>$5 off inside · tap to add</button>
+
 <script>
 /* ═══ CONFIG — the only things to edit ═══════════════════════════════
    LAUNCH: set on:true while the GLOW20 code is live in Shopify.
@@ -507,11 +534,16 @@ const NOTE = { label: 'The Glow Well', text: "Here's to smoother-looking skin, a
    20% off the serum, once per customer. The page's listed price stays PRODUCT.price. */
 const FIRST = { on: true, code: 'FIRST20', pct: 20, afterMs: 10000, afterScroll: 50 };
 
-/* SALE: a dated sale at one fixed price per bottle. It switches on at startsAt and off at
-   endsAt by itself, and while it runs the first-bottle popup stays hidden. The code must
-   exist in Shopify for the same dates, taking a fixed amount off each bottle so the
-   checkout lands on SALE.price. endsLabel = the day the page prints. on:false = no sale. */
-const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99, startsAt: '2026-11-26T05:00:00Z', endsAt: '2026-12-01T05:00:00Z', endsLabel: 'Mon, Nov 30' };
+/* SALE: a percentage sale, live while on:true (no dates). Every price shows PRODUCT.price
+   struck through -> the sale price. The code must exist in Shopify at the same percent.
+   While a sale runs, the first-bottle popup stays hidden and the FLASH offer below takes over. */
+const SALE  = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', pct: 20, label: 'Black Friday Sale · 20% off' };
+
+/* FLASH: shown ONLY while SALE runs. An extra step down to FLASH.unit, offered late
+   (afterMs or afterScroll), as a slide-up bar that never blocks scrolling and collapses
+   to a chip if dismissed, so the deal is never lost. The code must exist in Shopify and
+   land checkout at FLASH.unit per bottle. on:false hides it. */
+const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 75 };
 
 /* ═══ PAGE ═══ */
 (()=>{
@@ -556,23 +588,27 @@ const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99
     if(LAUNCH.endsAt){const end=Date.parse(LAUNCH.endsAt);if(!isNaN(end)&&Date.now()>end)return false}
     return true;
   };
-  const saleLive=()=>{
-    if(!SALE.on)return false;
-    const a=Date.parse(SALE.startsAt),b=Date.parse(SALE.endsAt),n=Date.now();
-    return !isNaN(a)&&!isNaN(b)&&n>=a&&n<b;
-  };
-  const saleLabel=()=>SALE.name+' price'+(SALE.endsLabel?' through '+SALE.endsLabel:'');
-  const S={qty:1,left:null,first:false};
+  const saleLive=()=>SALE.on===true;
+  const saleLabel=()=>SALE.label;
+  const S={qty:1,left:null,first:false,flash:false};
+  const flashOn=()=>FLASH.on&&saleLive()&&S.flash;
   const $m=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
   const pre=()=>Number.isInteger(S.left)&&S.left<=0;
   const pct=()=>pre()?PREORDER.pct:(launchLive()?LAUNCH.pct:(S.first?FIRST.pct:0));
-  const unit=()=>(!pre()&&saleLive())?SALE.price:Math.round(PRODUCT.price*(1-pct()/100)*100)/100;
+  const unit=()=>{
+    if(pre())return Math.round(PRODUCT.price*(1-PREORDER.pct/100)*100)/100;
+    if(flashOn())return FLASH.unit;
+    if(saleLive())return Math.round(PRODUCT.price*(1-SALE.pct/100)*100)/100;
+    const p=launchLive()?LAUNCH.pct:(S.first?FIRST.pct:0);
+    return Math.round(PRODUCT.price*(1-p/100)*100)/100;
+  };
   const total=()=>Math.round(unit()*S.qty*100)/100;
   const soldOut=()=>false; // sold out now means pre-order mode
   const url=()=>{
     if(soldOut())return PRODUCT.waitlist;
     let u=PRODUCT.shop+'/cart/'+PRODUCT.variant+':'+S.qty;
     if(pre())u+='?discount='+encodeURIComponent(PREORDER.code);
+    else if(flashOn())u+='?discount='+encodeURIComponent(FLASH.code);
     else if(saleLive())u+='?discount='+encodeURIComponent(SALE.code);
     else if(launchLive())u+='?discount='+encodeURIComponent(LAUNCH.code);
     else if(S.first)u+='?discount='+encodeURIComponent(FIRST.code);
@@ -617,19 +653,19 @@ const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
   function render(){
-    const P=pre(),sale=!P&&saleLive(),first=!P&&!sale&&!launchLive()&&S.first,live=P||sale||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
+    const P=pre(),sale=!P&&saleLive(),flash=sale&&FLASH.on&&S.flash,first=!P&&!sale&&!launchLive()&&S.first,live=P||sale||launchLive()||S.first,t=$m(total()),u=$m(unit()),full=$m(PRODUCT.price*S.qty),out=soldOut();
     all('[data-qty]',b=>{const on=+b.dataset.qty===S.qty;b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.disabled=!P&&S.left!==null&&S.left>0&&+b.dataset.qty>S.left});
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):sale?saleLabel():(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
+    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):sale?(flash?'Extra $5 off applied · $39':saleLabel()):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
-    all('[data-sale-tag]',e=>{e.hidden=!sale;e.textContent=sale?saleLabel():''});
+    all('[data-sale-tag]',e=>{e.hidden=!sale;e.textContent=sale?(flash?'Extra $5 off applied':saleLabel()):''});
     // the claimed first-bottle coupon, said out loud: banner in each buy box, pill under the top price
-    all('[data-applied]',e=>{e.hidden=!first});
-    all('[data-applied-title]',e=>e.textContent=FIRST.pct+'% OFF coupon applied');
-    all('[data-applied-pill]',e=>{e.hidden=!first;e.textContent=first?('✓ '+FIRST.pct+'% OFF coupon applied'):''});
+    all('[data-applied]',e=>{e.hidden=!first&&!flash});
+    all('[data-applied-title]',e=>e.textContent=flash?'Extra $5 off applied':(FIRST.pct+'% OFF coupon applied'));
+    all('[data-applied-pill]',e=>{e.hidden=!first&&!flash;e.textContent=(first||flash)?('✓ '+(flash?'Extra $5 off applied':(FIRST.pct+'% OFF coupon applied'))):''});
     all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
     all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
     all('[data-btn-label]',e=>e.textContent=(P?'Pre-order now · ':'Buy now · ')+t);
@@ -674,7 +710,33 @@ const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99
     addEventListener('keydown',e=>{if(e.key==='Escape')closeOffer()});
   }
 
+  // ── Black-Friday FLASH: an extra step down, offered late, non-blocking, never lost ──
+  const flashEl=document.getElementById('flash'),flashChip=document.getElementById('flashChip');
+  S.flash=FLASH.on&&saleLive()&&!!ss.get('tgw_flash_claimed');
+  const flashOk=()=>FLASH.on&&saleLive()&&flashEl&&!S.flash&&!pre()&&offerGeo;
+  const flashEv=n=>{try{gtag('event',n)}catch(_){}try{clarity('event',n)}catch(_){}};
+  function showFlash(){
+    if(!flashOk())return;
+    if(flashChip&&!flashChip.hidden)return;      // already collapsed to the chip; leave it
+    if(!flashEl.hidden)return;
+    ss.set('tgw_flash_seen','1');
+    flashEl.hidden=false;flashEv('flash_shown');
+  }
+  function dismissFlash(){if(flashEl)flashEl.hidden=true;if(flashChip&&!S.flash)flashChip.hidden=false;flashEv('flash_dismissed')}
+  function claimFlash(){
+    if(S.flash)return;
+    S.flash=true;ss.set('tgw_flash_claimed','1');
+    if(flashEl)flashEl.hidden=true;if(flashChip)flashChip.hidden=true;
+    render();flashEv('flash_claimed');
+  }
+  if(FLASH.on&&flashEl&&saleLive()&&!S.flash){
+    setTimeout(showFlash,FLASH.afterMs);
+    addEventListener('scroll',()=>{const h=document.documentElement;if((h.scrollTop+innerHeight)/h.scrollHeight*100>=FLASH.afterScroll)showFlash()},{passive:true});
+  }
+
   document.addEventListener('click',e=>{
+    if(e.target.closest('[data-flash-claim]')){claimFlash();return}
+    if(e.target.closest('[data-flash-close]')){dismissFlash();return}
     if(e.target.closest('[data-offer-claim]')){claimOffer();return}
     if(e.target.closest('[data-offer-close]')||e.target===offerEl){closeOffer();return}
     const q=e.target.closest('[data-qty]');if(q){if(!q.disabled){S.qty=+q.dataset.qty;render();try{gtag('event','qty_select',{quantity:S.qty})}catch(_){}}return}
@@ -684,7 +746,7 @@ const SALE = { on: true, name: 'Black Friday', code: 'BLACKFRIDAY', price: 39.99
     if(!soldOut()){
       const v=total();
       // the real InitiateCheckout / begin_checkout / Purchase fire from the Shopify checkout pixel
-      const mode=pre()?'preorder':(saleLive()?'sale':(launchLive()?'launch':(S.first?'first':'full')));
+      const mode=pre()?'preorder':(flashOn()?'flash':(saleLive()?'sale':(launchLive()?'launch':(S.first?'first':'full'))));
       try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',num_items:S.qty,mode:mode})}catch(_){}
       try{gtag('event','buy_click',{value:v,currency:'USD',quantity:S.qty,placement:c.dataset.checkout,mode:mode})}catch(_){}
       try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
