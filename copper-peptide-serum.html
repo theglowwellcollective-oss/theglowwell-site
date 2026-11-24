@@ -330,6 +330,27 @@ a.offer-yes{text-decoration:none;text-align:center}
 .flash-yes{font-size:17px;padding:16px 18px}
 .flash-chip{font-size:15.5px;padding:13px 22px}
 @media(max-width:559px){.flash{flex-direction:column;align-items:stretch;gap:14px}.flash-yes{width:100%}}
+.annbar{background:#111;color:#fff;font-weight:700;font-size:13.5px;letter-spacing:.04em;padding:8px 10px}
+.nav-in{height:42px}
+.hero{padding-top:8px}
+@media(max-width:899px){.intro{text-align:center}.hero h1{font-size:clamp(2rem,8.4vw,3rem)}.hero-lead{margin:2px auto 0;font-size:clamp(1.3rem,5.4vw,1.8rem);max-width:none}}
+.gal-col .hero-sub{margin-top:12px;max-width:none;font-size:15px}
+.hero-quote{margin:12px 0 0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px 10px}
+.hq{display:none}.hq.on{display:block}
+.hero-quote blockquote{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.hero-quote figcaption,.tq-who{display:flex;align-items:center;gap:9px;margin-top:10px;font-size:13.5px;font-weight:700;color:var(--charcoal)}
+.hero-quote figcaption img,.tq-who img{display:block;width:34px;height:34px;border-radius:50%;object-fit:cover;flex:0 0 auto}
+.tq-who{margin-top:0}.tq-who img{width:40px;height:40px}
+.hq-dots{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.hq-dots i{width:6px;height:6px;border-radius:50%;background:var(--line)}.hq-dots i.on{background:var(--charcoal)}
+.hero-trust{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:12px;font-size:13px;color:var(--sage-dark);white-space:nowrap}
+.hero-trust svg{flex:0 0 auto}.hero-trust b{font-weight:700}
+.gal-col .hero-sub{text-align:center}
+.hero-quote{text-align:center}
+.hero-quote figcaption{justify-content:center}
+.hero-stars{text-align:center;color:#E3A008;font-size:19px;letter-spacing:.16em;margin-top:10px;line-height:1}
+.hero-trust{margin-top:6px}
+@media(min-width:900px){.hero-grid{grid-template-rows:auto auto 1fr}}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -342,7 +363,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 <body>
 
 <!-- ═══ 1 HEADER — no exits, offer facts visible ═══ -->
-<div class="annbar" id="annbar">Free US shipping · 30-day returns</div>
+<div class="annbar" id="annbar">FREE US SHIPPING · 30-DAY RETURNS</div>
 <header class="nav">
   <div class="nav-in">
     <a class="brand" href="https://theglowwell.com/">The Glow <em>Well</em></a>
@@ -355,8 +376,7 @@ a.offer-yes{text-decoration:none;text-align:center}
   <div class="wrap hero-grid">
     <div class="intro">
       <h1>Copper Peptide Serum</h1>
-      <p class="hero-lead">Look in the mirror and feel good about your skin again.</p>
-      <p class="hero-sub">A copper peptide serum for skin longevity. Helps your skin look smoother, firmer and more even.</p>
+      <p class="hero-lead">Feel confident in your skin.</p>
     </div>
 
     <div class="gal-col">
@@ -398,7 +418,10 @@ a.offer-yes{text-decoration:none;text-align:center}
         </div>
       </div>
       <div class="thumbs" id="thumbs" aria-label="Product media"></div>
-      <p class="fact"><b>0.2% Copper Tripeptide-1 by weight.</b> Confirmed in writing by our lab.</p>
+      <p class="hero-sub">Helps your skin look smoother, firmer &amp; even.</p>
+      <figure class="hero-quote" id="heroQuote"><div class="hq on"><blockquote>“After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption><img src="serum-media/rv-maryam.jpg" alt="" width="34" height="34">Maryam K., 41</figcaption></div><div class="hq"><blockquote>“It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption><img src="serum-media/rv-chloe.jpg" alt="" width="34" height="34">Chloe S., 34</figcaption></div><div class="hq"><blockquote>“What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption><img src="serum-media/rv-maya.jpg" alt="" width="34" height="34">Maya T., 56</figcaption></div><div class="hq-dots"><i class="on"></i><i></i><i></i></div></figure>
+      <p class="hero-stars" aria-label="Five stars">★★★★★</p>
+      <p class="hero-trust"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2"/><path d="M12 8.2l1.1 2.7 2.7 1.1-2.7 1.1L12 15.8l-1.1-2.7-2.7-1.1 2.7-1.1z" fill="currentColor" stroke="none"/></svg><span>Makers of the Glow Scan · <b>24,000+ skin scans</b></span></p>
     </div>
 
     <div class="box" id="buy" data-box="top"></div>
@@ -490,9 +513,9 @@ a.offer-yes{text-decoration:none;text-align:center}
   <div class="wrap">
     <h2>Reviews<span class="rev-stars" aria-hidden="true">★★★★★</span></h2>
     <div class="tq-grid">
-      <figure class="tq"><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41</figcaption></figure>
-      <figure class="tq"><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34</figcaption></figure>
-      <figure class="tq"><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56</figcaption></figure>
+      <figure class="tq"><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption class="tq-who"><img src="serum-media/rv-maryam.jpg" alt="" width="40" height="40">Maryam K., 41</figcaption></figure>
+      <figure class="tq"><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption class="tq-who"><img src="serum-media/rv-chloe.jpg" alt="" width="40" height="40">Chloe S., 34</figcaption></figure>
+      <figure class="tq"><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption class="tq-who"><img src="serum-media/rv-maya.jpg" alt="" width="40" height="40">Maya T., 56</figcaption></figure>
     </div>
   </div>
 </section>
@@ -668,6 +691,9 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     const n=Math.min(2,Math.floor(t/per));
     if(n!==cur){beats[cur].classList.remove('on');beats[n].classList.add('on');cur=n}
   },150);
+
+  // rotating mini review under the gallery
+  (()=>{const q=document.getElementById('heroQuote');if(!q)return;const a=[...q.querySelectorAll('.hq')],d=[...q.querySelectorAll('.hq-dots i')];let n=0;setInterval(()=>{a[n].classList.remove('on');d[n].classList.remove('on');n=(n+1)%a.length;a[n].classList.add('on');d[n].classList.add('on')},5000)})();
 
   // FAQ: "see the full ingredient list" opens that answer
   document.querySelectorAll('[data-open-ingredients]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('ingredients').open=true}));
@@ -865,7 +891,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
   const markMode=()=>{try{clarity('set','stock_mode',pre()?'preorder':'in_stock')}catch(_){}};setTimeout(markMode,2500);
   try{fbq('track','ViewContent',{value:unit(),currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
   try{gtag('event','view_item',{currency:'USD',value:unit(),items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:unit(),quantity:1}]})}catch(_){}
-  try{if(saleLive()){const ab=document.getElementById('annbar');if(ab)ab.textContent='Black Friday Sale · 20% off · Free US shipping'}}catch(_){}
+  try{if(saleLive()){const ab=document.getElementById('annbar');if(ab)ab.textContent='BLACK FRIDAY SALE \u203C\uFE0F | 20% OFF + FREE GIFTS'}}catch(_){}
   render();
 })();
 </script>
