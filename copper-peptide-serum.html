@@ -229,7 +229,7 @@ footer .brand{color:var(--cream);display:inline-block;margin-bottom:12px}
 .testers h2{font-size:clamp(1.9rem,6.4vw,2.8rem)}
 .testers-note{font-size:14px;line-height:1.5;color:var(--ink-soft);margin-top:8px;max-width:52ch}
 .tq-grid{display:grid;gap:14px;margin-top:22px}
-.tq{margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px}
+.tq{margin:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;display:flex;flex-direction:column;gap:8px}
 .tq blockquote{margin:0;font-size:15.5px;line-height:1.55;color:var(--ink)}
 .tq figcaption{font-size:13px;font-weight:700;color:var(--charcoal)}
 .tq figcaption span{font-weight:400;color:var(--ink-soft)}
@@ -311,7 +311,6 @@ a.offer-yes{text-decoration:none;text-align:center}
 .cmp-cta .buy{display:inline-block;width:auto;min-width:260px}
 @media(min-width:900px){.compare{padding:84px 0}.cmp{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .tq-tag{font-size:12px;color:var(--ink-soft);margin-top:auto}
-.tq-photo{width:44px;height:44px;border-radius:50%;object-fit:cover}
 @media(max-width:899px){.tq-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}.tq-grid::-webkit-scrollbar{display:none}.tq{flex:0 0 85%;scroll-snap-align:start}}
 .guarantee{background:#fff;border:1px solid var(--line);border-top:3px solid var(--sage-dark);border-radius:14px;padding:20px;margin-top:26px;max-width:640px}
 .guarantee h3{font-size:clamp(1.4rem,4.8vw,1.8rem);margin-bottom:8px}
@@ -478,11 +477,11 @@ a.offer-yes{text-decoration:none;text-align:center}
 <!-- ═══ 4c REVIEWS (V2) ═══ -->
 <section class="testers" id="testers">
   <div class="wrap">
-    <h2>Reviews</h2>
+    <h2><span class="orn">✦</span>Reviews</h2>
     <div class="tq-grid">
-      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41</figcaption><p class="tq-tag">Received the serum free</p></figure>
-      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34</figcaption><p class="tq-tag">Received the serum free</p></figure>
-      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56</figcaption><p class="tq-tag">Received the serum free</p></figure>
+      <figure class="tq"><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41</figcaption><p class="tq-tag">Received the serum free</p></figure>
+      <figure class="tq"><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34</figcaption><p class="tq-tag">Received the serum free</p></figure>
+      <figure class="tq"><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56</figcaption><p class="tq-tag">Received the serum free</p></figure>
     </div>
   </div>
 </section>
@@ -725,7 +724,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     <p class="applied" data-applied hidden><i aria-hidden="true">✓</i><span><b data-applied-title>20% OFF coupon applied</b><small>Already added for checkout.</small></span></p>
     <div class="price-row"><b data-total>$55</b><s data-was hidden></s><span data-for>for 1 bottle</span></div>
     <p class="launch" data-launch hidden></p>
-    <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts ($28 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
+    <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts ($32.98 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
     <p class="stock" data-stock hidden></p>
     <p class="cheer">${NOTE.text}</p>
     <a class="buy" href="${PRODUCT.shop}/cart/${PRODUCT.variant}:1" data-checkout="${id}" data-btn-label>Buy now · $55</a>
