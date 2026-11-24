@@ -272,6 +272,50 @@ a.offer-yes{text-decoration:none;text-align:center}
 .flash-up #bar{transform:translateY(130%)!important}
 @media(prefers-reduced-motion:no-preference){.flash{animation:offerUp .28s ease}}
 @media(prefers-reduced-motion:reduce){.offer-card{animation:none}}
+
+/* ── V2 sections ── */
+.annbar{background:var(--sage-dark);color:var(--cream);text-align:center;font-size:13px;letter-spacing:.02em;padding:7px 14px;line-height:1.4}
+@media(max-width:719px){.nav-note{display:none}}
+.proofstrip{padding:34px 0 8px}
+.ps-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ps{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.ps b{display:block;font-size:14.5px;color:var(--charcoal);margin-bottom:3px}
+.ps span{font-size:13px;line-height:1.45;color:var(--ink-soft)}
+@media(min-width:900px){.proofstrip{padding:48px 0 12px}.ps-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.mechanism{padding:52px 0}
+.mechanism h2{font-size:clamp(1.9rem,6.4vw,2.8rem)}
+.mechanism h3{font-size:clamp(1.35rem,4.6vw,1.8rem);margin-top:26px}
+.mechanism .wrap>p{margin-top:10px;max-width:62ch;font-size:15.5px}
+.expect{background:var(--charcoal);border-radius:16px;padding:22px 20px;margin-top:26px;max-width:640px}
+.expect b{display:block;font-family:var(--serif);font-size:20px;margin-bottom:10px;color:var(--cream)}
+.expect p{color:var(--cream);opacity:.92;font-size:15px;margin:6px 0 0;max-width:none}
+@media(min-width:900px){.mechanism{padding:84px 0}}
+.ingsec{padding:52px 0}
+.ingsec h2{font-size:clamp(1.9rem,6.4vw,2.8rem)}
+.ing-grid{display:grid;gap:12px;margin-top:22px}
+.ing{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.ing b{display:block;font-family:var(--serif);font-size:19px;color:var(--charcoal);margin-bottom:4px}
+.ing p{font-size:14.5px;line-height:1.5;margin:0}
+.ing-note{font-size:13.5px;color:var(--ink-soft);margin-top:14px;max-width:60ch}
+.ing-note a{text-decoration:underline}
+@media(min-width:900px){.ingsec{padding:84px 0}.ing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.compare{padding:52px 0;background:var(--sand)}
+.compare h2{font-size:clamp(1.9rem,6.4vw,2.8rem);margin-bottom:20px}
+.cmp{display:grid;gap:12px}
+.cmp-row{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.cmp-k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin:0}
+.cmp-row .us{margin:6px 0 0;font-size:15px;color:var(--charcoal)}
+.cmp-row .us b{color:var(--sage-dark)}
+.cmp-row .them{margin:3px 0 0;font-size:13.5px;color:var(--ink-soft)}
+.cmp-cta{margin-top:22px;text-align:center}
+.cmp-cta .buy{display:inline-block;width:auto;min-width:260px}
+@media(min-width:900px){.compare{padding:84px 0}.cmp{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.tq-tag{font-size:12px;color:var(--ink-soft);margin-top:auto}
+.tq-photo{width:44px;height:44px;border-radius:50%;object-fit:cover}
+@media(max-width:899px){.tq-grid{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;padding-bottom:6px;scrollbar-width:none}.tq-grid::-webkit-scrollbar{display:none}.tq{flex:0 0 85%;scroll-snap-align:start}}
+.guarantee{background:#fff;border:1px solid var(--line);border-top:3px solid var(--sage-dark);border-radius:14px;padding:20px;margin-top:26px;max-width:640px}
+.guarantee h3{font-size:clamp(1.4rem,4.8vw,1.8rem);margin-bottom:8px}
+.guarantee p{font-size:15px;line-height:1.55;margin:0}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -284,6 +328,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 <body>
 
 <!-- ═══ 1 HEADER — no exits, offer facts visible ═══ -->
+<div class="annbar" id="annbar">Free US shipping · 30-day returns</div>
 <header class="nav">
   <div class="nav-in">
     <a class="brand" href="https://theglowwell.com/">The Glow <em>Well</em></a>
@@ -297,8 +342,8 @@ a.offer-yes{text-decoration:none;text-align:center}
     <div class="intro">
       <p class="eyebrow">The Glow Well</p>
       <h1>Copper Peptide Serum</h1>
-      <p class="hero-lead">Age gracefully, with skin that looks smoother and firmer.</p>
-      <p class="hero-sub">A daily copper peptide serum. 2–3 drops, morning and night, with continued use.</p>
+      <p class="hero-lead">Look in the mirror and feel good about your skin again.</p>
+      <p class="hero-sub">A daily 0.2% copper peptide serum for skin longevity. Helps your skin look smoother, firmer and more even, without retinol irritation.</p>
       <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
       <p class="launch" data-sale-tag hidden></p>
       <p class="applied-pill" data-applied-pill hidden></p>
@@ -349,15 +394,31 @@ a.offer-yes{text-decoration:none;text-align:center}
   </div>
 </section>
 
-<!-- ═══ 2b EARLY TESTERS — their own words; the free product and the personal tie are stated ═══ -->
-<section class="testers" id="testers">
+<!-- ═══ 2b PROOF STRIP (V2) ═══ -->
+<section class="proofstrip">
   <div class="wrap">
-    <h2>From our early testers</h2>
-    <p class="testers-note">Friends and family tried the serum free and told us what they thought. These are their words.</p>
-    <div class="tq-grid">
-      <figure class="tq"><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41 <span>· Early tester</span></figcaption></figure>
-      <figure class="tq"><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34 <span>· Early tester</span></figcaption></figure>
-      <figure class="tq"><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56 <span>· Early tester</span></figcaption></figure>
+    <div class="ps-grid reveal">
+      <div class="ps"><b>0.2% confirmed in writing</b><span>Our lab verified the exact GHK-Cu weight.</span></div>
+      <div class="ps"><b>ISO 22716 facility</b><span>Made in Australia under audited cosmetic standards.</span></div>
+      <div class="ps"><b>8,000+ Glow Scans</b><span>From the makers of the free AI skin scan.</span></div>
+      <div class="ps"><b>Ships from Virginia</b><span>Free US shipping via USPS. 30-day returns.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 2c MECHANISM (V2) ═══ -->
+<section class="mechanism">
+  <div class="wrap">
+    <p class="eyebrow reveal">Why this formula</p>
+    <h2 class="reveal">What's a copper peptide?</h2>
+    <p class="reveal">A peptide is a short chain of amino acids. In GHK-Cu, three amino acids bind to a copper ion. That copper is what gives the serum its pale blue color, with no dyes. In skincare it's a conditioning ingredient: used daily, it helps skin look smoother, firmer and more even.</p>
+    <h3 class="reveal">Why 0.2% matters</h3>
+    <p class="reveal">Plenty of serums list copper peptides near the bottom of the label, enough for marketing and little else. We built this formula around one number: 0.2% Copper Tripeptide-1 by weight, confirmed in writing by our lab. That's 2 milligrams in every gram of serum.</p>
+    <div class="expect reveal">
+      <b>What to expect, realistically:</b>
+      <p>Week 1: a softer, hydrated feel. No stinging, no peeling.</p>
+      <p>Weeks 3 to 4: skin starts to look calmer and more even.</p>
+      <p>Weeks 6 to 8: visibly smoother texture and a firmer look, with 2–3 drops morning and night.</p>
     </div>
   </div>
 </section>
@@ -381,27 +442,47 @@ a.offer-yes{text-decoration:none;text-align:center}
       <figure class="fig b">
         <picture><source type="image/webp" srcset="serum-media/cp-drop.webp"><img src="serum-media/cp-drop.jpg" alt="A pale blue drop of serum at the tip of a glass dropper" width="1200" height="1200" loading="lazy"></picture>
       </figure>
-      <div class="company" style="margin-top:22px">
-        <h3>Copper, in good company.</h3>
-        <p>With niacinamide, coenzyme Q10, hyaluronic acid and panthenol. No retinol.</p>
-        <p class="made">Made in Australia in an ISO 22716 facility.</p>
-        <a href="#ingredients" data-open-ingredients>See the full ingredient list</a>
-      </div>
     </div>
   </div>
 </section>
 
-<!-- ═══ 4 BENEFIT (new — replaces the dark shelf section) ═══ -->
-<section class="benefit">
-  <div class="wrap benefit-grid">
-    <figure class="fig w reveal">
-      <picture><source type="image/webp" srcset="serum-media/cp-woman.webp"><img src="serum-media/cp-woman.jpg" alt="A woman in a sage shirt holding The Glow Well Copper Peptide Serum" width="1024" height="1024" loading="lazy"></picture>
-    </figure>
-    <div class="reveal">
-      <p class="eyebrow"><span class="orn">✦</span>The daily step</p>
-      <h2>Smoother, firmer-looking skin. <em>A straightforward daily step.</em></h2>
-      <p>0.2% GHK-Cu with niacinamide, hyaluronic acid, panthenol and coenzyme Q10. 2–3 drops after cleansing and before moisturizer, morning and night.</p>
-      <a class="to-buy" href="#buy">Choose 1 or 2 bottles</a>
+<!-- ═══ 3b INGREDIENT CARDS (V2 — replaces the benefit section) ═══ -->
+<section class="ingsec">
+  <div class="wrap">
+    <p class="eyebrow reveal">Every ingredient has a job</p>
+    <h2 class="reveal">Copper, in good company.</h2>
+    <div class="ing-grid reveal">
+      <div class="ing"><b>Copper Tripeptide-1 · 0.2%</b><p>The lead. Gives the serum its natural pale blue and its name. Helps skin look smoother and firmer with consistent use.</p></div>
+      <div class="ing"><b>Niacinamide</b><p>The tone partner. Our second ingredient after water. Helps skin look more even and refined.</p></div>
+      <div class="ing"><b>Panthenol + Hyaluronic Acid</b><p>The hydration cushion. They draw in surface moisture so skin feels plush and ready for moisturizer.</p></div>
+      <div class="ing"><b>CoQ10 + Vitamin E</b><p>The antioxidant support. Helps defend skin's look against everyday stressors, morning and night.</p></div>
+    </div>
+    <p class="ing-note reveal">Full transparency: a light honeysuckle fragrance, no retinol, no harsh acids, no dyes. <a href="#ingredients" data-open-ingredients>See the full ingredient list</a></p>
+  </div>
+</section>
+
+<!-- ═══ 3c COMPARISON (V2) ═══ -->
+<section class="compare">
+  <div class="wrap">
+    <h2 class="reveal">Why this and not another serum?</h2>
+    <div class="cmp reveal">
+      <div class="cmp-row"><p class="cmp-k">Active disclosed</p><p class="us"><b>0.2% GHK-Cu, in writing.</b></p><p class="them">Typical retinol and luxury peptide serums: often hidden in proprietary blends.</p></div>
+      <div class="cmp-row"><p class="cmp-k">Morning and night</p><p class="us"><b>Yes. No peeling, no sun sensitivity.</b></p><p class="them">Retinol is often night-only, and irritation is common.</p></div>
+      <div class="cmp-row"><p class="cmp-k">Cost per month</p><p class="us"><b>About $15 to $22.</b> A bottle lasts 2 to 3 months.</p><p class="them">Comparable retinol and peptide serums: $40 to $60 a month.</p></div>
+      <div class="cmp-row"><p class="cmp-k">Comes with</p><p class="us"><b>Full Skin Report + 96-page Playbook.</b></p><p class="them">Elsewhere: the bottle.</p></div>
+    </div>
+    <div class="cmp-cta reveal"><a class="buy" href="https://shop.theglowwell.com/cart/47395476275289:1" data-checkout="compare" data-btn-label>Buy now · $55</a></div>
+  </div>
+</section>
+
+<!-- ═══ 4c REVIEWS (V2) ═══ -->
+<section class="testers" id="testers">
+  <div class="wrap">
+    <h2>Reviews</h2>
+    <div class="tq-grid">
+      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“I’m pretty skeptical of skincare that promises too much, so I wasn’t expecting anything dramatic. After using it regularly, I really like how much smoother and firmer my skin looks. I’d buy it again.”</blockquote><figcaption>Maryam K., 41</figcaption><p class="tq-tag">Received the serum free</p></figure>
+      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“This is one of the few serums I’ve actually stayed consistent with. It feels clean, layers easily with the rest of my routine, and my skin has been looking noticeably smoother.”</blockquote><figcaption>Chloe S., 34</figcaption><p class="tq-tag">Received the serum free</p></figure>
+      <figure class="tq"><img class="tq-photo" hidden alt=""><blockquote>“I started noticing that my skin looked smoother and a little firmer after using this consistently. What I like most is that the change looks natural—my skin just looks healthier and more polished.”</blockquote><figcaption>Maya T., 56</figcaption><p class="tq-tag">Received the serum free</p></figure>
     </div>
   </div>
 </section>
@@ -436,8 +517,13 @@ a.offer-yes{text-decoration:none;text-align:center}
       <details><summary>Is it OK for sensitive skin?</summary><p>Copper peptides and fragrance can bother very reactive skin. Patch test on your inner arm first, start once a day, then build to twice.</p></details>
       <details><summary>Can I use it with vitamin C, retinol or acids?</summary><p>Use strong acids and retinol at a different time of day. If in doubt, keep it simple: cleanser, serum, moisturizer, SPF.</p></details>
       <details><summary>What does 0.2% mean?</summary><p>Copper Tripeptide-1 makes up 0.2% of the finished formula by weight. Our lab has confirmed this concentration in writing.</p></details>
+      <details><summary>How long does one bottle last?</summary><p>About 2 to 3 months at 2–3 drops morning and night. How much you dispense makes the difference.</p></details>
       <details><summary>Shipping and returns</summary><p>Free shipping to all 50 US states via USPS Ground Advantage. Orders ship within 1–2 business days; most arrive 2–5 business days later. 30-day returns, opened or not; email <a href="mailto:hello@theglowwell.com">hello@theglowwell.com</a> first, return shipping is paid by you. Damaged on arrival? Send a photo within 7 days and we'll replace it.</p></details>
       <details id="ingredients"><summary>What's in it? (full ingredient list)</summary><p>Aqua, Niacinamide, Glycerin, Panthenol, Copper Tripeptide-1, Phenoxyethanol, Ethylhexylglycerin, Sodium Hyaluronate, Hydroxyethylcellulose, Allantoin, Tocopherol, Parfum, Ubiquinone (CoEnzyme Q10), Benzyl Benzoate.</p></details>
+    </div>
+    <div class="guarantee reveal">
+      <h3>30 days to decide.</h3>
+      <p>Opened or not, if it isn't right for your skin, email <a href="mailto:hello@theglowwell.com">hello@theglowwell.com</a> within 30 days of delivery for a refund. Return shipping is on you. Damaged on arrival? Send a photo within 7 days and we'll replace it free.</p>
     </div>
   </div>
 </section>
@@ -457,7 +543,7 @@ a.offer-yes{text-decoration:none;text-align:center}
     <a class="brand" href="https://theglowwell.com/">The Glow <em>Well</em></a>
     <div class="foot-links">
       <a href="mailto:hello@theglowwell.com">Contact</a>
-      <a href="/refund">Returns</a>
+      <a href="https://shop.theglowwell.com/policies/refund-policy">Returns</a>
       <a href="/privacy">Privacy</a>
       <a href="https://theglowwell.com/glowscan">Free skin scan</a>
     </div>
@@ -616,8 +702,6 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     // carry the visit's source into Shopify so each order shows where it came from
     const a=attr();const qs=Object.keys(a).map(k=>k+'='+encodeURIComponent(a[k])).join('&');
     if(qs)u+=(u.indexOf('?')<0?'?':'&')+qs;
-    // the closing line, under the product name in the checkout's order summary
-    try{const p=btoa(unescape(encodeURIComponent(JSON.stringify({[NOTE.label]:NOTE.text})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');u+=(u.indexOf('?')<0?'?':'&')+'properties='+p}catch(_){}
     return u;
   };
   function attr(){
@@ -645,11 +729,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     <p class="stock" data-stock hidden></p>
     <p class="cheer">${NOTE.text}</p>
     <a class="buy" href="${PRODUCT.shop}/cart/${PRODUCT.variant}:1" data-checkout="${id}" data-btn-label>Buy now · $55</a>
-    <p class="reassure">Free US shipping · 30-day returns · 2 free gifts</p>
-    <ul class="trust">
-      <li>0.2% GHK-Cu verified</li><li>Made in Australia</li><li>ISO 22716 lab</li><li>Free US shipping</li><li>30-day returns</li>
-    </ul>
-    <p class="proof">From the makers of the Glow Scan, used by 8,000+ people.</p>`;
+    <p class="reassure">Free US shipping · 30-day returns · 2 free gifts</p>`;
   document.querySelectorAll('[data-box]').forEach(b=>b.innerHTML=tpl(b.dataset.box,b.dataset.box!=='top'));
 
   const all=(sel,fn)=>document.querySelectorAll(sel).forEach(fn);
@@ -669,7 +749,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     all('[data-applied-pill]',e=>{e.hidden=!first&&!flash;e.textContent=(first||flash)?('✓ '+(flash?'Extra $5 off applied':(FIRST.pct+'% OFF coupon applied'))):''});
     all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
     all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
-    all('[data-btn-label]',e=>e.textContent=(P?'Pre-order now · ':'Buy now · ')+t);
+    all('[data-btn-label]',e=>e.textContent=(P?'Pre-order now · ':(sale&&!flash?'Claim '+SALE.pct+'% off · ':'Buy now · '))+t);
     all('[data-bar-price]',e=>e.textContent=t);
     all('[data-bar-qty]',e=>e.textContent=P?('Pre-order · ships in '+PREORDER.ships):(S.qty+(S.qty>1?' bottles':' bottle')+(first?(' · '+FIRST.pct+'% off applied'):' · Free US shipping')));
   }
@@ -753,7 +833,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
       try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
     }
     // same tab always — Instagram/TikTok in-app browsers break new tabs
-    setTimeout(()=>{window.location.href=dest},300);
+    window.location.href=dest;
   });
 
   // live stock (client-side Storefront API; silent on any failure)
@@ -773,8 +853,9 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
   (function(){const hit={};addEventListener('scroll',()=>{const h=document.documentElement,p=Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100);[25,50,75].forEach(m=>{if(p>=m&&!hit[m]){hit[m]=1;try{gtag('event','scroll_depth',{percent:m})}catch(_){}}})},{passive:true})})();
   try{const a=attr();clarity('set','source',a.utm_source||'direct');clarity('set','campaign',a.utm_campaign||'none')}catch(_){}
   const markMode=()=>{try{clarity('set','stock_mode',pre()?'preorder':'in_stock')}catch(_){}};setTimeout(markMode,2500);
-  try{fbq('track','ViewContent',{value:55,currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
-  try{gtag('event','view_item',{currency:'USD',value:55,items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:55,quantity:1}]})}catch(_){}
+  try{fbq('track','ViewContent',{value:unit(),currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
+  try{gtag('event','view_item',{currency:'USD',value:unit(),items:[{item_id:PRODUCT.variant,item_name:'Copper Peptide Serum',price:unit(),quantity:1}]})}catch(_){}
+  try{if(saleLive()){const ab=document.getElementById('annbar');if(ab)ab.textContent='Black Friday Sale · 20% off · Free US shipping'}}catch(_){}
   render();
 })();
 </script>
