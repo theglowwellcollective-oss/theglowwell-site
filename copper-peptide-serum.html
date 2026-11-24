@@ -783,7 +783,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
       <button type="button" data-qty="1" aria-pressed="true">1 bottle</button>
       <button type="button" data-qty="2" aria-pressed="false">2 bottles</button>
     </div>
-    <p class="applied" data-applied hidden><i aria-hidden="true">✓</i><span><b data-applied-title>20% OFF coupon applied</b><small>Already added for checkout.</small></span></p>
+    <p class="applied" data-applied hidden><i aria-hidden="true">✓</i><span><b data-applied-title>20% OFF coupon applied</b><small data-applied-sub>Already added for checkout.</small></span></p>
     <div class="price-row"><b data-total>$55</b><s data-was hidden></s><span data-for>for 1 bottle</span></div>
     <p class="launch" data-launch hidden></p>
     <p class="gift"><span class="orn">✦</span><b>Includes 2 free gifts (~$50 value):</b> your personal Full Skin Report + the 96-page Playbook. Sent by email after you order.</p>
@@ -800,13 +800,14 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     all('[data-total]',e=>e.textContent=t);
     all('[data-was]',e=>{e.hidden=!live;e.textContent=live?full:''});
     all('[data-for]',e=>e.textContent='for '+S.qty+(S.qty>1?' bottles':' bottle'));
-    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):sale?(flash?'Extra $5 off applied · $39':saleLabel()):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
+    all('[data-launch]',e=>{e.hidden=!live||first;e.textContent=P?('Pre-order price, '+PREORDER.pct+'% off · ships in '+PREORDER.ships):sale?(flash?(SALE.name+' '+SALE.pct+'% off + extra $5 off'):saleLabel()):(launchLive()?('Launch price, '+LAUNCH.pct+'% off'+(LAUNCH.endsLabel?' until '+LAUNCH.endsLabel+' ET':'')):(S.first?('First-bottle price, '+FIRST.pct+'% off'):''))});
     all('[data-unit]',e=>e.textContent=u);
     all('[data-unit-was]',e=>{e.hidden=!live;e.textContent=live?$m(PRODUCT.price):''});
     all('[data-sale-tag]',e=>{e.hidden=!sale;e.textContent=sale?(flash?'Extra $5 off applied':saleLabel()):''});
     // the claimed first-bottle coupon, said out loud: banner in each buy box, pill under the top price
     all('[data-applied]',e=>{e.hidden=!first&&!flash});
-    all('[data-applied-title]',e=>e.textContent=flash?'Extra $5 off applied':(FIRST.pct+'% OFF coupon applied'));
+    all('[data-applied-title]',e=>e.textContent=flash?(SALE.pct+'% off + extra $5 off applied'):(FIRST.pct+'% OFF coupon applied'));
+    all('[data-applied-sub]',e=>e.textContent=flash?(SALE.name+' price plus your extra $5. Already added for checkout.'):'Already added for checkout.');
     all('[data-applied-pill]',e=>{e.hidden=!first&&!flash;e.textContent=(first||flash)?('✓ '+(flash?'Extra $5 off applied':(FIRST.pct+'% OFF coupon applied'))):''});
     all('[data-stock]',e=>{const show=Number.isInteger(S.left);e.hidden=!show;e.textContent=!show?'':(P?('Sorry, this batch sold out. Pre-order now at '+PREORDER.pct+'% off, ships in '+PREORDER.ships+'.'):(S.left+(S.left===1?' bottle left':' bottles left')))});
     all('[data-checkout]',a=>{a.href=url();a.classList.toggle('soldout',out)});
