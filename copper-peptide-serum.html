@@ -351,6 +351,15 @@ a.offer-yes{text-decoration:none;text-align:center}
 .hero-stars{text-align:center;color:#E3A008;font-size:19px;letter-spacing:.16em;margin-top:10px;line-height:1}
 .hero-trust{margin-top:6px}
 @media(min-width:900px){.hero-grid{grid-template-rows:auto auto 1fr}}
+.hero-quote{display:grid;padding:9px 14px 7px;margin-top:8px}
+.hero-quote .hq{display:block;grid-area:1/1;visibility:hidden;opacity:0;transition:opacity .4s}
+.hero-quote .hq.on{visibility:visible;opacity:1}
+.hero-quote blockquote{font-size:14.5px;line-height:1.42}
+.hero-quote figcaption{margin-top:6px}
+.hero-quote figcaption img{width:28px;height:28px}
+.hq-dots{grid-row:2;margin-top:5px}
+.gal-col .hero-sub{margin-top:8px}
+.hero-stars{margin-top:8px}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -372,7 +381,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </header>
 
 <!-- ═══ 2 HERO · GALLERY · BUY BOX ═══ -->
-<section class="hero">
+<section class="hero" data-sec="hero">
   <div class="wrap hero-grid">
     <div class="intro">
       <h1>Copper Peptide Serum</h1>
@@ -430,7 +439,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 2b PROOF STRIP (V2) ═══ -->
-<section class="proofstrip">
+<section class="proofstrip" data-sec="proof">
   <div class="wrap">
     <div class="ps-grid reveal">
       <div class="ps"><b>0.2% confirmed in writing</b><span>Our lab verified the exact GHK-Cu weight.</span></div>
@@ -442,7 +451,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 2c MECHANISM (V2) ═══ -->
-<section class="mechanism">
+<section class="mechanism" data-sec="what_is_it">
   <div class="wrap">
     <p class="eyebrow reveal">Why this formula</p>
     <h2 class="reveal">What's a copper peptide?</h2>
@@ -457,7 +466,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 3 FORMULA — 0.2% (moved up) ═══ -->
-<section class="formula" id="formula">
+<section class="formula" id="formula" data-sec="formula">
   <div class="wrap formula-grid">
     <div class="reveal">
       <p class="eyebrow">Know what's in your serum</p>
@@ -480,7 +489,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 3b INGREDIENT CARDS (V2 — replaces the benefit section) ═══ -->
-<section class="ingsec">
+<section class="ingsec" data-sec="ingredients">
   <div class="wrap">
     <p class="eyebrow reveal">Every ingredient has a job</p>
     <h2 class="reveal">Copper, in good company.</h2>
@@ -495,7 +504,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 3c COMPARISON (V2) ═══ -->
-<section class="compare">
+<section class="compare" data-sec="compare">
   <div class="wrap">
     <h2 class="reveal">Why this and not another serum?</h2>
     <div class="cmp reveal">
@@ -509,7 +518,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 4c REVIEWS (V2) ═══ -->
-<section class="testers" id="testers">
+<section class="testers" id="testers" data-sec="reviews">
   <div class="wrap">
     <h2>Reviews<span class="rev-stars" aria-hidden="true">★★★★★</span></h2>
     <div class="tq-grid">
@@ -521,7 +530,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 5 HOW TO ═══ -->
-<section class="steps">
+<section class="steps" data-sec="routine">
   <div class="wrap steps-grid">
     <figure class="fig e reveal">
       <video autoplay muted loop playsinline preload="metadata" poster="serum-media/serum-press-loop-poster.jpg" aria-label="Pressing serum gently into the cheeks">
@@ -541,7 +550,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 6 FAQ (6 questions) ═══ -->
-<section class="faq">
+<section class="faq" data-sec="faq">
   <div class="wrap">
     <p class="eyebrow reveal">Questions</p>
     <h2 class="reveal">A few things to know.</h2>
@@ -562,7 +571,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 </section>
 
 <!-- ═══ 7 CLOSE ═══ -->
-<section class="close" id="close">
+<section class="close" id="close" data-sec="closing_buy_box">
   <div class="wrap">
     <h2 class="reveal">Smoother, firmer-looking skin starts with 2–3 drops.</h2>
     <p class="sub">Copper Peptide Serum · 30 ml</p>
@@ -694,6 +703,22 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
 
   // rotating mini review under the gallery
   (()=>{const q=document.getElementById('heroQuote');if(!q)return;const a=[...q.querySelectorAll('.hq')],d=[...q.querySelectorAll('.hq-dots i')];let n=0;setInterval(()=>{a[n].classList.remove('on');d[n].classList.remove('on');n=(n+1)%a.length;a[n].classList.add('on');d[n].classList.add('on')},5000)})();
+
+  // videos: start as soon as possible; retry on first touch or scroll (covers Low Power Mode and in-app browsers)
+  (()=>{const vs=[...document.querySelectorAll('video[autoplay]')];const go=()=>vs.forEach(v=>{v.muted=true;if(v.paused){const p=v.play();if(p&&p.catch)p.catch(()=>{})}});go();
+    ['touchstart','scroll','click'].forEach(e=>addEventListener(e,go,{passive:true,once:true}));
+    new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&e.target.paused){const p=e.target.play();if(p&&p.catch)p.catch(()=>{})}}),{threshold:.25}).observe(vs[0]);
+    if(vs[1])new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting&&e.target.paused){const p=e.target.play();if(p&&p.catch)p.catch(()=>{})}}),{threshold:.25}).observe(vs[1]);})();
+
+  // analytics: which sections were seen, deepest section reached, gallery slides viewed, time on page
+  (()=>{const seen={};let deepest='';const order=[...document.querySelectorAll('[data-sec]')].map(e=>e.dataset.sec);
+    const ev=(n,p)=>{try{gtag('event',n,p)}catch(_){}};
+    const so=new IntersectionObserver(es=>es.forEach(e=>{const n=e.target.dataset.sec;if(e.isIntersecting&&!seen[n]){seen[n]=1;ev('section_view',{section:n,position:order.indexOf(n)+1});
+      if(order.indexOf(n)>=order.indexOf(deepest)){deepest=n;try{clarity('set','deepest_section',n)}catch(_){}}}}),{threshold:.3});
+    document.querySelectorAll('[data-sec]').forEach(e=>so.observe(e));
+    const gs={};const tr=document.getElementById('galTrack');if(tr)tr.addEventListener('scroll',()=>{const i=Math.round(tr.scrollLeft/tr.clientWidth),sl=tr.children[i];if(sl&&i>0&&!gs[i]){gs[i]=1;ev('gallery_slide',{slide:sl.dataset.label,position:i+1});try{clarity('event','gallery_swipe')}catch(_){}}},{passive:true});
+    const t0=Date.now();[15,30,60,120].forEach(sec=>setTimeout(()=>{if(!document.hidden)ev('time_on_page',{seconds:sec})},sec*1000));
+    addEventListener('pagehide',()=>{ev('page_exit',{deepest_section:deepest||'none',seconds:Math.round((Date.now()-t0)/1000),transport_type:'beacon'})});})();
 
   // FAQ: "see the full ingredient list" opens that answer
   document.querySelectorAll('[data-open-ingredients]').forEach(a=>a.addEventListener('click',()=>{document.getElementById('ingredients').open=true}));
@@ -886,7 +911,7 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
 
   // FAQ opens, scroll depth, stock mode (GA4 + Clarity filters)
   document.querySelectorAll('details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open){const t=(d.querySelector('summary')||{}).textContent||'';try{gtag('event','faq_open',{question:t.slice(0,90)})}catch(_){}try{clarity('event','faq_open')}catch(_){}}}));
-  (function(){const hit={};addEventListener('scroll',()=>{const h=document.documentElement,p=Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100);[25,50,75].forEach(m=>{if(p>=m&&!hit[m]){hit[m]=1;try{gtag('event','scroll_depth',{percent:m})}catch(_){}}})},{passive:true})})();
+  (function(){const hit={};addEventListener('scroll',()=>{const h=document.documentElement,p=Math.round((h.scrollTop+innerHeight)/h.scrollHeight*100);[25,50,75,90].forEach(m=>{if(p>=m&&!hit[m]){hit[m]=1;try{gtag('event','scroll_depth',{percent:m})}catch(_){}}})},{passive:true})})();
   try{const a=attr();clarity('set','source',a.utm_source||'direct');clarity('set','campaign',a.utm_campaign||'none')}catch(_){}
   const markMode=()=>{try{clarity('set','stock_mode',pre()?'preorder':'in_stock')}catch(_){}};setTimeout(markMode,2500);
   try{fbq('track','ViewContent',{value:unit(),currency:'USD',content_ids:[PRODUCT.variant],content_type:'product'})}catch(_){}
