@@ -63,7 +63,8 @@ em{font-style:italic}
 
 /* ── 2 product intro + gallery ────────────── */
 .hero{padding:14px 0 8px}
-.hero-grid{display:grid;gap:12px}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.gal-col,.intro{min-width:0}
 .hero h1{font-size:clamp(2.3rem,10vw,3.6rem)}
 .hero-sub{font-size:15.5px;color:var(--ink);margin-top:4px;max-width:44ch}
 .hero-price{margin-top:6px;font-size:15px;color:var(--ink-soft)}
@@ -102,7 +103,7 @@ em{font-style:italic}
 .fact b{font-weight:700}
 @media(min-width:900px){
   .hero{padding:36px 0 40px}
-  .hero-grid{grid-template-columns:1.05fr 1fr;column-gap:52px;align-items:start}
+  .hero-grid{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:52px;align-items:start}
   .gal-col{grid-column:1;grid-row:1/span 3;position:sticky;top:76px}
   .gal{margin:0;border-radius:14px;overflow:hidden}
   .thumbs{padding:12px 0 0}
@@ -315,6 +316,20 @@ a.offer-yes{text-decoration:none;text-align:center}
 .guarantee{background:#fff;border:1px solid var(--line);border-top:3px solid var(--sage-dark);border-radius:14px;padding:20px;margin-top:26px;max-width:640px}
 .guarantee h3{font-size:clamp(1.4rem,4.8vw,1.8rem);margin-bottom:8px}
 .guarantee p{font-size:15px;line-height:1.55;margin:0}
+.formula{padding:36px 0}
+.formula h2{font-size:clamp(1.6rem,5.4vw,2.4rem)}
+.big{font-size:clamp(3.6rem,18vw,6.2rem);margin:8px 0 6px}
+.formula .fig.b{max-width:380px}
+.spec div{padding:8px 2px}
+@media(min-width:900px){.formula{padding:64px 0}}
+.flash{border-top-width:4px;padding:18px 18px calc(18px + env(safe-area-inset-bottom))}
+.flash-head{font-size:27px}
+.flash-sub{font-size:15.5px;margin-top:3px;color:var(--ink)}
+.flash-ladder{font-size:18px;margin-top:8px}
+.flash-ladder b{font-size:28px}
+.flash-yes{font-size:17px;padding:16px 18px}
+.flash-chip{font-size:15.5px;padding:13px 22px}
+@media(max-width:559px){.flash{flex-direction:column;align-items:stretch;gap:14px}.flash-yes{width:100%}}
 </style>
 <!-- Meta Pixel -->
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
@@ -339,13 +354,9 @@ a.offer-yes{text-decoration:none;text-align:center}
 <section class="hero">
   <div class="wrap hero-grid">
     <div class="intro">
-      <p class="eyebrow">The Glow Well</p>
       <h1>Copper Peptide Serum</h1>
       <p class="hero-lead">Look in the mirror and feel good about your skin again.</p>
-      <p class="hero-sub">A daily 0.2% copper peptide serum for skin longevity. Helps your skin look smoother, firmer and more even, without retinol irritation.</p>
-      <p class="hero-price"><b data-unit>$55</b><s data-unit-was hidden>$55</s> · 30 ml · Free US shipping</p>
-      <p class="launch" data-sale-tag hidden></p>
-      <p class="applied-pill" data-applied-pill hidden></p>
+      <p class="hero-sub">A copper peptide serum for skin longevity. Helps your skin look smoother, firmer and more even.</p>
     </div>
 
     <div class="gal-col">
@@ -378,11 +389,11 @@ a.offer-yes{text-decoration:none;text-align:center}
           <div class="slide" data-label="Gifts" data-thumb="serum-media/g-gifts.webp">
             <picture><source type="image/webp" srcset="serum-media/g-gifts.webp"><img src="serum-media/g-gifts.jpg" alt="Two free gifts with the serum: the 96-page Playbook and a personalized Full AI Skin Report" width="1200" height="1200" loading="lazy"></picture>
           </div>
-          <div class="slide" data-label="Routine" data-thumb="serum-media/g-routine.webp">
-            <picture><source type="image/webp" srcset="serum-media/g-routine.webp"><img src="serum-media/g-routine.jpg" alt="A simple routine: cleanse, apply a few drops of serum, moisturize. Free US shipping and 30-day returns." width="1200" height="1200" loading="lazy"></picture>
-          </div>
           <div class="slide" data-label="Reviews" data-thumb="serum-media/g-reviews.webp">
             <picture><source type="image/webp" srcset="serum-media/g-reviews.webp"><img src="serum-media/g-reviews.jpg" alt="Three reviewers describe smoother, firmer-looking skin in their own words" width="1200" height="1200" loading="lazy"></picture>
+          </div>
+          <div class="slide" data-label="Routine" data-thumb="serum-media/g-routine.webp">
+            <picture><source type="image/webp" srcset="serum-media/g-routine.webp"><img src="serum-media/g-routine.jpg" alt="A simple routine: cleanse, apply a few drops of serum, moisturize. Free US shipping and 30-day returns." width="1200" height="1200" loading="lazy"></picture>
           </div>
         </div>
       </div>
@@ -412,9 +423,7 @@ a.offer-yes{text-decoration:none;text-align:center}
   <div class="wrap">
     <p class="eyebrow reveal">Why this formula</p>
     <h2 class="reveal">What's a copper peptide?</h2>
-    <p class="reveal">A peptide is a short chain of amino acids. In GHK-Cu, three amino acids bind to a copper ion. That copper is what gives the serum its pale blue color, with no dyes. In skincare it's a conditioning ingredient: used daily, it helps skin look smoother, firmer and more even.</p>
-    <h3 class="reveal">Why 0.2% matters</h3>
-    <p class="reveal">Plenty of serums list copper peptides near the bottom of the label, enough for marketing and little else. We built this formula around one number: 0.2% Copper Tripeptide-1 by weight, confirmed in writing by our lab. That's 2 milligrams in every gram of serum.</p>
+    <p class="reveal">A peptide is a short chain of amino acids. In GHK-Cu, three of them bind to copper, which gives the serum its pale blue color. Used daily, it helps skin look smoother, firmer and more even.</p>
     <div class="expect reveal">
       <b>What to expect, realistically:</b>
       <p>Week 1: a softer, hydrated feel. No stinging, no peeling.</p>
