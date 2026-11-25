@@ -22,3 +22,14 @@
   Cache-Control: no-cache, no-store, must-revalidate
   Pragma: no-cache
   Expires: 0
+
+# The hero video (fix/homepage-fast-load). Safari and the iOS in-app
+# browsers play video only from a server that answers byte-range requests.
+# The no-store rule above makes Cloudflare bypass its cache, and the
+# uncached response has no range support (checked 23 Nov 2026: a 2-byte
+# range request returned the whole 879 KB with status 200). A cacheable
+# response lets Cloudflare's cache answer ranges. Check before merging:
+#   curl -s -o /dev/null -w "%{http_code}" -r 0-1 <preview>/assets/hero-landing.mp4   -> 206
+/assets/*.mp4
+  ! Cache-Control
+  Cache-Control: public, max-age=86400
