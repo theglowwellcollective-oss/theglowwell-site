@@ -362,7 +362,7 @@ a.offer-yes{text-decoration:none;text-align:center}
 .hero-stars{margin-top:8px}
 </style>
 <!-- Meta Pixel -->
-<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','816642944645321');fbq('track','PageView');</script>
+<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','2746700095784382');fbq('track','PageView');</script>
 <!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G0CP35KCPJ"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-G0CP35KCPJ');</script>
@@ -763,15 +763,24 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     // carry the visit's source into Shopify so each order shows where it came from
     const a=attr();const qs=Object.keys(a).map(k=>k+'='+encodeURIComponent(a[k])).join('&');
     if(qs)u+=(u.indexOf('?')<0?'?':'&')+qs;
+    // also stamp the source onto the order itself, so every order says paid or organic
+    ['utm_source','utm_medium','utm_campaign','utm_content'].forEach(k=>{if(a[k])u+=(u.indexOf('?')<0?'?':'&')+'attributes['+k+']='+encodeURIComponent(a[k])});
     return u;
   };
+  // Where this visitor came from. A tagged link (ads, our own posts) wins and is remembered for
+  // 7 days in a first-party cookie, so someone who taps an ad, leaves, and comes back later still
+  // checks out as paid_social instead of looking organic. Untagged visits never overwrite it.
+  function loadSrc(){try{const m=document.cookie.match(/(?:^|; )tgw_src=([^;]*)/);if(!m)return null;const o=JSON.parse(decodeURIComponent(m[1]));return o&&o.utm_source?o:null}catch(_){return null}}
+  function saveSrc(o){try{document.cookie='tgw_src='+encodeURIComponent(JSON.stringify(o))+'; Max-Age=604800; Path=/; SameSite=Lax'}catch(_){}}
   function attr(){
     const o={},q=new URLSearchParams(location.search);
     ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'].forEach(k=>{const v=q.get(k);if(v)o[k]=v.slice(0,100)});
     if(q.get('fbclid'))o.fbclid=q.get('fbclid');
-    if(!o.utm_source){let h='';try{h=new URL(document.referrer).hostname}catch(_){}
-      if(h&&!/theglowwell\.com$/.test(h)){o.utm_source=h.replace(/^www\.|^l\.|^lm\./,'');o.utm_medium='referral'}
-      else{const f=q.get('from');o.utm_source='theglowwell';o.utm_medium=f?'site_'+f:'product_page'}}
+    if(o.utm_source){saveSrc(o);return o}
+    const saved=loadSrc();if(saved)return saved;
+    let h='';try{h=new URL(document.referrer).hostname}catch(_){}
+    if(h&&!/theglowwell\.com$/.test(h)){o.utm_source=h.replace(/^www\.|^l\.|^lm\./,'');o.utm_medium='referral'}
+    else{const f=q.get('from');o.utm_source='theglowwell';o.utm_medium=f?'site_'+f:'product_page'}
     return o;
   }
 
@@ -888,9 +897,11 @@ const FLASH = { on: true, code: 'BF39', unit: 39, afterMs: 25000, afterScroll: 7
     const dest=url();
     if(!soldOut()){
       const v=total();
-      // the real InitiateCheckout / begin_checkout / Purchase fire from the Shopify checkout pixel
+      // Shopify's Meta integration reports AddToCart + InitiateCheckout the moment the cart link
+      // loads, then AddPaymentInfo + Purchase. So the page reports only the click, as BuyClick:
+      // BuyClick minus Shopify's AddToCart = people who clicked but never reached checkout.
       const mode=pre()?'preorder':(flashOn()?'flash':(saleLive()?'sale':(launchLive()?'launch':(S.first?'first':'full'))));
-      try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',num_items:S.qty,mode:mode})}catch(_){}
+      try{fbq('trackCustom','BuyClick',{value:v,currency:'USD',content_ids:[PRODUCT.variant],num_items:S.qty,mode:mode})}catch(_){}
       try{gtag('event','buy_click',{value:v,currency:'USD',quantity:S.qty,placement:c.dataset.checkout,mode:mode})}catch(_){}
       try{clarity('event','buy_click');clarity('set','buy_qty',String(S.qty))}catch(_){}
     }
